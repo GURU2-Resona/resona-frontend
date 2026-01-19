@@ -1,20 +1,27 @@
 package com.example.resona
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        // 1. 네비게이션을 담는 그릇(NavHost) 찾기
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        // 2. 실제 제어 도구(NavController) 가져오기
+        val navController = navHostFragment.navController
+
+        // 3. 바텀 네비게이션 뷰 찾기
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        // 4. 바텀 네비게이션과 네비게이션 컨트롤러 연결하기
+        bottomNav.setupWithNavController(navController)
     }
 }
