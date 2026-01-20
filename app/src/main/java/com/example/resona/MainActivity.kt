@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.fragment_splash -> bottomNav.visibility = View.GONE
+                R.id.navigation_splash -> bottomNav.visibility = View.GONE
+                R.id.navigation_login -> bottomNav.visibility = View.GONE
                 else -> bottomNav.visibility = View.VISIBLE
             }
         }
