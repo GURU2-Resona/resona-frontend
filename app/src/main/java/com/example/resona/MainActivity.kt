@@ -1,6 +1,7 @@
 package com.example.resona
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -23,5 +24,12 @@ class MainActivity : AppCompatActivity() {
 
         // 4. 바텀 네비게이션과 네비게이션 컨트롤러 연결하기
         bottomNav.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.fragment_splash -> bottomNav.visibility = View.GONE
+                else -> bottomNav.visibility = View.VISIBLE
+            }
+        }
     }
 }
