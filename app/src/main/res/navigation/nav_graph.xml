@@ -28,4 +28,9 @@
         android:id="@+id/navigation_login"
         android:name="com.example.resona.LoginFragment"
         android:label="Login" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_profile"
+        android:name="com.example.resona.OnboardingProfileFragment"
+        android:label="Onboarding_Profile" />
 </navigation>
