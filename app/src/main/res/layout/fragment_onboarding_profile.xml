@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/neutral_100">
 
+
+    <EditText
+        android:id="@+id/et_input"
+        style="@style/InputBlackStyle"
+        android:layout_width="380dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_input_black_round"
+        android:forceDarkAllowed="false"
+        android:hint="직접 작성하기"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="319dp" />
+
     <Button
         android:id="@+id/btn_next"
         android:layout_width="380dp"
@@ -14,10 +32,10 @@
         android:background="@drawable/btn_round_selector"
         android:enabled="false"
         android:text="다음"
-        app:backgroundTint="@null"
         android:textColor="@color/btn_text_selector"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
