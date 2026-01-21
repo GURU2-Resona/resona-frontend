@@ -33,4 +33,9 @@
         android:id="@+id/navigation_onboarding_profile"
         android:name="com.example.resona.OnboardingProfileFragment"
         android:label="Onboarding_Profile" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_recommend"
+        android:name="com.example.resona.OnboardingRecommendFragment"
+        android:label="Onboarding_Profile" />
 </navigation>

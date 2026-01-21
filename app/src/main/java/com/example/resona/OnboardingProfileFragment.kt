@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile) {
     override fun onViewCreated(view : View, savedInstanceState: Bundle?){
@@ -34,6 +35,10 @@ class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile)
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        nextButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_onboarding_recommend)
+        }
 
     }
 }
