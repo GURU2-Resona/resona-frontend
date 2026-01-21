@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">RESONA</string>
+
+    <!-- mypage -->
+    <string name="mypage_nickname_placeholder">닉네임</string>
+    <string name="mypage_menu_my_posts">나의 추천글 보기</string>
+    <string name="mypage_menu_saved_posts">저장한 추천글 보기</string>
+    <string name="mypage_logout">로그아웃</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
