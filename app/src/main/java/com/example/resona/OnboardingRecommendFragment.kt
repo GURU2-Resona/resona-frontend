@@ -8,55 +8,37 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.resona.MainActivity
-import com.example.resona.R
+import com.example.resona.databinding.FragmentOnboardingRecommendBinding
 
 class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recommend) {
-
-    private lateinit var nextButton: Button
+    private var _binding: FragmentOnboardingRecommendBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentOnboardingRecommendBinding.bind(view)
         (activity as? MainActivity)?.setTopBarTitle("음악 추천")
 
-        val btnCategory1 = view.findViewById<Button>(R.id.btn_category_1)
-        val btnCategory2 = view.findViewById<Button>(R.id.btn_category_2)
-        val btnCategory3 = view.findViewById<Button>(R.id.btn_category_3)
-        val btnCategory4 = view.findViewById<Button>(R.id.btn_category_4)
-        val btnCategory5 = view.findViewById<Button>(R.id.btn_category_5)
-        val btnCategory6 = view.findViewById<Button>(R.id.btn_category_6)
-        val etCategory = view.findViewById<EditText>(R.id.et_category)
-
         val categoryButtons = listOf(
-            btnCategory1, btnCategory2, btnCategory3,
-            btnCategory4, btnCategory5, btnCategory6
+            binding.btnCategory1, binding.btnCategory2, binding.btnCategory3,
+            binding.btnCategory4, binding.btnCategory5, binding.btnCategory6
         )
-
-        val btnScene1 = view.findViewById<Button>(R.id.btn_scene_1)
-        val btnScene2 = view.findViewById<Button>(R.id.btn_scene_2)
-        val btnScene3 = view.findViewById<Button>(R.id.btn_scene_3)
-        val btnScene4 = view.findViewById<Button>(R.id.btn_scene_4)
-        val btnScene5 = view.findViewById<Button>(R.id.btn_scene_5)
-        val btnScene6 = view.findViewById<Button>(R.id.btn_scene_6)
-        val etScene = view.findViewById<EditText>(R.id.et_scene)
 
         val sceneButtons = listOf(
-            btnScene1, btnScene2, btnScene3,
-            btnScene4, btnScene5, btnScene6
+            binding.btnScene1, binding.btnScene2, binding.btnScene3,
+            binding.btnScene4, binding.btnScene5, binding.btnScene6
         )
 
-        nextButton = view.findViewById(R.id.btn_next)
-        nextButton.isEnabled = false
-        val skipButton = view.findViewById<Button>(R.id.btn_skip)
+        binding.btnNext.isEnabled = false
 
         // 버튼 설정 + nextButton 체크
-        setButtons(categoryButtons, etCategory, sceneButtons, etScene)
+        setButtons(categoryButtons, binding.etCategory, sceneButtons, binding.etScene)
 
-        skipButton.setOnClickListener {
+        binding.btnSkip.setOnClickListener {
             findNavController().navigate(R.id.navigation_home)
         }
 
-        nextButton.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.navigation_onboarding_result)
         }
     }
@@ -119,6 +101,6 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
     ) {
         val isCategorySelected = categoryButtons.any { it.isSelected } || etCategory.text.isNotEmpty()
         val isSceneSelected = sceneButtons.any { it.isSelected } || etScene.text.isNotEmpty()
-        nextButton.isEnabled = isCategorySelected && isSceneSelected
+        binding.btnNext.isEnabled = isCategorySelected && isSceneSelected
     }
 }

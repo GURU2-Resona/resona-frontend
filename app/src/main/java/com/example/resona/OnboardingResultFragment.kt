@@ -10,13 +10,18 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.resona.databinding.FragmentOnboardingResultBinding
 
 class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
+    private var _binding: FragmentOnboardingResultBinding? = null
+    private val binding get() = _binding!!
 
     private val youtubeVideoId = "hrXCP0xeoA8" // 실제 재생 가능한 ID
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentOnboardingResultBinding.bind(view)
+        (activity as? MainActivity)?.setTopBarTitle("음악 추천")
 
         val ivThumbnail = view.findViewById<ImageView>(R.id.iv_thumbnail)
         val tvSongTitle = view.findViewById<TextView>(R.id.tv_song_title)
