@@ -55,7 +55,8 @@
         <FrameLayout
             android:id="@+id/fl_write_rectangle_3"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
+            android:layout_weight="200"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_write_dark_input">
 
@@ -101,7 +102,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="235dp"
+            android:layout_height="0dp"
+            android:layout_weight="235"
             android:layout_marginTop="22dp"
             android:background="@drawable/bg_write_dark_input"
             android:padding="18dp">
@@ -130,7 +132,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="20" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_write_next"
