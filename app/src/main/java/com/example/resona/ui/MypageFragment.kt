@@ -1,4 +1,4 @@
-package com.example.resona.my
+package com.example.resona.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.resona.R
 import com.example.resona.databinding.FragmentMypageBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MypageFragment : Fragment(R.layout.fragment_mypage) {
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!

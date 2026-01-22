@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.resona.databinding.FragmentOnboardingRecommendBinding
+import com.example.resona.ui.main.MainActivity
 
 class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recommend) {
     private var _binding: FragmentOnboardingRecommendBinding? = null

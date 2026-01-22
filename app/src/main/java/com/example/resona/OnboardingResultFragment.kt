@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.databinding.FragmentOnboardingResultBinding
+import com.example.resona.ui.main.MainActivity
 
 class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
     private var _binding: FragmentOnboardingResultBinding? = null

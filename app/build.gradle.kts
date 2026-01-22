@@ -1,19 +1,32 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
     namespace = "com.example.resona"
-    // 안정적인 버전 34를 유지합니다.
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.resona"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
+        val baseUrl = localProperties.getProperty("BASE_URL") ?: "\"https://default-url.com/\""
+        buildConfigField("String", "BASE_URL", baseUrl)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -30,34 +43,47 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-    // core-ktx 버전 고정
-    implementation("androidx.core:core-ktx:1.12.0")
+    // Core
+    implementation(libs.androidx.core.ktx)
 
-    // nav
+    // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
+    // UI
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-    // test
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Networking
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

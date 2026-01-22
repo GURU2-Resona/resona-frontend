@@ -1,8 +1,9 @@
-package com.example.resona
+package com.example.resona.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.resona.R
 import com.example.resona.databinding.FragmentPostListBinding
 
 class PostListFragment : Fragment(R.layout.fragment_post_list) {

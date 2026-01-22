@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.resona.databinding.FragmentOnboardingProfileBinding
+import com.example.resona.ui.main.MainActivity
 
 class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile) {
     private var _binding: FragmentOnboardingProfileBinding? = null
