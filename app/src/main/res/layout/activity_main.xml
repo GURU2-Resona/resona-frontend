@@ -14,12 +14,21 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        tools:layout="@layout/fragment_home" /> <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/bottom_nav"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="#3A3F46"
+    app:itemIconSize="18dp"
+    app:itemPaddingTop="14dp"
+    app:itemPaddingBottom="32dp"
+    app:itemSpacing="-4dp"
+    app:itemIconTint="@color/selector_nav_item"
+    app:itemTextColor="@color/selector_nav_item"
+    app:labelVisibilityMode="labeled"
+    app:itemRippleColor="@null"
     app:layout_constraintBottom_toBottomOf="parent"
     app:menu="@menu/bottom_nav_menu" />
 

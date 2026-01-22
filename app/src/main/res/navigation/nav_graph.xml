@@ -11,11 +11,12 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.resona.DashboardFragment"
-        android:label="게시판" />
+        android:name="com.example.resona.PostWriteFragment"
+        android:label="기록"
+        app:layout="@layout/fragment_post_write" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.resona.NotificationsFragment"
-        android:label="설정" />
+        android:id="@+id/navigation_mypage"
+        android:name="com.example.resona.MypageFragment"
+        android:label="마이" />
 </navigation>
