@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_category_question"
-            android:textColor="@color/white"
+            android:textColor="@color/neutral_900"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="80dp"/>
@@ -39,7 +39,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button1"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_2"
@@ -49,7 +49,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button2"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_3"
@@ -58,7 +58,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button3"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +76,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button4"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_5"
@@ -86,7 +86,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button5"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_6"
@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_category_button6"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
         <EditText
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_scene_question"
-            android:textColor="@color/white"
+            android:textColor="@color/neutral_900"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"/>
@@ -136,7 +136,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button1"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_2"
@@ -146,7 +146,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button2"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_3"
@@ -155,7 +155,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button3"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
         <LinearLayout
@@ -173,7 +173,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button4"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_5"
@@ -183,7 +183,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button5"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_6"
@@ -192,7 +192,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
                 android:text="@string/onboarding_scene_button6"
-                android:textColor="@color/white"/>
+                android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
         <EditText
