@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.resona.MainActivity
 import com.example.resona.R
 
@@ -50,6 +51,14 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
 
         // 버튼 설정 + nextButton 체크
         setButtons(categoryButtons, etCategory, sceneButtons, etScene)
+
+        skipButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_home)
+        }
+
+        nextButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_onboarding_result)
+        }
     }
 
     private fun setButtons(

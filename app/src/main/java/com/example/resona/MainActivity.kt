@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
                     bottomNav.visibility = View.GONE
                 }
                 R.id.navigation_onboarding_profile,
-                R.id.navigation_onboarding_recommend-> {
+                R.id.navigation_onboarding_recommend,
+                R.id.navigation_onboarding_result-> {
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.GONE
                 }
