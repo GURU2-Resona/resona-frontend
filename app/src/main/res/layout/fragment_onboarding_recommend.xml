@@ -17,7 +17,7 @@
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Q. 어떤 카테고리의 노래를 추천 받고 싶나요?"
+            android:text="@string/onboarding_category_question"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="사랑"
+                android:text="@string/onboarding_category_button1"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="우정"
+                android:text="@string/onboarding_category_button2"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -57,7 +57,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="슬픔"
+                android:text="@string/onboarding_category_button3"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리1"
+                android:text="@string/onboarding_category_button4"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리2"
+                android:text="@string/onboarding_category_button5"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -94,7 +94,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리3"
+                android:text="@string/onboarding_category_button6"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_input_black_round"
-            android:hint="직접 작성하기"
+            android:hint="@string/onboarding_placeholder"
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
@@ -115,7 +115,7 @@
             android:id="@+id/tv_scene"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Q. 어떤 상황에 들을 노래를 추천 받고 싶나요?"
+            android:text="@string/onboarding_scene_question"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -135,7 +135,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="사랑"
+                android:text="@string/onboarding_scene_button1"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -145,7 +145,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="우정"
+                android:text="@string/onboarding_scene_button2"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -154,7 +154,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="슬픔"
+                android:text="@string/onboarding_scene_button3"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
@@ -172,7 +172,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리1"
+                android:text="@string/onboarding_scene_button4"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -182,7 +182,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리2"
+                android:text="@string/onboarding_scene_button5"
                 android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -191,7 +191,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="카테고리3"
+                android:text="@string/onboarding_scene_button6"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
@@ -202,7 +202,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_input_black_round"
-            android:hint="직접 작성하기"
+            android:hint="@string/onboarding_placeholder"
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
@@ -214,7 +214,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bg_input_black_round"
-        android:text="건너뛰기"
+        android:text="@string/skip_button"
         app:backgroundTint="@null"
         android:textColor="@color/neutral_300" />
 
@@ -226,7 +226,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_round_selector"
         android:enabled="false"
-        android:text="다음"
+        android:text="@string/next_button"
         android:textColor="@color/btn_text_selector"
         android:textSize="16sp"
         android:textStyle="bold"
