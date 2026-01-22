@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/navigation_home">
 
@@ -13,10 +14,34 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.resona.PostWriteFragment"
         android:label="기록"
-        app:layout="@layout/fragment_post_write" />
+        tools:layout="@layout/fragment_post_write">
+        <action
+            android:id="@+id/action_postWrite_to_postCategory"
+            app:destination="@id/navigation_post_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_category"
+        android:name="com.example.resona.PostCategoryFragment"
+        android:label="카테고리 선택"
+        tools:layout="@layout/fragment_post_category" />
 
     <fragment
         android:id="@+id/navigation_mypage"
         android:name="com.example.resona.MypageFragment"
-        android:label="마이" />
+        android:label="마이"
+        tools:layout="com.example.resona.MypageFragment">
+        <action
+            android:id="@+id/action_to_postList"
+            app:destination="@id/navigation_post_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_list"
+        android:name="com.example.resona.PostListFragment"
+        android:label="게시글 목록">
+        <argument
+            android:name="postType"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -2,35 +2,57 @@
     <style name="Theme.RESONA" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     </style>
 
-    <style name="TextAppearance.Resona.Head" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance.Resona" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+    <style name="TextAppearance.Resona.Head" parent="TextAppearance.Resona">
         <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="lineHeight">33.6sp</item>
+        <item name="lineHeight">33.6sp</item> <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="TextAppearance.Resona.Head.Bold">
+        <item name="android:textFontWeight">700</item>
     </style>
 
-    <style name="TextAppearance.Resona.Title" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.Resona.Title" parent="TextAppearance.Resona">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="lineHeight">28sp</item>
+        <item name="lineHeight">28sp</item> <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="TextAppearance.Resona.Title.SemiBold">
+        <item name="android:textFontWeight">600</item>
     </style>
 
-    <style name="TextAppearance.Resona.Body1" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.Resona.Body1" parent="TextAppearance.Resona">
         <item name="android:textSize">16sp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="lineHeight">22.4sp</item>
+        <item name="lineHeight">22.4sp</item> <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="TextAppearance.Resona.Body1.Bold">
+        <item name="android:textFontWeight">700</item>
     </style>
 
-    <style name="TextAppearance.Resona.Body2" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Resona.Body2" parent="TextAppearance.Resona">
         <item name="android:textSize">14sp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="lineHeight">19.6sp</item>
+        <item name="lineHeight">19.6sp</item> <item name="android:textFontWeight">400</item>
+    </style>
+    <style name="TextAppearance.Resona.Body2.Bold">
+        <item name="android:textFontWeight">700</item>
     </style>
 
-    <style name="TextAppearance.Resona.Caption" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="TextAppearance.Resona.Caption" parent="TextAppearance.Resona">
         <item name="android:textSize">12sp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="lineHeight">16.8sp</item>
+        <item name="lineHeight">16.8sp</item> <item name="android:textFontWeight">400</item>
     </style>
+    <style name="TextAppearance.Resona.Caption.Bold">
+        <item name="android:textFontWeight">700</item>
+    </style>
+
+    <style name="CustomButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_recommend_btn_select</item>
+    </style>
+
 </resources>

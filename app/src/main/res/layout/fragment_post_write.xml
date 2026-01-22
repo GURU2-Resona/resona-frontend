@@ -126,7 +126,7 @@
                 android:layout_alignParentBottom="true"
                 android:text="(300자)"
                 android:textColor="#626C75"
-                android:textSize="12sp" />
+                android:textSize="12sp"  />
         </RelativeLayout>
 
         <View
