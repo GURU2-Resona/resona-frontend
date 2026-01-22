@@ -15,7 +15,20 @@
         android:label="게시판" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.resona.NotificationsFragment"
-        android:label="설정" />
+        android:id="@+id/navigation_mypage"
+        android:name="com.example.resona.my.MypageFragment"
+        android:label="마이페이지">
+        <action
+            android:id="@+id/action_to_postList"
+            app:destination="@id/navigation_post_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_list"
+        android:name="com.example.resona.PostListFragment"
+        android:label="게시글 목록">
+        <argument
+            android:name="postType"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_nav_home"
         android:title="홈" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="게시판" />
+        android:icon="@drawable/ic_nav_post"
+        android:title="기록" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="설정" />
+        android:id="@+id/navigation_mypage"
+        android:icon="@drawable/ic_nav_my"
+        android:title="마이" />
 
 </menu>
