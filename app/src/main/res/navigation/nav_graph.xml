@@ -6,17 +6,17 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.resona.HomeFragment"
+        android:name="com.example.resona.ui.HomeFragment"
         android:label="홈" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.resona.DashboardFragment"
+        android:name="com.example.resona.ui.DashboardFragment"
         android:label="게시판" />
 
     <fragment
         android:id="@+id/navigation_mypage"
-        android:name="com.example.resona.my.MypageFragment"
+        android:name="com.example.resona.ui.MypageFragment"
         android:label="마이페이지">
         <action
             android:id="@+id/action_to_postList"
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_post_list"
-        android:name="com.example.resona.PostListFragment"
+        android:name="com.example.resona.ui.PostListFragment"
         android:label="게시글 목록">
         <argument
             android:name="postType"
