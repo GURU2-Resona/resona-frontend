@@ -66,9 +66,9 @@
                 android:layout_height="63dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="60dp"
-                android:src="@drawable/resona_header_logo"
-                android:scaleType="fitCenter"
                 android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/resona_header_logo"
                 app:tint="#626C75" />
 
         </FrameLayout>
