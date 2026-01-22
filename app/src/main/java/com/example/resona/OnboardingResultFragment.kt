@@ -47,5 +47,20 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
         homeButton.setOnClickListener {
             findNavController().navigate(R.id.navigation_home)
         }
+
+        val listenButton = view.findViewById<Button>(R.id.btn_listen_full);
+        listenButton.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.youtube.com/watch?v=$youtubeVideoId")
+            )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        val postButton = view.findViewById<Button>(R.id.btn_write_recommend);
+        postButton.setOnClickListener {
+            // findNavController().navigate()
+        }
     }
 }
