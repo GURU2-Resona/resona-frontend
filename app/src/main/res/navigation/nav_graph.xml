@@ -2,7 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_splash">
+
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.example.resona.SplashFragment"
+        android:label="Splash" />
 
     <fragment
         android:id="@+id/navigation_home"
@@ -31,4 +36,24 @@
             android:name="postType"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.resona.LoginFragment"
+        android:label="Login" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_profile"
+        android:name="com.example.resona.OnboardingProfileFragment"
+        android:label="Onboarding_Profile" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_recommend"
+        android:name="com.example.resona.OnboardingRecommendFragment"
+        android:label="Onboarding_Recommend" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_result"
+        android:name="com.example.resona.OnboardingResultFragment"
+        android:label="Onboarding_Result" />
 </navigation>
