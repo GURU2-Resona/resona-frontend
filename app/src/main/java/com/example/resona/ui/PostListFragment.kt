@@ -35,8 +35,8 @@ package com.example.resona.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.resona.R
@@ -54,30 +54,29 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     private val allPosts = mutableListOf<PostModel>()
     private var currentTypePosts = listOf<PostModel>()
 
-    // 필터 상태 (기본값)
-    private var selectedCategory = "카테고리"
-    private var selectedSituation = "상황"
+    // 현재 선택된 필터 (초기값: 전체)
+    // 화면상의 텍스트는 "카테고리", "상황"으로 유지하되, 내부 로직은 "전체"로 처리
+    private var selectedCategory = "전체"
+    private var selectedSituation = "전체"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPostListBinding.bind(view)
 
-        // 1. [기존 로직 유지] 전달받은 타입 확인
+        // 1. 전달받은 타입 확인 (NavArgument)
         val type = arguments?.getString("postType") ?: "MY"
 
-        // 2. 더미 데이터 생성 (서버 연결 전까지 사용)
+        // 2. 더미 데이터 생성
         generateDummyData()
 
-        // 3. [기존 로직 확장] 타입에 따라 타이틀과 보여줄 데이터를 다르게 설정
+        // 3. 타입에 따른 초기 설정
         when (type) {
             "MY" -> {
                 binding.tvPageTitle.text = "나의 추천글 보기"
-                // '나의'가 포함된 데이터만 필터링 (예시 로직)
                 currentTypePosts = allPosts.filter { it.title.contains("나의") }
             }
             "SAVED" -> {
                 binding.tvPageTitle.text = "저장한 추천글 보기"
-                // '저장'이 포함된 데이터만 필터링
                 currentTypePosts = allPosts.filter { it.title.contains("저장") }
             }
             else -> {
@@ -86,9 +85,11 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
             }
         }
 
-        // 4. UI 설정 (리스트 연결 및 필터 설정)
+        // 4. RecyclerView 설정
         setupRecyclerView(currentTypePosts)
-        setupSpinners()
+
+        // 5. 필터 버튼 설정 (드롭다운 연결)
+        setupFilterButtons()
     }
 
     private fun setupRecyclerView(initialData: List<PostModel>) {
@@ -99,36 +100,52 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
     }
 
-    private fun setupSpinners() {
-        val categories = listOf("카테고리", "음악", "영상", "책", "ASMR")
-        val situations = listOf("상황", "운동", "공부", "휴식", "새벽")
+    private fun setupFilterButtons() {
+        // 드롭다운에 표시될 데이터 (각각 6개 이상)
+        // "전체"는 필터 해제용으로 포함하거나 제외 가능
+        val categories = listOf("전체", "음악", "영상", "책", "ASMR", "팟캐스트", "기타")
+        val situations = listOf("전체", "운동", "공부", "휴식", "새벽", "출근", "퇴근")
 
-        // 기본 스피너 레이아웃 사용 (텍스트 색상은 테마에 따름)
-        val catAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
-        val sitAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, situations)
-
-        binding.spinnerCategory.adapter = catAdapter
-        binding.spinnerSituation.adapter = sitAdapter
-
-        val listener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (parent == binding.spinnerCategory) selectedCategory = categories[position]
-                if (parent == binding.spinnerSituation) selectedSituation = situations[position]
-
-                applyFilter() // 필터 적용
+        // 카테고리 버튼 클릭 시
+        binding.btnFilterCategory.setOnClickListener { view ->
+            showDropdownMenu(view, categories) { selectedItem ->
+                selectedCategory = selectedItem
+                // UI 텍스트 업데이트 (선택된 항목으로 변경)
+                // 만약 "전체" 선택 시 다시 "카테고리"로 되돌리고 싶다면 분기 처리
+                binding.tvCategoryLabel.text = if (selectedItem == "전체") "카테고리" else selectedItem
+                applyFilter()
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        binding.spinnerCategory.onItemSelectedListener = listener
-        binding.spinnerSituation.onItemSelectedListener = listener
+        // 상황 버튼 클릭 시
+        binding.btnFilterSituation.setOnClickListener { view ->
+            showDropdownMenu(view, situations) { selectedItem ->
+                selectedSituation = selectedItem
+                binding.tvSituationLabel.text = if (selectedItem == "전체") "상황" else selectedItem
+                applyFilter()
+            }
+        }
+    }
+
+    private fun showDropdownMenu(anchor: View, items: List<String>, onItemSelected: (String) -> Unit) {
+        val popup = PopupMenu(requireContext(), anchor)
+
+        // 메뉴 아이템 추가
+        items.forEach { item ->
+            popup.menu.add(item)
+        }
+
+        popup.setOnMenuItemClickListener { menuItem ->
+            onItemSelected(menuItem.title.toString())
+            true
+        }
+        popup.show()
     }
 
     private fun applyFilter() {
-        // 현재 페이지의 데이터(currentTypePosts) 안에서 카테고리/상황으로 2차 필터링
         val filtered = currentTypePosts.filter { post ->
-            val matchCat = (selectedCategory == "카테고리") || (post.category == selectedCategory)
-            val matchSit = (selectedSituation == "상황") || (post.situation == selectedSituation)
+            val matchCat = (selectedCategory == "전체") || (post.category == selectedCategory)
+            val matchSit = (selectedSituation == "전체") || (post.situation == selectedSituation)
             matchCat && matchSit
         }
         postAdapter.updateData(filtered)
@@ -142,7 +159,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         for (i in 1..30) {
             val c = cats.random()
             val s = sits.random()
-            // 로직 테스트를 위해 제목에 태그를 넣음
             val prefix = if (i % 3 == 0) "[나의]" else if (i % 3 == 1) "[저장]" else "[추천]"
 
             allPosts.add(PostModel(
