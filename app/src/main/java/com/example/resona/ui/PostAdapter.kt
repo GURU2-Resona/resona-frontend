@@ -25,7 +25,6 @@ class PostAdapter(private var items: List<PostModel>) : RecyclerView.Adapter<Pos
         val item = items[position]
         holder.binding.tvTitle.text = item.title
         holder.binding.tvSubhead.text = item.subhead
-        // 필요시 이미지 로딩 라이브러리(Glide 등) 사용 위치
     }
 
     override fun getItemCount(): Int = items.size
