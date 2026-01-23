@@ -1,17 +1,14 @@
 package com.example.resona.data.repository
 
-import com.example.resona.data.dto.LoginResponse
+import com.example.resona.data.remote.api.AuthApiService
+import com.example.resona.data.remote.api.KakaoLoginRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRepository {
-
-    suspend fun kakaoLogin(
-        accessToken: String
-    ): LoginResponse {
-
-        return LoginResponse(
-            accessToken = "dummy",
-            refreshToken = "dummy",
-            isNewUser = true
-        )
-    }
+@Singleton
+class AuthRepository @Inject constructor(
+    private val apiService: AuthApiService
+) {
+    suspend fun loginWithKakao(accessToken: String) =
+        apiService.loginWithKakao(KakaoLoginRequest(accessToken))
 }

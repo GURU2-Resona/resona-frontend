@@ -1,13 +1,20 @@
 package com.example.resona
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.resona.data.remote.model.LoginViewModel
 import com.example.resona.databinding.FragmentLoginBinding
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login){
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -25,17 +32,27 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     }
 
     private fun startKakaoLogin() {
-        UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
-            if (error != null) {
-                // TODO: 에러 UI 처리
-                return@loginWithKakaoTalk
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
+            UserApiClient.instance.loginWithKakaoTalk(requireActivity()) { token, error ->
+                handleLoginResult(token, error)
             }
-
-            token?.let {
-                viewModel.loginWithKakao(it.accessToken)
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(requireActivity()) { token, error ->
+                handleLoginResult(token, error)
             }
         }
     }
+
+    private fun handleLoginResult(token: OAuthToken?, error: Throwable?) {
+        if (error != null) {
+            Toast.makeText(requireContext(), "로그인 실패: ${error.message}", Toast.LENGTH_SHORT).show()
+        } else if (token != null) {
+            Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
+            Log.d("KakaoToken", "카카오 액세스 토큰: ${token.accessToken}")
+            viewModel.loginWithKakao(token.accessToken)
+        }
+    }
+
 
     private fun observeLoginResult() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->

@@ -25,8 +25,14 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        val baseUrl = localProperties.getProperty("BASE_URL") ?: "\"https://default-url.com/\""
-        buildConfigField("String", "BASE_URL", baseUrl)
+        // BASE_URL
+        val baseUrl = localProperties.getProperty("BASE_URL") ?: "https://default-url.com/"
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+
+        // KAKAO_NATIVE_APP_KEY
+        val kakaoKey = localProperties.getProperty("KAKAO_NATIVE_APP_KEY")
+            ?: error("KAKAO_NATIVE_APP_KEY is missing in local.properties")
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -92,7 +98,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.0")
 
     // Youtube
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
@@ -109,5 +115,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-
+    // Kakao SDK
+    implementation("com.kakao.sdk:v2-common:2.20.6")
+    implementation("com.kakao.sdk:v2-user:2.19.0")
 }
