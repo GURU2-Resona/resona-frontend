@@ -39,15 +39,18 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         // 3. 타입에 따른 초기 설정
         when (type) {
             "MY" -> {
-                binding.tvPageTitle.text = "나의 추천글 보기"
+                // 수정: 하드코딩 제거 -> 리소스 사용
+                binding.tvPageTitle.text = getString(R.string.post_list_title_my)
                 currentTypePosts = allPosts.filter { it.title.contains("나의") }
             }
             "SAVED" -> {
-                binding.tvPageTitle.text = "저장한 추천글 보기"
+                // 수정: 하드코딩 제거 -> 리소스 사용
+                binding.tvPageTitle.text = getString(R.string.post_list_title_saved)
                 currentTypePosts = allPosts.filter { it.title.contains("저장") }
             }
             else -> {
-                binding.tvPageTitle.text = "추천글 보기"
+                // 수정: 하드코딩 제거 -> 리소스 사용
+                binding.tvPageTitle.text = getString(R.string.post_list_title_default)
                 currentTypePosts = allPosts
             }
         }
