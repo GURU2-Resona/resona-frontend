@@ -26,8 +26,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
-        // [중요] 홈 화면에서는 MainActivity의 기본 TopBar("음악 추천" 텍스트)를 숨기고,
-        // Fragment 내부의 로고 헤더를 보여줍니다.
         (activity as? MainActivity)?.findViewById<View>(R.id.topBar)?.visibility = View.GONE
 
         // 1. 오늘의 음악 추천
@@ -100,9 +98,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Fragment가 파괴될 때(다른 탭 이동 등) MainActivity의 TopBar를 다시 보여줄 필요가 있다면
-        // MainActivity의 로직에 따라 자동으로 처리되겠지만, 안전하게 다시 보이게 할 수도 있습니다.
-        // (현재 MainActivity 로직상 destinationChangedListener가 처리하므로 생략 가능)
         _binding = null
     }
 }
