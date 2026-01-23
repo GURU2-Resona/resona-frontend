@@ -1,24 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neutral_100"
-    tools:context=".ui.PostListFragment">
+    android:background="@color/neutral_100">
+
+    <View
+        android:id="@+id/view_top_mask"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/neutral_200"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_temp_title"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_page_title"
+        style="@style/TextAppearance.Resona.Head"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="화면 확인용 텍스트"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:paddingHorizontal="28dp"
+        android:paddingVertical="18dp"
+        android:text="추천글 보기"
+        android:textColor="@color/neutral_900"
+        app:layout_constraintTop_toBottomOf="@+id/view_top_mask" />
+
+    <LinearLayout
+        android:id="@+id/layout_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_page_title">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_category"
+            android:layout_width="102dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_filter_chip"
+            android:paddingStart="12dp"
+            android:paddingEnd="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            tools:listitem="@android:layout/simple_spinner_item" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_situation"
+            android:layout_width="76dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_filter_chip"
+            android:paddingStart="12dp"
+            android:paddingEnd="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            tools:listitem="@android:layout/simple_spinner_item" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_post_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/layout_filters"
+        tools:listitem="@layout/item_post_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
