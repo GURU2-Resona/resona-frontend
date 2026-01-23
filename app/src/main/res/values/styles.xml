@@ -11,6 +11,12 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_recommend_btn_select</item>
     </style>
-
+    <style name="ShapeAppearance.Resona.RightRounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomRight">12dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
 
 </resources>
