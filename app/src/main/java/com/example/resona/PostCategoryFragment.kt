@@ -18,6 +18,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
 
         val subject = arguments?.getString("userSubject")
         val content = arguments?.getString("userContent")
+        val videoId = arguments?.getString("videoId")
 
         val categoryButtons = listOf(
             view.findViewById<Button>(R.id.btn_category_1),
@@ -41,7 +42,6 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
 
         nextButton = view.findViewById(R.id.btn_category_next)
 
-        // 초기 상태 설정
         nextButton.isEnabled = false
         nextButton.setTextColor(Color.parseColor("#6581FF"))
 
@@ -86,6 +86,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
                 putString("finalSubject", subject)
                 putString("finalContent", content)
                 putString("finalTag", selectedTags.joinToString(" "))
+                putString("videoId", videoId)
             }
             findNavController().navigate(R.id.action_postCategory_to_postDetail, finalBundle)
         }

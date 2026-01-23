@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class PostDetailFragment : Fragment() {
 
@@ -23,7 +26,6 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ID를 bottom_navigation에서 bottom_nav로 수정했습니다.
         val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.visibility = View.GONE
 
@@ -31,16 +33,32 @@ class PostDetailFragment : Fragment() {
         val tvMainText = view.findViewById<TextView>(R.id.tv_detail_main_text)
         val tvHash = view.findViewById<TextView>(R.id.tv_detail_hash)
         val ivBookmark = view.findViewById<ImageView>(R.id.iv_detail_bookmark)
+        val ivAlbumArt = view.findViewById<ImageView>(R.id.iv_detail_album_art)
+        val youtubePlayerView = view.findViewById<YouTubePlayerView>(R.id.detail_youtube_player)
 
         val title = arguments?.getString("finalSubject")
         val content = arguments?.getString("finalContent")
         val tags = arguments?.getString("finalTag")
+        val videoId = arguments?.getString("videoId")
 
-        tvTitle.text = title ?: "입력된 제목이 없습니다"
-        tvMainText.text = content ?: "입력된 내용이 없습니다"
-        tvHash.text = tags ?: "#카테고리미정"
+        tvTitle?.text = title ?: "입력된 제목이 없습니다"
+        tvMainText?.text = content ?: "입력된 내용이 없습니다"
+        tvHash?.text = tags ?: "#카테고리미정"
 
-        ivBookmark.setOnClickListener {
+        viewLifecycleOwner.lifecycle.addObserver(youtubePlayerView)
+
+        if (!videoId.isNullOrEmpty()) {
+            ivAlbumArt?.visibility = View.GONE
+            youtubePlayerView?.visibility = View.VISIBLE
+
+            youtubePlayerView?.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    youTubePlayer.cueVideo(videoId, 0f)
+                }
+            })
+        }
+
+        ivBookmark?.setOnClickListener {
             isBookmarked = !isBookmarked
             if (isBookmarked) {
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_filled)
@@ -52,7 +70,6 @@ class PostDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // 여기서도 ID를 bottom_nav로 수정했습니다.
         val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.visibility = View.VISIBLE
     }

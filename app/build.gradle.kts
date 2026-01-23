@@ -5,7 +5,6 @@ plugins {
 
 android {
     namespace = "com.example.resona"
-    // 안정적인 버전 34를 유지합니다.
     compileSdk = 34
 
     defaultConfig {
@@ -39,20 +38,19 @@ android {
 }
 
 dependencies {
-    // 1. 문제의 핵심: core-ktx 버전을 1.12.0으로 강제 고정합니다. (34버전용)
     implementation("androidx.core:core-ktx:1.12.0")
-
-    // 2. 네비게이션 라이브러리
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-
-    // 3. 나머지 기본 라이브러리 (중복 제거됨)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-    // 테스트 라이브러리
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
