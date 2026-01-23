@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.databinding.FragmentHomeBinding
+import com.example.resona.ui.main.MainActivity // MainActivity import 필요
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,11 +26,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
+        // [중요] 홈 화면에서는 MainActivity의 기본 TopBar("음악 추천" 텍스트)를 숨기고,
+        // Fragment 내부의 로고 헤더를 보여줍니다.
+        (activity as? MainActivity)?.findViewById<View>(R.id.topBar)?.visibility = View.GONE
+
         // 1. 오늘의 음악 추천
         setupMusicCard()
 
         // 2. 추천글 보기 (화살표) 클릭 이벤트
-        // 수정: XML의 'btn_go_post_list'는 코틀린에서 'btnGoPostList'로 변환됩니다.
         binding.btnGoPostList.setOnClickListener {
             // 네비게이션 그래프 ID로 이동
             findNavController().navigate(R.id.navigation_post_list)
@@ -42,13 +46,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupMusicCard() {
         val thumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
 
-        // 수정: iv_music_thumbnail -> ivMusicThumbnail
         Glide.with(this)
             .load(thumbnailUrl)
             .placeholder(R.color.neutral_400)
             .into(binding.ivMusicThumbnail)
 
-        // 수정: card_music -> cardMusic
         binding.cardMusic.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -58,7 +60,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             startActivity(intent)
         }
 
-        // 수정: tv_music_name -> tvMusicName, tv_music_artist -> tvMusicArtist
         binding.tvMusicName.text = "행운을 빌어줘"
         binding.tvMusicArtist.text = "원필"
     }
@@ -69,10 +70,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val adapter = PostAdapter(previewData)
 
-        // 수정: rv_home_preview -> rvHomePreview
         binding.rvHomePreview.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
+            // 스크롤 중첩 방지
             isNestedScrollingEnabled = true
         }
     }
@@ -99,6 +100,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Fragment가 파괴될 때(다른 탭 이동 등) MainActivity의 TopBar를 다시 보여줄 필요가 있다면
+        // MainActivity의 로직에 따라 자동으로 처리되겠지만, 안전하게 다시 보이게 할 수도 있습니다.
+        // (현재 MainActivity 로직상 destinationChangedListener가 처리하므로 생략 가능)
         _binding = null
     }
 }
