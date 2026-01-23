@@ -17,4 +17,5 @@
     <color name="primary_500">#1500FF</color>
     <color name="primary_700">#0036A0</color>
     <color name="primary_900">#002671</color>
+    <color name="surface_high">#ECE6F0</color>
 </resources>
