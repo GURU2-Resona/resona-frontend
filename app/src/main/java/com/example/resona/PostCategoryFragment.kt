@@ -4,11 +4,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
     private lateinit var nextButton: Button
@@ -16,9 +21,11 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val subject = arguments?.getString("userSubject")
-        val content = arguments?.getString("userContent")
-        val videoId = arguments?.getString("videoId")
+        val subject = arguments?.getString("userSubject") ?: ""
+        val content = arguments?.getString("userContent") ?: ""
+        val videoId = arguments?.getString("videoId") ?: ""
+        val songTitle = arguments?.getString("songTitle") ?: "Unknown Title"
+        val singer = arguments?.getString("singer") ?: "Unknown Artist"
 
         val categoryButtons = listOf(
             view.findViewById<Button>(R.id.btn_category_1),
@@ -41,7 +48,6 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
         val etSceneDirect = view.findViewById<EditText>(R.id.et_scene_direct)
 
         nextButton = view.findViewById(R.id.btn_category_next)
-
         nextButton.isEnabled = false
         nextButton.setTextColor(Color.parseColor("#6581FF"))
 
@@ -78,31 +84,52 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
         etSceneDirect.addTextChangedListener(textWatcher)
 
         nextButton.setOnClickListener {
-            val selectedTags = allButtons.filter { it.isSelected }.map { "#${it.text}" }.toMutableList()
-            if (etCategoryDirect.text.isNotEmpty()) selectedTags.add("#${etCategoryDirect.text}")
-            if (etSceneDirect.text.isNotEmpty()) selectedTags.add("#${etSceneDirect.text}")
-
-            val finalBundle = Bundle().apply {
-                putString("finalSubject", subject)
-                putString("finalContent", content)
-                putString("finalTag", selectedTags.joinToString(" "))
-                putString("videoId", videoId)
+            val categoryRequest = if (etCategoryDirect.text.isNotEmpty()) {
+                PostCreateRequest.TagRequest(name = etCategoryDirect.text.toString())
+            } else {
+                PostCreateRequest.TagRequest(id = 1L)
             }
-            findNavController().navigate(R.id.action_postCategory_to_postDetail, finalBundle)
+
+            val sceneRequest = if (etSceneDirect.text.isNotEmpty()) {
+                PostCreateRequest.TagRequest(name = etSceneDirect.text.toString())
+            } else {
+                PostCreateRequest.TagRequest(id = 1L)
+            }
+
+            val requestBody = PostCreateRequest(
+                songTitle = songTitle,
+                singer = singer,
+                songUrl = "https://www.youtube.com/watch?v=$videoId",
+                albumImage = "https://img.youtube.com/vi/$videoId/0.jpg",
+                title = subject,
+                content = content,
+                category = categoryRequest,
+                scene = sceneRequest
+            )
+
+            val service = RetrofitClient.getService().create(PostService::class.java)
+            service.createPost(userId = 1L, requestBody).enqueue(object : Callback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "추천글 등록 완료", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.navigation_home)
+                    } else {
+                        Toast.makeText(context, "저장 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    Log.e("API", t.message.toString())
+                }
+            })
         }
     }
 
     private fun checkNextButton(allButtons: List<Button>, et1: EditText, et2: EditText) {
         val selectedCount = allButtons.count { it.isSelected }
         val directInputCount = (if (et1.text.isNotEmpty()) 1 else 0) + (if (et2.text.isNotEmpty()) 1 else 0)
-
         val isActive = (selectedCount + directInputCount == 2)
         nextButton.isEnabled = isActive
-
-        if (isActive) {
-            nextButton.setTextColor(Color.WHITE)
-        } else {
-            nextButton.setTextColor(Color.parseColor("#6581FF"))
-        }
+        nextButton.setTextColor(if (isActive) Color.WHITE else Color.parseColor("#6581FF"))
     }
 }

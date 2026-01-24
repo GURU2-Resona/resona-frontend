@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 class PostWriteFragment : Fragment() {
 
     private var currentVideoId: String? = null
+    private var currentSongTitle: String = ""
+    private var currentSinger: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,9 @@ class PostWriteFragment : Fragment() {
                     val videoId = YoutubeSearchManager.getFirstVideoId(query, "")
                     if (videoId != null) {
                         currentVideoId = videoId
+                        currentSongTitle = query
+                        currentSinger = "Unknown"
+
                         ivLogo.visibility = View.GONE
                         youtubePlayerView.visibility = View.VISIBLE
 
@@ -84,6 +89,8 @@ class PostWriteFragment : Fragment() {
                 putString("userSubject", subject)
                 putString("userContent", content)
                 putString("videoId", currentVideoId)
+                putString("songTitle", currentSongTitle)
+                putString("singer", currentSinger)
             }
             findNavController().navigate(R.id.action_postWrite_to_postCategory, bundle)
         }
