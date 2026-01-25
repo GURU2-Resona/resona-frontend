@@ -44,10 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     }
 
     private fun handleLoginResult(token: OAuthToken?, error: Throwable?) {
-        if (error != null) {
-            Toast.makeText(requireContext(), "로그인 실패: ${error.message}", Toast.LENGTH_SHORT).show()
-        } else if (token != null) {
-            Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
+       if (token != null) {
             Log.d("KakaoToken", "카카오 액세스 토큰: ${token.accessToken}")
             viewModel.loginWithKakao(token.accessToken)
         }
