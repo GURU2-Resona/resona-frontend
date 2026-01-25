@@ -25,6 +25,7 @@
     <string name="onboarding_scene_button4">카테고리1</string>
     <string name="onboarding_scene_button5">카테고리2</string>
     <string name="onboarding_scene_button6">카테고리3</string>
+    <string name="loading_message">로그인 중입니다…</string>
 
     <!-- button -->
     <string name="skip_button">건너뛰기</string>
