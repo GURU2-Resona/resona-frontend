@@ -5,13 +5,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.databinding.FragmentHomeBinding
-import com.example.resona.ui.main.MainActivity // MainActivity import 필요
+import com.example.resona.ui.main.MainActivity
+import com.example.resona.ui.post.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -19,7 +23,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // 온보딩 예시 유튜브 ID
+    // 1. PostViewModel 주입
+    private val viewModel: PostViewModel by viewModels()
+    private lateinit var postAdapter: PostAdapter
+
     private val youtubeVideoId = "hrXCP0xeoA8"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,17 +35,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         (activity as? MainActivity)?.findViewById<View>(R.id.topBar)?.visibility = View.GONE
 
-        // 1. 오늘의 음악 추천
         setupMusicCard()
+        setupPreviewList() // 어댑터 초기화
+        observeViewModel() // 데이터 관찰 시작
 
-        // 2. 추천글 보기 (화살표) 클릭 이벤트
+        // 2. 추천글 목록 전체 조회 API 호출
+        viewModel.loadPosts()
+
         binding.btnGoPostList.setOnClickListener {
-            // 네비게이션 그래프 ID로 이동
             findNavController().navigate(R.id.navigation_post_list)
         }
-
-        // 3. 추천글 목록 미리보기 (3개만 표시)
-        setupPreviewList()
     }
 
     private fun setupMusicCard() {
@@ -62,38 +68,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.tvMusicArtist.text = "원필"
     }
 
+    /**
+     * 3. 리사이클러뷰 및 어댑터 초기 설정
+     */
     private fun setupPreviewList() {
-        val dummyData = generateDummyData()
-        val previewData = dummyData.take(3) // 상위 3개만
-
-        val adapter = PostAdapter(previewData)
+        // PostResponseDto를 사용하는 새로운 어댑터 연결
+        postAdapter = PostAdapter(emptyList())
 
         binding.rvHomePreview.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            this.adapter = adapter
-            // 스크롤 중첩 방지
-            isNestedScrollingEnabled = true
+            this.adapter = postAdapter
+            // 홈 화면 스크롤과의 간섭 방지
+            isNestedScrollingEnabled = false
         }
     }
 
-    private fun generateDummyData(): List<PostModel> {
-        val list = mutableListOf<PostModel>()
-        val cats = listOf("음악", "영상", "책", "ASMR")
-        val sits = listOf("운동", "공부", "휴식", "새벽")
+    /**
+     * 4. ViewModel 상태 관찰 및 데이터 필터링
+     */
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                // 데이터가 성공적으로 로드되었을 때
+                if (state.posts.isNotEmpty()) {
+                    // 전체 리스트 중 상위 3개만 추출하여 어댑터에 전달
+                    postAdapter.updateData(state.posts.take(3))
+                }
 
-        for (i in 1..10) {
-            val c = cats.random()
-            val s = sits.random()
-            val prefix = "[추천]"
-
-            list.add(PostModel(
-                title = "$prefix $c $i",
-                subhead = "$s 할 때 좋은 콘텐츠",
-                category = c,
-                situation = s
-            ))
+                // 로딩 중일 때 처리 (필요 시)
+                if (state.isLoading) {
+                    // binding.loadingBar.visibility = View.VISIBLE
+                }
+            }
         }
-        return list
     }
 
     override fun onDestroyView() {
