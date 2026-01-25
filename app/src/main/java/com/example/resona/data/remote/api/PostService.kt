@@ -25,4 +25,9 @@ interface PostService {
         @Header("X-USER-ID") userId: Long,
         @Path("postId") postId: Long
     ): Response<BaseResponse<String>>
+
+    @GET("posts/scraps")
+    suspend fun getScrappedPosts(
+        @Header("X-USER-ID") userId: Long
+    ): Response<BaseResponse<List<PostDetailResponse>>>
 }

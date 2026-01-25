@@ -45,4 +45,36 @@ class PostRepository @Inject constructor(
             ApiResult.Error(e)
         }
     }
+
+    suspend fun toggleScrap(userId: Long, postId: Long): ApiResult<String> = withContext(Dispatchers.IO) {
+        try {
+            val response = postService.toggleScrap(userId, postId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    if (it.isSuccess) ApiResult.Success(it.result!!)
+                    else ApiResult.Error(Exception(it.message))
+                } ?: ApiResult.Error(Exception("Empty Body"))
+            } else {
+                ApiResult.Error(Exception("HTTP ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
+
+    suspend fun getScrappedPosts(userId: Long): ApiResult<List<PostDetailResponse>> = withContext(Dispatchers.IO) {
+        try {
+            val response = postService.getScrappedPosts(userId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    if (it.isSuccess) ApiResult.Success(it.result!!)
+                    else ApiResult.Error(Exception(it.message))
+                } ?: ApiResult.Error(Exception("Empty Body"))
+            } else {
+                ApiResult.Error(Exception("HTTP ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
 }

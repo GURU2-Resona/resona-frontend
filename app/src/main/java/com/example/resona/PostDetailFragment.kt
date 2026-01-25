@@ -13,11 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.resona.R
 import com.example.resona.RetrofitClient
 import com.example.resona.data.remote.api.PostService
-import com.example.resona.data.remote.model.PostDetailResponse
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class PostDetailFragment : Fragment() {
@@ -50,20 +49,18 @@ class PostDetailFragment : Fragment() {
             val service = RetrofitClient.getService().create(PostService::class.java)
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    // 1. 서버에서 응답을 받아옴 (지애님은 Response<BaseResponse<T>> 형태를 씀)
                     val response = service.getPostDetail(1L, postId)
-
                     if (response.isSuccessful) {
-                        // 2. response.body()를 통해 BaseResponse에 접근
                         response.body()?.let { baseResponse ->
                             if (baseResponse.isSuccess) {
-                                // 3. baseResponse.result가 우리가 원하는 데이터!
                                 baseResponse.result?.let { data ->
                                     tvTitle?.text = data.title
                                     tvMainText?.text = data.content
                                     tvHash?.text = "#${data.categoryName} #${data.sceneName}"
+
+                                    // 저장 상태 반영
                                     isBookmarked = data.isSaved
-                                    ivBookmark?.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+                                    updateBookmarkIcon(ivBookmark)
 
                                     val vId = data.songUrl.split("v=").lastOrNull()
                                     if (!vId.isNullOrEmpty()) {
@@ -77,42 +74,38 @@ class PostDetailFragment : Fragment() {
                     Log.e("API_ERROR", e.message.toString())
                 }
             }
-        } else {
-            val title = arguments?.getString("finalSubject")
-            val content = arguments?.getString("finalContent")
-            val tags = arguments?.getString("finalTag")
-            val videoId = arguments?.getString("videoId")
-
-            tvTitle?.text = title ?: "입력된 제목이 없습니다"
-            tvMainText?.text = content ?: "입력된 내용이 없습니다"
-            tvHash?.text = tags ?: "#카테고리미정"
-
-            if (!videoId.isNullOrEmpty()) {
-                setupYoutubePlayer(youtubePlayerView, ivAlbumArt, videoId)
-            }
         }
 
-        viewLifecycleOwner.lifecycle.addObserver(youtubePlayerView)
-
+        // 북마크 클릭 이벤트
         ivBookmark?.setOnClickListener {
             if (postId != -1L) {
                 val service = RetrofitClient.getService().create(PostService::class.java)
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
                         val response = service.toggleScrap(1L, postId)
-                        if (response.isSuccessful) {
-                            response.body()?.let { baseResponse ->
-                                val message = baseResponse.result.toString()
-                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                                isBookmarked = (message == "스크랩 성공")
-                                ivBookmark.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
-                            }
+                        if (response.isSuccessful && response.body()?.isSuccess == true) {
+                            // 현재 상태를 반전시키고 아이콘 업데이트
+                            isBookmarked = !isBookmarked
+                            updateBookmarkIcon(ivBookmark)
+
+                            val msg = if (isBookmarked) "내 보관함에 저장되었습니다." else "저장이 취소되었습니다."
+                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                         }
                     } catch (e: Exception) {
                         Log.e("API_ERROR", "스크랩 요청 실패: ${e.message}")
                     }
                 }
             }
+        }
+
+        viewLifecycleOwner.lifecycle.addObserver(youtubePlayerView)
+    }
+
+    private fun updateBookmarkIcon(ivBookmark: ImageView?) {
+        if (isBookmarked) {
+            ivBookmark?.setImageResource(R.drawable.ic_bookmark_filled)
+        } else {
+            ivBookmark?.setImageResource(R.drawable.ic_bookmark)
         }
     }
 
