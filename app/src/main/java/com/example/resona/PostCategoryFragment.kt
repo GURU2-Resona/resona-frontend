@@ -108,8 +108,8 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             )
 
             val service = RetrofitClient.getService().create(PostService::class.java)
-            service.createPost(userId = 1L, requestBody).enqueue(object : Callback<Unit> {
-                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+            service.createPost(userId = 1L, requestBody).enqueue(object : Callback<ApiResponse<PostCreateResponse>> {
+                override fun onResponse(call: Call<ApiResponse<PostCreateResponse>>, response: Response<ApiResponse<PostCreateResponse>>) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "추천글 등록 완료", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.navigation_home)
@@ -118,7 +118,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
                     }
                 }
 
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<PostCreateResponse>>, t: Throwable) {
                     Log.e("API", t.message.toString())
                 }
             })

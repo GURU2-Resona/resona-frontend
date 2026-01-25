@@ -85,8 +85,23 @@ class PostDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycle.addObserver(youtubePlayerView)
 
         ivBookmark?.setOnClickListener {
-            isBookmarked = !isBookmarked
-            ivBookmark.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+            if (postId != -1L) {
+                val service = RetrofitClient.getService().create(PostService::class.java)
+                service.toggleScrap(1L, postId).enqueue(object : Callback<ApiResponse<String>> {
+                    override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
+                        if (response.isSuccessful) {
+                            val message = response.body()?.result
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
+                            isBookmarked = (message == "스크랩 성공")
+                            ivBookmark.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+                        }
+                    }
+                    override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                        Log.e("API_ERROR", "스크랩 요청 실패: ${t.message}")
+                    }
+                })
+            }
         }
     }
 
