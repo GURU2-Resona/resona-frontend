@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#28292F">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingTop="20dp"
+        android:background="#3A3F46">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="기록하기"
+            android:textColor="#FCFCFC"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Q. 어떤 카테고리의 노래인가요?"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="4dp"/> <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_category_1"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1"
+            android:text="사랑" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_category_2"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1"
+            android:text="우정" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_category_3"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1"
+            android:text="슬픔" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="0dp"> <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_category_4"
+            style="@style/CustomButtonStyle"
+            android:layout_weight="1"
+            android:text="카테고리" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_category_5"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="카테고리2" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_category_6"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="카테고리3" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_category_direct"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/bg_write_dark_input"
+            android:hint="직접 작성하기"
+            android:paddingHorizontal="16dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#626C75"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Q. 어떤 상황에 들으셨나요?"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_1"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="사랑" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_2"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="우정" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_3"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="슬픔" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="0dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_4"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="상황1" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_5"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="상황2" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scene_6"
+                style="@style/CustomButtonStyle"
+                android:layout_weight="1"
+                android:text="상황3" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_scene_direct"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/bg_write_dark_input"
+            android:hint="직접 작성하기"
+            android:paddingHorizontal="16dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#626C75"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_category_next"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_write_button"
+            android:text="다음"
+            android:textColor="#6581FF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

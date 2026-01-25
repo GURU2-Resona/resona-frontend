@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "RESONA"
 include(":app")
+ 
