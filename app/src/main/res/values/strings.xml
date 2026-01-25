@@ -1,5 +1,44 @@
 <resources>
     <string name="app_name">RESONA</string>
+
+    <!-- mypage -->
+    <string name="mypage_nickname_placeholder">닉네임</string>
+    <string name="mypage_menu_my_posts">나의 추천글 보기</string>
+    <string name="mypage_menu_saved_posts">저장한 추천글 보기</string>
+    <string name="mypage_logout">로그아웃</string>
+
+    <!-- onboarding -->
+    <string name="onboarding_nickname">닉네임</string>
+    <string name="onboarding_placeholder">직접 작성하기</string>
+    <string name="onboarding_nickname_valid">20글자까지 입력 가능합니다.</string>
+    <string name="onboarding_category_question">Q. 어떤 카테고리의 노래를 추천 받고 싶나요?</string>
+    <string name="onboarding_scene_question">Q. 어떤 상황에 들을 노래를 추천 받고 싶나요?</string>
+    <string name="onboarding_category_button1">사랑</string>
+    <string name="onboarding_category_button2">우정</string>
+    <string name="onboarding_category_button3">슬픔</string>
+    <string name="onboarding_category_button4">카테고리1</string>
+    <string name="onboarding_category_button5">카테고리2</string>
+    <string name="onboarding_category_button6">카테고리3</string>
+    <string name="onboarding_scene_button1">사랑</string>
+    <string name="onboarding_scene_button2">우정</string>
+    <string name="onboarding_scene_button3">슬픔</string>
+    <string name="onboarding_scene_button4">카테고리1</string>
+    <string name="onboarding_scene_button5">카테고리2</string>
+    <string name="onboarding_scene_button6">카테고리3</string>
+    <string name="loading_message">로그인 중입니다…</string>
+
+    <!-- button -->
+    <string name="skip_button">건너뛰기</string>
+    <string name="next_button">다음</string>
+    <string name="recommend_post_button">추천글 작성하기</string>
+    <string name="go_song_button">노래 전체 들으러 가기</string>
+    <string name="go_home_button">홈으로 가기</string>
+
+    <!-- recommend -->
+    <string name="post_list_title_default">추천글 보기</string>
+    <string name="post_list_title_my">나의 추천글 보기</string>
+    <string name="post_list_title_saved">저장한 추천글 보기</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,44 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_splash">
+
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.example.resona.SplashFragment"
+        android:label="Splash" />
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.resona.HomeFragment"
+        android:name="com.example.resona.ui.HomeFragment"
         android:label="홈" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.resona.PostWriteFragment"
-        android:label="기록"
-        tools:layout="@layout/fragment_post_write">
-        <action
-            android:id="@+id/action_postWrite_to_postCategory"
-            app:destination="@id/navigation_post_category" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_post_category"
-        android:name="com.example.resona.PostCategoryFragment"
-        android:label="카테고리 선택"
-        tools:layout="@layout/fragment_post_category">
-        <action
-            android:id="@+id/action_postCategory_to_postDetail"
-            app:destination="@id/navigation_post_detail" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_post_detail"
-        android:name="com.example.resona.PostDetailFragment"
-        android:label="상세 보기"
-        tools:layout="@layout/fragment_post_detail" />
+        android:name="com.example.resona.ui.DashboardFragment"
+        android:label="게시판" />
 
     <fragment
         android:id="@+id/navigation_mypage"
-        android:name="com.example.resona.MypageFragment"
+        android:name="com.example.resona.ui.MypageFragment"
         android:label="마이페이지">
         <action
             android:id="@+id/action_to_postList"
@@ -47,11 +30,35 @@
 
     <fragment
         android:id="@+id/navigation_post_list"
-        android:name="com.example.resona.PostListFragment"
+        android:name="com.example.resona.ui.PostListFragment"
         android:label="게시글 목록">
         <argument
             android:name="postType"
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.resona.LoginFragment"
+        android:label="Login" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_profile"
+        android:name="com.example.resona.OnboardingProfileFragment"
+        android:label="Onboarding_Profile" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_recommend"
+        android:name="com.example.resona.OnboardingRecommendFragment"
+        android:label="Onboarding_Recommend" />
+
+    <fragment
+        android:id="@+id/navigation_onboarding_result"
+        android:name="com.example.resona.OnboardingResultFragment"
+        android:label="Onboarding_Result" />
+
+    <fragment
+        android:id="@+id/navigation_login_loading"
+        android:name="com.example.resona.LoginLoadingFragment"
+        android:label="Login_Loading"/>
 </navigation>

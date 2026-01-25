@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neutral_100"
+    tools:context=".ui.MypageFragment">
+
+    <View
+        android:id="@+id/view_header_bg"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/neutral_200"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_logo_header"
+        app:layout_constraintBottom_toBottomOf="@id/view_header_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_header_bg" />
+
+    <ImageView
+        android:id="@+id/iv_profile_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/bg_circle_primary"
+        android:padding="12dp"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintStart_toStartOf="@+id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@+id/view_header_bg" />
+
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/mypage_nickname_placeholder"
+        android:textColor="@color/neutral_900"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_profile_img"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile_img"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile_img" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_my_recommendations"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/bg_menu_item"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="@string/mypage_menu_my_posts"
+        android:textAllCaps="false"
+        android:textColor="@color/neutral_900"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile_img" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_saved_recommendations"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_menu_item"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="@string/mypage_menu_saved_posts"
+        android:textAllCaps="false"
+        android:textColor="@color/neutral_900"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_my_recommendations" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_logout_button"
+        android:text="@string/mypage_logout"
+        android:textColor="@color/primary_300"
+        android:textStyle="bold"
+        android:stateListAnimator="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
