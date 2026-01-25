@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -9,13 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.resona.R
+import com.example.resona.RetrofitClient
+import com.example.resona.data.remote.api.PostService
+import com.example.resona.data.remote.model.PostDetailResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 class PostDetailFragment : Fragment() {
 
@@ -45,28 +48,35 @@ class PostDetailFragment : Fragment() {
 
         if (postId != -1L) {
             val service = RetrofitClient.getService().create(PostService::class.java)
-            service.getPostDetail(1L, postId).enqueue(object : Callback<ApiResponse<PostDetailResponse>> {
-                override fun onResponse(call: Call<ApiResponse<PostDetailResponse>>, response: Response<ApiResponse<PostDetailResponse>>) {
-                    if (response.isSuccessful) {
-                        val data = response.body()?.result
-                        data?.let {
-                            tvTitle?.text = it.title
-                            tvMainText?.text = it.content
-                            tvHash?.text = "#${it.categoryName} #${it.sceneName}"
-                            isBookmarked = it.isSaved
-                            ivBookmark?.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    // 1. 서버에서 응답을 받아옴 (지애님은 Response<BaseResponse<T>> 형태를 씀)
+                    val response = service.getPostDetail(1L, postId)
 
-                            val vId = it.songUrl.split("v=").lastOrNull()
-                            if (!vId.isNullOrEmpty()) {
-                                setupYoutubePlayer(youtubePlayerView, ivAlbumArt, vId)
+                    if (response.isSuccessful) {
+                        // 2. response.body()를 통해 BaseResponse에 접근
+                        response.body()?.let { baseResponse ->
+                            if (baseResponse.isSuccess) {
+                                // 3. baseResponse.result가 우리가 원하는 데이터!
+                                baseResponse.result?.let { data ->
+                                    tvTitle?.text = data.title
+                                    tvMainText?.text = data.content
+                                    tvHash?.text = "#${data.categoryName} #${data.sceneName}"
+                                    isBookmarked = data.isSaved
+                                    ivBookmark?.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+
+                                    val vId = data.songUrl.split("v=").lastOrNull()
+                                    if (!vId.isNullOrEmpty()) {
+                                        setupYoutubePlayer(youtubePlayerView, ivAlbumArt, vId)
+                                    }
+                                }
                             }
                         }
                     }
+                } catch (e: Exception) {
+                    Log.e("API_ERROR", e.message.toString())
                 }
-                override fun onFailure(call: Call<ApiResponse<PostDetailResponse>>, t: Throwable) {
-                    Log.e("API_ERROR", t.message.toString())
-                }
-            })
+            }
         } else {
             val title = arguments?.getString("finalSubject")
             val content = arguments?.getString("finalContent")
@@ -87,20 +97,21 @@ class PostDetailFragment : Fragment() {
         ivBookmark?.setOnClickListener {
             if (postId != -1L) {
                 val service = RetrofitClient.getService().create(PostService::class.java)
-                service.toggleScrap(1L, postId).enqueue(object : Callback<ApiResponse<String>> {
-                    override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        val response = service.toggleScrap(1L, postId)
                         if (response.isSuccessful) {
-                            val message = response.body()?.result
-                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-
-                            isBookmarked = (message == "스크랩 성공")
-                            ivBookmark.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+                            response.body()?.let { baseResponse ->
+                                val message = baseResponse.result.toString()
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                isBookmarked = (message == "스크랩 성공")
+                                ivBookmark.setImageResource(if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+                            }
                         }
+                    } catch (e: Exception) {
+                        Log.e("API_ERROR", "스크랩 요청 실패: ${e.message}")
                     }
-                    override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
-                        Log.e("API_ERROR", "스크랩 요청 실패: ${t.message}")
-                    }
-                })
+                }
             }
         }
     }

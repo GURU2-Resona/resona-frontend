@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.resona.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.share.WebSharerClient
 import com.kakao.sdk.template.model.*
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -85,7 +88,8 @@ class PostDetailShareFragment : Fragment() {
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "카카오톡이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+                val sharerUrl = WebSharerClient.instance.makeDefaultUrl(defaultFeed)
+                KakaoCustomTabsClient.openWithDefault(requireContext(), sharerUrl)
             }
         }
     }

@@ -61,7 +61,7 @@ class PostWriteFragment : Fragment() {
                             }
                         })
                     } else {
-                        Toast.makeText(context, "검색 결과를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "검색 결과를 찾을 수 없습니다. ", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

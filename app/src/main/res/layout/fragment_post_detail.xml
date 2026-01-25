@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="23dp"
-                android:text="제목: 등교하는 중에 들은 노래"
+                android:text="제목: 등교하는 중 들은 노래"
                 android:textColor="#FCFCFC"
                 android:textSize="20sp"
                 android:fontFamily="@font/font"

@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui
 
 import android.graphics.Color
 import android.os.Bundle
@@ -11,6 +11,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.resona.R
+import com.example.resona.data.remote.model.PostCreateRequest
+import com.example.resona.data.remote.model.PostCreateResponse
+import com.example.resona.data.remote.api.ApiResponse
+import com.example.resona.data.remote.api.PostService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,21 +84,20 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
-
         etCategoryDirect.addTextChangedListener(textWatcher)
         etSceneDirect.addTextChangedListener(textWatcher)
 
         nextButton.setOnClickListener {
             val categoryRequest = if (etCategoryDirect.text.isNotEmpty()) {
-                PostCreateRequest.TagRequest(name = etCategoryDirect.text.toString())
+                PostCreateRequest.TagRequest(id = null, name = etCategoryDirect.text.toString())
             } else {
-                PostCreateRequest.TagRequest(id = 1L)
+                PostCreateRequest.TagRequest(id = 1L, name = null)
             }
 
             val sceneRequest = if (etSceneDirect.text.isNotEmpty()) {
-                PostCreateRequest.TagRequest(name = etSceneDirect.text.toString())
+                PostCreateRequest.TagRequest(id = null, name = etSceneDirect.text.toString())
             } else {
-                PostCreateRequest.TagRequest(id = 1L)
+                PostCreateRequest.TagRequest(id = 1L, name = null)
             }
 
             val requestBody = PostCreateRequest(
@@ -107,21 +111,9 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
                 scene = sceneRequest
             )
 
-            val service = RetrofitClient.getService().create(PostService::class.java)
-            service.createPost(userId = 1L, requestBody).enqueue(object : Callback<ApiResponse<PostCreateResponse>> {
-                override fun onResponse(call: Call<ApiResponse<PostCreateResponse>>, response: Response<ApiResponse<PostCreateResponse>>) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(context, "추천글 등록 완료", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.navigation_home)
-                    } else {
-                        Toast.makeText(context, "저장 실패", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse<PostCreateResponse>>, t: Throwable) {
-                    Log.e("API", t.message.toString())
-                }
-            })
+            Log.d("API_DEBUG", "RequestBody: $requestBody")
+            Toast.makeText(context, "추천글 등록 시도", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.navigation_home)
         }
     }
 
