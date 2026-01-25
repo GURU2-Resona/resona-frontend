@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -50,6 +54,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
+    implementation("com.kakao.sdk:v2-common:2.20.6")
+    implementation("com.kakao.sdk:v2-user:2.20.6")
+    implementation("com.kakao.sdk:v2-share:2.20.6")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,6 +1,7 @@
 package com.example.resona
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.template.model.*
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -39,6 +42,7 @@ class PostDetailShareFragment : Fragment() {
         val content = arguments?.getString("finalContent")
         val tags = arguments?.getString("finalTag")
         val videoId = arguments?.getString("videoId")
+        val postId = arguments?.getLong("postId") ?: -1L
 
         tvTitle?.text = title ?: "제목 없음"
         tvMainText?.text = content ?: "내용 없음"
@@ -57,7 +61,32 @@ class PostDetailShareFragment : Fragment() {
         }
 
         ivShare?.setOnClickListener {
-            Toast.makeText(requireContext(), "공유하기 기능을 준비 중입니다.", Toast.LENGTH_SHORT).show()
+            val defaultFeed = FeedTemplate(
+                content = Content(
+                    title = title ?: "Resona 음악 추천",
+                    description = content ?: "서로의 주파수가 음악이 될 때, Resona",
+                    imageUrl = "https://img.youtube.com/vi/$videoId/0.jpg",
+                    link = Link(
+                        mobileWebUrl = "https://play.google.com/store",
+                        androidExecutionParams = mapOf("postId" to postId.toString())
+                    )
+                ),
+                buttons = listOf(
+                    Button("앱에서 보기", Link(androidExecutionParams = mapOf("postId" to postId.toString())))
+                )
+            )
+
+            if (ShareClient.instance.isKakaoTalkSharingAvailable(requireContext())) {
+                ShareClient.instance.shareDefault(requireContext(), defaultFeed) { sharingResult, error ->
+                    if (error != null) {
+                        Log.e("KAKAO_SHARE", "공유 실패", error)
+                    } else if (sharingResult != null) {
+                        startActivity(sharingResult.intent)
+                    }
+                }
+            } else {
+                Toast.makeText(requireContext(), "카카오톡이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
