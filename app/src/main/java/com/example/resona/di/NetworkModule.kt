@@ -1,6 +1,7 @@
 package com.example.resona.di
 
 import com.example.resona.BuildConfig
+import com.example.resona.data.remote.api.AuthApiService
 import com.example.resona.data.remote.api.ResonaApiService
 import dagger.Module
 import dagger.Provides
@@ -57,4 +58,11 @@ object NetworkModule {
     fun provideApiService(retrofit: Retrofit): ResonaApiService {
         return retrofit.create(ResonaApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
+    }
+
 }
