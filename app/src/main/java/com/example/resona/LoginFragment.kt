@@ -41,7 +41,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun handleLoginResult(token: OAuthToken?, error: Throwable?) {
-        if (token != null) {
+        if (error != null) {
+            Log.e("KakaoLogin", "카카오 로그인 실패", error)
+        } else if (token != null) {
             findNavController().navigate(R.id.navigation_login_loading)
             Log.d("KakaoToken", "카카오 액세스 토큰: ${token.accessToken}")
             viewModel.loginWithKakao(token.accessToken)

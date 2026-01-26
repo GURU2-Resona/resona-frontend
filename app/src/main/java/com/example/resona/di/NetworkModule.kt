@@ -1,13 +1,17 @@
 package com.example.resona.di
 
 import com.example.resona.BuildConfig
+import com.example.resona.data.local.TokenManager // TokenManager 위치에 맞춰 수정
 import com.example.resona.data.remote.api.AuthApiService
+import com.example.resona.data.remote.api.PostApiService
 import com.example.resona.data.remote.api.ResonaApiService
-import com.example.resona.data.utils.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,14 +35,40 @@ object NetworkModule {
         }
     }
 
+    // NetworkModule.kt
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(tokenManager: TokenManager): Interceptor {
+        return Interceptor { chain ->
+            val originalRequest = chain.request()
+            val path = originalRequest.url.encodedPath
+
+            // 인증이 필요 없는 경로는 헤더 없이 진행
+            if (path.contains("members/login/kakao")) {
+                return@Interceptor chain.proceed(originalRequest)
+            }
+
+            // 그 외의 요청에는 토큰 추가
+            val accessToken = runBlocking {
+                tokenManager.accessToken.first()
+            }
+
+            val request = originalRequest.newBuilder().apply {
+                accessToken?.let {
+                    addHeader("Authorization", "Bearer $it")
+                }
+            }.build()
+
+            chain.proceed(request)
+        }
+    }
+
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -58,14 +88,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ResonaApiService {
-        return retrofit.create(ResonaApiService::class.java)
-    }
+    fun provideApiService(retrofit: Retrofit): ResonaApiService =
+        retrofit.create(ResonaApiService::class.java)
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
-        return retrofit.create(AuthApiService::class.java)
-    }
+    fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
+        retrofit.create(AuthApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun providePostApiService(retrofit: Retrofit): PostApiService =
+        retrofit.create(PostApiService::class.java)
 }

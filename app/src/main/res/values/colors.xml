@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="nav_bg">#3A3F46</color>
+    <color name="nav_selected">#FCFCFC</color>
+    <color name="nav_unselected">#7C8792</color>
+
 
     <color name="neutral_100">#28292F</color>
     <color name="neutral_200">#3A3F46</color>

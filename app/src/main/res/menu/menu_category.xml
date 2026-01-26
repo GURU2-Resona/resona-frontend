@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/cat_all" android:title="전체" />
+    <item android:id="@+id/cat_romance" android:title="사랑/설렘" />
+    <item android:id="@+id/cat_farewell" android:title="이별/슬픔" />
+    <item android:id="@+id/cat_comfort" android:title="위로/응원" />
+    <item android:id="@+id/cat_energy" android:title="신남/에너지" />
+    <item android:id="@+id/cat_longing" android:title="그리움/추억" />
+    <item android:id="@+id/cat_relax" android:title="일상/여유" />
+    <item android:id="@+id/cat_other" android:title="기타" />
+</menu>
