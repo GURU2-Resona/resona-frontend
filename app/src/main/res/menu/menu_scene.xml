@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/scene_all" android:title="전체" />
+    <item android:id="@+id/scene_commute" android:title="출퇴근길" />
+    <item android:id="@+id/scene_rain" android:title="비오는 날" />
+    <item android:id="@+id/scene_dawn" android:title="새벽 감성" />
+    <item android:id="@+id/scene_travel" android:title="산책/여행" />
+    <item android:id="@+id/scene_focus" android:title="집중/작업" />
+    <item android:id="@+id/scene_exercise" android:title="운동/활동" />
+    <item android:id="@+id/scene_other" android:title="기타" />
+</menu>
