@@ -1,4 +1,4 @@
-package com.example.resona.data.dto
+package com.example.resona.data.remote.model
 
 data class OnboardingResponse (
     val title: String,

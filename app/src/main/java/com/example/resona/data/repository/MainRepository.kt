@@ -1,10 +1,11 @@
 package com.example.resona.data.repository
 
 import android.net.http.HttpException
-import com.example.resona.data.dto.CategoryRequest
-import com.example.resona.data.dto.NicknameRequest
-import com.example.resona.data.dto.OnboardingResponse
-import com.example.resona.data.dto.ProfileImageResponse
+import android.util.Log
+import com.example.resona.data.remote.model.CategoryRequest
+import com.example.resona.data.remote.model.NicknameRequest
+import com.example.resona.data.remote.model.OnboardingResponse
+import com.example.resona.data.remote.model.ProfileImageResponse
 import com.example.resona.data.remote.api.ResonaApiService
 import com.example.resona.data.remote.model.ApiResult
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ class MainRepository @Inject constructor(
 
             if (response.isSuccessful) {
                 val body = response.body()
-
+                Log.d("ProfileImage", "Response: $response")
                 if (body != null && body.isSuccess && body.result != null) {
                     ApiResult.Success(body.result)
                 } else {

@@ -1,9 +1,9 @@
 package com.example.resona.data.remote.api
 
-import com.example.resona.data.dto.CategoryRequest
-import com.example.resona.data.dto.NicknameRequest
-import com.example.resona.data.dto.OnboardingResponse
-import com.example.resona.data.dto.ProfileImageResponse
+import com.example.resona.data.remote.model.CategoryRequest
+import com.example.resona.data.remote.model.NicknameRequest
+import com.example.resona.data.remote.model.OnboardingResponse
+import com.example.resona.data.remote.model.ProfileImageResponse
 import com.example.resona.data.remote.model.BaseResponse
 import retrofit2.Response
 import retrofit2.http.Body

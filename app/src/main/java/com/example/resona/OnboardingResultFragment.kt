@@ -47,13 +47,15 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
                                     binding.skeletonNickname.visibility = View.INVISIBLE
                                     binding.tvNickname.text = "${r.data} 님을 위한 노래입니다"
                                 }
-
                                 is ApiResult.Error -> {
                                     Toast.makeText(
                                         requireContext(),
                                         r.exception.message ?: "닉네임을 불러올 수 없습니다.",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                }
+                                is ApiResult.Loading -> {
+                                    binding.skeletonNickname.visibility = View.VISIBLE
                                 }
                             }
                         }
@@ -69,42 +71,44 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
                         val data = result.data
                         binding.skeletonTitle.visibility = View.INVISIBLE
                         binding.skeletonArtist.visibility = View.INVISIBLE
+                        binding.skeletonThumbnail.visibility = View.INVISIBLE
                         binding.tvSongTitle.text = data.title
                         binding.tvArtist.text = data.artist
 
-                        if (data.youtubeUrl.equals("적합한 링크를 찾지 못했습니다.")){
-                            Toast.makeText(
-                                requireContext(),
-                                 "음악 추천 실패",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        if (data.youtubeUrl == "적합한 링크를 찾지 못했습니다.") {
+                            Toast.makeText(requireContext(), "음악 추천 실패", Toast.LENGTH_SHORT).show()
+                        } else {
+                            youtubeVideoId = data.youtubeUrl.split("=")[1]
+                            val thumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
+                            Glide.with(this)
+                                .load(thumbnailUrl)
+                                .placeholder(R.color.neutral_400)
+                                .into(binding.ivThumbnail)
 
-                        youtubeVideoId = data.youtubeUrl.split("=")[1]
-                        Log.d("youtube", youtubeVideoId.toString())
-
-                        binding.skeletonThumbnail.visibility = View.INVISIBLE
-                        val thumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
-                        Glide.with(this)
-                            .load(thumbnailUrl)
-                            .placeholder(R.color.neutral_400)
-                            .into(binding.ivThumbnail)
-
-                        binding.ivThumbnail.setOnClickListener {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                "https://www.youtube.com/watch?v=$youtubeVideoId".toUri()
-                            )
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
+                            binding.ivThumbnail.setOnClickListener {
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    "https://www.youtube.com/watch?v=$youtubeVideoId".toUri()
+                                )
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                            }
                         }
                     }
+
                     is ApiResult.Error -> {
                         Toast.makeText(
                             requireContext(),
                             result.exception.message ?: "음악 추천 실패",
                             Toast.LENGTH_SHORT
                         ).show()
+                    }
+
+                    is ApiResult.Loading -> {
+                        // Loading일 때 스켈레톤 보이게
+                        binding.skeletonTitle.visibility = View.VISIBLE
+                        binding.skeletonArtist.visibility = View.VISIBLE
+                        binding.skeletonThumbnail.visibility = View.VISIBLE
                     }
                 }
             }

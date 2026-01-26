@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.resona.data.dto.CategoryRequest
-import com.example.resona.data.dto.OnboardingResponse
+import com.example.resona.data.remote.model.CategoryRequest
+import com.example.resona.data.remote.model.OnboardingResponse
 import com.example.resona.data.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
