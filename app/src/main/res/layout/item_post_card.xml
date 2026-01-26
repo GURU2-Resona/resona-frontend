@@ -9,21 +9,17 @@
     android:background="@drawable/bg_post_card"
     android:minHeight="80dp">
 
-    <TextView
-        android:id="@+id/tv_profile_icon"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/bg_circle_primary"
-        android:gravity="center"
-        android:text="A"
-        android:textColor="@color/neutral_900"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:scaleType="centerCrop"
+        android:background="@color/neutral_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Resona.Circle" />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,7 +29,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/iv_thumbnail"
-        app:layout_constraintStart_toEndOf="@id/tv_profile_icon"
+        app:layout_constraintStart_toEndOf="@id/iv_profile"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -71,6 +67,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Resona.RightRounded"
-        app:tint="@color/neutral_600" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Resona.RightRounded" />
 </androidx.constraintlayout.widget.ConstraintLayout>

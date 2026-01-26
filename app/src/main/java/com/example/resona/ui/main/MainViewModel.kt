@@ -36,6 +36,8 @@ class MainViewModel @Inject constructor(
                         error = result.exception.message ?: "Unknown error"
                     )
                 }
+
+                else -> {}
             }
         }
     }

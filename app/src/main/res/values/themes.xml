@@ -3,48 +3,48 @@
     </style>
 
     <style name="TextAppearance.Resona" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:fontFamily">@font/font</item>
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
     <style name="TextAppearance.Resona.Head" parent="TextAppearance.Resona">
         <item name="android:textSize">24sp</item>
-        <item name="lineHeight">33.6sp</item> <item name="android:textFontWeight">400</item>
+        <item name="lineHeight">33.6sp</item>
     </style>
-    <style name="TextAppearance.Resona.Head.Bold">
-        <item name="android:textFontWeight">700</item>
+    <style name="TextAppearance.Resona.Head.Bold" parent="TextAppearance.Resona.Head">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="TextAppearance.Resona.Title" parent="TextAppearance.Resona">
         <item name="android:textSize">20sp</item>
-        <item name="lineHeight">28sp</item> <item name="android:textFontWeight">400</item>
+        <item name="lineHeight">28sp</item>
     </style>
-    <style name="TextAppearance.Resona.Title.SemiBold">
-        <item name="android:textFontWeight">600</item>
+    <style name="TextAppearance.Resona.Title.SemiBold" parent="TextAppearance.Resona.Title">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
     </style>
 
     <style name="TextAppearance.Resona.Body1" parent="TextAppearance.Resona">
         <item name="android:textSize">16sp</item>
-        <item name="lineHeight">22.4sp</item> <item name="android:textFontWeight">400</item>
+        <item name="lineHeight">22.4sp</item>
     </style>
-    <style name="TextAppearance.Resona.Body1.Bold">
-        <item name="android:textFontWeight">700</item>
+    <style name="TextAppearance.Resona.Body1.Bold" parent="TextAppearance.Resona.Body1">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="TextAppearance.Resona.Body2" parent="TextAppearance.Resona">
         <item name="android:textSize">14sp</item>
-        <item name="lineHeight">19.6sp</item> <item name="android:textFontWeight">400</item>
+        <item name="lineHeight">19.6sp</item>
     </style>
-    <style name="TextAppearance.Resona.Body2.Bold">
-        <item name="android:textFontWeight">700</item>
+    <style name="TextAppearance.Resona.Body2.Bold" parent="TextAppearance.Resona.Body2">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="TextAppearance.Resona.Caption" parent="TextAppearance.Resona">
         <item name="android:textSize">12sp</item>
-        <item name="lineHeight">16.8sp</item> <item name="android:textFontWeight">400</item>
+        <item name="lineHeight">16.8sp</item>
     </style>
-    <style name="TextAppearance.Resona.Caption.Bold">
-        <item name="android:textFontWeight">700</item>
+    <style name="TextAppearance.Resona.Caption.Bold" parent="TextAppearance.Resona.Caption">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="CustomButtonStyle">
@@ -55,4 +55,8 @@
         <item name="android:background">@drawable/bg_recommend_btn_select</item>
     </style>
 
+    <style name="ShapeAppearance.Resona.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

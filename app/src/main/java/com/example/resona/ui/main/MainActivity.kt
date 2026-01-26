@@ -1,6 +1,9 @@
 package com.example.resona.ui.main
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,12 +12,17 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.resona.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 해시키를 확인하기 위해 함수 호출
+        getHashKey()
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -46,6 +54,21 @@ class MainActivity : AppCompatActivity() {
                     bottomNav.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+
+    // 해시키 추출 함수
+    private fun getHashKey() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures!!) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val keyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT)
+                Log.d("KeyHash", "해시키: $keyHash")
+            }
+        } catch (e: Exception) {
+            Log.e("KeyHash", "해시키를 찾을 수 없습니다.", e)
         }
     }
 
