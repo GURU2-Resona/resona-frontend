@@ -1,6 +1,7 @@
 package com.example.resona
 
 import android.util.Log
+import android.text.Html
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -33,7 +34,11 @@ object YoutubeSearchManager {
                     val snippet = item.getJSONObject("snippet")
                     val thumbnails = snippet.getJSONObject("thumbnails")
 
-                    // 고화질 썸네일 선택 (maxres > standard > high > medium > default)
+                    // 1. HTML 디코딩 적용: &quot;, &amp; 등을 실제 문자로 변환
+                    val rawTitle = snippet.getString("title")
+                    val decodedTitle = Html.fromHtml(rawTitle, Html.FROM_HTML_MODE_LEGACY).toString()
+
+                    // 2. 고화질 썸네일 선택 로직
                     val thumbnailUrl = when {
                         thumbnails.has("maxres") -> thumbnails.getJSONObject("maxres").getString("url")
                         thumbnails.has("standard") -> thumbnails.getJSONObject("standard").getString("url")
@@ -44,14 +49,14 @@ object YoutubeSearchManager {
 
                     videoList.add(YoutubeVideo(
                         videoId = idObj.getString("videoId"),
-                        title = snippet.getString("title"),
+                        title = decodedTitle,
                         thumbnailUrl = thumbnailUrl,
                         channelTitle = snippet.getString("channelTitle")
                     ))
                 }
             }
         } catch (e: Exception) {
-            Log.e("YoutubeError", "${e.message}")
+            Log.e("YoutubeError", "검색 실패: ${e.message}")
         }
         return@withContext videoList
     }

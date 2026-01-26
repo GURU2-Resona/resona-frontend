@@ -27,6 +27,26 @@
     <string name="onboarding_scene_button6">운동/활동</string>
 
     <!-- loading -->
+    <!-- post -->
+    <string name="post_category_question">Q. 어떤 카테고리의 노래인가요?</string>
+    <string name="post_scene_question">Q. 어떤 상황에 들으셨나요?</string>
+
+    <!-- category -->
+    <string name="song_category_button1">사랑/설렘</string>
+    <string name="song_category_button2">이별/슬픔</string>
+    <string name="song_category_button3">위로/응원</string>
+    <string name="song_category_button4">신남/에너지</string>
+    <string name="song_category_button5">그리움/추억</string>
+    <string name="song_category_button6">일상/여유</string>
+
+    <!-- scene -->
+    <string name="song_scene_button1">출퇴근길</string>
+    <string name="song_scene_button2">비오는 날</string>
+    <string name="song_scene_button3">새벽 감성</string>
+    <string name="song_scene_button4">산책/여행</string>
+    <string name="song_scene_button5">집중/작업</string>
+    <string name="song_scene_button6">운동/활동</string>
+  
     <string name="loading_message">로그인 중입니다…</string>
     <string name="loading_onboarding">노래 추천 중...</string>
 
