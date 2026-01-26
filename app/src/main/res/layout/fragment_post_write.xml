@@ -52,6 +52,7 @@
                 android:textColorHint="#626C75"
                 android:textColor="#121212"
                 android:paddingStart="8dp"
+                android:imeOptions="actionSearch"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -59,7 +60,7 @@
             android:id="@+id/fl_write_rectangle_3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="200"
+            android:layout_weight="350"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_write_dark_input">
 
@@ -72,10 +73,10 @@
                 android:src="@drawable/resona_header_logo"
                 app:tint="#626C75" />
 
-            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            <ImageView
                 android:id="@+id/youtube_player_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -145,6 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/bg_write_button"
             android:text="다음"
             android:textColor="#6581FF"

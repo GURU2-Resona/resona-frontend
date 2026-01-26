@@ -104,9 +104,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
 
             val requestBody = PostCreateRequestDto(
                 songTitle = songTitle,
-                singer = singer,
                 songUrl = "https://www.youtube.com/watch?v=$videoId",
-                albumImage = "https://img.youtube.com/vi/$videoId/0.jpg",
                 title = subject,
                 content = content,
                 category = categoryRequest,
