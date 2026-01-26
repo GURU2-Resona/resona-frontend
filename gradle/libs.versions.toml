@@ -13,6 +13,7 @@ constraintlayout = "2.1.4"
 junit = "4.13.2"
 androidxJunit = "1.1.5"
 espresso = "3.5.1"
+datastoreCore = "1.2.0"
 
 [libraries]
 # Core
@@ -37,6 +38,7 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastoreCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

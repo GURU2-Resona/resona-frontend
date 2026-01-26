@@ -81,6 +81,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.datastore.core)
     ksp(libs.hilt.compiler)
 
     // Networking

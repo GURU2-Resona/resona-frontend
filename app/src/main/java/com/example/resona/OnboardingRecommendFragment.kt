@@ -7,13 +7,19 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.resona.data.remote.model.OnboardingViewModel
 import com.example.resona.databinding.FragmentOnboardingRecommendBinding
 import com.example.resona.ui.main.MainActivity
+import kotlin.getValue
 
 class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recommend) {
     private var _binding: FragmentOnboardingRecommendBinding? = null
     private val binding get() = _binding!!
+    private val onboardingViewModel : OnboardingViewModel by activityViewModels()
+    private var selectedCategory: String = ""
+    private var selectedScene: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +46,7 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
         }
 
         binding.btnNext.setOnClickListener {
+            onboardingViewModel.getOnboardingRecommend(selectedCategory,selectedScene)
             findNavController().navigate(R.id.navigation_onboarding_result)
         }
     }
@@ -54,6 +61,7 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
         categoryButtons.forEach { button ->
             button.setOnClickListener {
                 categoryButtons.forEach { it.isSelected = it == button }
+                selectedCategory = button.text.toString()
                 etCategory.text.clear()
                 etCategory.clearFocus()
                 checkNextButton(categoryButtons, etCategory, sceneButtons, etScene)
@@ -64,6 +72,7 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
         sceneButtons.forEach { button ->
             button.setOnClickListener {
                 sceneButtons.forEach { it.isSelected = it == button }
+                selectedScene = button.text.toString()
                 etScene.text.clear()
                 etScene.clearFocus()
                 checkNextButton(categoryButtons, etCategory, sceneButtons, etScene)
