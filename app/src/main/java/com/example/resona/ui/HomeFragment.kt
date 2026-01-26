@@ -73,17 +73,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * 3. 리사이클러뷰 및 어댑터 초기 설정
      */
     private fun setupPreviewList() {
-        // PostResponseDto를 사용하는 새로운 어댑터 연결
-        postAdapter = PostAdapter(emptyList())
-
+        postAdapter = PostAdapter(emptyList()).apply {
+            onItemClick = { post ->
+                val bundle = Bundle().apply {
+                    putLong("postId", post.postId.toLong())
+                }
+                findNavController().navigate(R.id.navigation_post_detail, bundle)
+            }
+        }
         binding.rvHomePreview.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = postAdapter
-            // 홈 화면 스크롤과의 간섭 방지
             isNestedScrollingEnabled = false
         }
     }
-
     /**
      * 4. ViewModel 상태 관찰 및 데이터 필터링
      */
