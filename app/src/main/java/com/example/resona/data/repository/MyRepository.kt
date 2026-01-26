@@ -1,4 +1,3 @@
-// com.example.resona.data.repository.MyRepository.kt
 package com.example.resona.data.repository
 
 import com.example.resona.data.dto.MemberProfileResponseDto

@@ -26,11 +26,9 @@ class OtherProfileFragment : Fragment(R.layout.fragment_mypage) {
 
         val memberId = arguments?.getLong("memberId", -1L) ?: -1L
 
-        // 1. UI 초기 세팅 (내 프로필 전용 버튼 숨기기)
         binding.btnSavedRecommendations.isVisible = false
         binding.btnLogout.isVisible = false
 
-        // 2. 데이터 로드 및 관찰
         if (memberId != -1L) {
             viewModel.loadMemberProfile(memberId)
             observeViewModel(memberId)
@@ -44,7 +42,6 @@ class OtherProfileFragment : Fragment(R.layout.fragment_mypage) {
                     binding.tvNickname.text = profile.nickname
                     binding.btnMyRecommendations.text = "${profile.nickname}님이 쓴 글"
 
-                    // [수정] centerCrop() 추가로 이미지를 영역에 꽉 채움
                     Glide.with(this@OtherProfileFragment)
                         .load(profile.profileImage)
                         .placeholder(R.drawable.ic_placeholder)

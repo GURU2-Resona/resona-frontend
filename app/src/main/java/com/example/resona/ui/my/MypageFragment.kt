@@ -29,7 +29,6 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         val memberId = arguments?.getLong("memberId", -1L) ?: -1L
 
         if (isMyProfile) {
-            // 본인 프로필 - 현재는 하드코딩이지만 나중에 API 추가 가능
             setupMyProfileUI()
         } else {
             // 타인 프로필 - API로 데이터 조회

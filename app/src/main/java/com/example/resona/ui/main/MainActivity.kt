@@ -32,45 +32,36 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
 
-// MainActivity.kt 수정 부분
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             val destinationName = resources.getResourceEntryName(destination.id)
             Log.d("NavDebug", "이동한 화면: $destinationName (ID: ${destination.id})")
 
             when (destination.id) {
-                // 1. 완전히 숨겨야 하는 화면들
                 R.id.navigation_splash,
                 R.id.navigation_login,
                 R.id.navigation_login_loading,
                 R.id.navigation_post_detail,        // 상세 페이지
                 R.id.navigation_post_detail_share,  // 공유 페이지
                 R.id.navigation_other_profile -> {  // 타인 프로필
-                    Log.d("NavDebug", "결과: 탑바/바텀바 모두 숨김")
                     topBar.visibility = View.GONE
                     bottomNav.visibility = View.GONE
                 }
 
-                // 2. 바텀바만 숨겨야 하는 화면들 (온보딩 등)
                 R.id.navigation_onboarding_profile,
                 R.id.navigation_onboarding_recommend,
                 R.id.navigation_onboarding_result -> {
-                    Log.d("NavDebug", "결과: 탑바 표시 / 바텀바 숨김")
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.GONE
                 }
 
-                // 3. 바텀바가 반드시 보여야 하는 메인 화면들
                 R.id.navigation_home,
                 R.id.navigation_post_list,
                 R.id.navigation_mypage -> {
-                    Log.d("NavDebug", "결과: 탑바 표시 / 바텀바 표시")
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.VISIBLE
                 }
 
-                // 4. 그 외 정의되지 않은 모든 화면
                 else -> {
-                    Log.e("NavDebug", "알 수 없는 화면($destinationName) 진입 - 기본값(표시) 적용")
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.VISIBLE
                 }

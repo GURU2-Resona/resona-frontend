@@ -1,7 +1,7 @@
 package com.example.resona.di
 
 import com.example.resona.BuildConfig
-import com.example.resona.data.local.TokenManager // TokenManager 위치에 맞춰 수정
+import com.example.resona.data.local.TokenManager
 import com.example.resona.data.remote.api.AuthApiService
 import com.example.resona.data.remote.api.MyApiService
 import com.example.resona.data.remote.api.PostApiService
