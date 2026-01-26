@@ -42,9 +42,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         if (postType == "other" && targetId != -1L) {
             // 1. 타인 프로필에서 넘어온 경우: 해당 사용자의 게시글만 로드
             viewModel.loadOtherMemberPosts(targetId)
-
-            // 타인 글 목록일 때는 상단 필터바를 숨기거나 비활성화하고 싶다면 여기에 추가 로직 작성 가능
-            // 예: binding.layoutFilterBar.visibility = View.GONE
         } else {
             // 2. 일반적인 경우: 전체 게시글 로드
             viewModel.loadPosts(selectedCategory, selectedScene)
