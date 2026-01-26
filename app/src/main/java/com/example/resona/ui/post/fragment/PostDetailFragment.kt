@@ -27,7 +27,6 @@ class PostDetailFragment : Fragment() {
 
     private var _binding: FragmentPostDetailBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: PostViewModel by viewModels()
     private var postId: Long = -1L
     private var isSaved = false
@@ -39,9 +38,7 @@ class PostDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.GONE
-
         postId = arguments?.getLong("postId") ?: -1L
         if (postId != -1L) loadPostDetail()
     }
@@ -51,11 +48,8 @@ class PostDetailFragment : Fragment() {
             val result = viewModel.repository.getPostDetail(postId)
             if (result is ApiResult.Success) {
                 val data = result.data
-                if (data.isMine) {
-                    navigateToShare(data)
-                } else {
-                    bindDataToUI(data)
-                }
+                if (data.isMine) navigateToShare(data)
+                else bindDataToUI(data)
             }
         }
     }
@@ -112,8 +106,7 @@ class PostDetailFragment : Fragment() {
                 binding.ivSave.setImageResource(
                     if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark
                 )
-                val msg = if (isSaved) "스크랩되었습니다." else "스크랩이 취소되었습니다."
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, result.data, Toast.LENGTH_SHORT).show()
             }
         }
     }

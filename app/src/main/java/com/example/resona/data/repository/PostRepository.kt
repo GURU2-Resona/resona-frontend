@@ -91,7 +91,7 @@ class PostRepository @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let { baseResponse ->
                     if (baseResponse.isSuccess) {
-                        ApiResult.Success(baseResponse.result ?: "스크랩 완료")
+                        ApiResult.Success(baseResponse.result ?: "성공")
                     } else {
                         ApiResult.Error(Exception(baseResponse.message))
                     }
