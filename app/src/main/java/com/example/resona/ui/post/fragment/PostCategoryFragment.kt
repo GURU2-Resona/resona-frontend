@@ -15,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.resona.R
 import com.example.resona.data.dto.PostCreateRequestDto
+import com.example.resona.data.enums.RecommendCategory
+import com.example.resona.data.enums.RecommendScene
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,12 +30,13 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 전달받은 데이터 추출 (singer는 추출하지 않음)
         val subject = arguments?.getString("userSubject") ?: ""
         val content = arguments?.getString("userContent") ?: ""
         val videoId = arguments?.getString("videoId") ?: ""
-        val songTitle = arguments?.getString("songTitle") ?: "Unknown Title"
-        val singer = arguments?.getString("singer") ?: "Unknown Artist"
+        val songTitle = arguments?.getString("songTitle") ?: ""
 
+        // UI 컴포넌트 초기화
         val categoryButtons = listOf(
             view.findViewById<Button>(R.id.btn_category_1),
             view.findViewById<Button>(R.id.btn_category_2),
@@ -53,65 +56,30 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             view.findViewById<Button>(R.id.btn_scene_6)
         )
         val etSceneDirect = view.findViewById<EditText>(R.id.et_scene_direct)
-
         nextButton = view.findViewById(R.id.btn_category_next)
-        nextButton.isEnabled = false
-        nextButton.setTextColor(Color.parseColor("#6581FF"))
 
-        val allButtons = categoryButtons + sceneButtons
+        // 단일 선택 로직 설정
+        setupSelectionLogic(categoryButtons, etCategoryDirect, sceneButtons, etSceneDirect)
 
-        allButtons.forEach { button ->
-            button.setOnClickListener {
-                if (button.isSelected) {
-                    button.isSelected = false
-                } else {
-                    val currentSelectedCount = allButtons.count { it.isSelected }
-                    if (currentSelectedCount < 2) {
-                        button.isSelected = true
-                        etCategoryDirect.text.clear()
-                        etSceneDirect.text.clear()
-                    }
-                }
-                checkNextButton(allButtons, etCategoryDirect, etSceneDirect)
-            }
-        }
-
-        val textWatcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (!s.isNullOrEmpty()) {
-                    allButtons.forEach { it.isSelected = false }
-                }
-                checkNextButton(allButtons, etCategoryDirect, etSceneDirect)
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        }
-        etCategoryDirect.addTextChangedListener(textWatcher)
-        etSceneDirect.addTextChangedListener(textWatcher)
-
+        // 게시글 생성 API 호출
         nextButton.setOnClickListener {
-            val categoryRequest = if (etCategoryDirect.text.isNotEmpty()) {
-                PostCreateRequestDto.TagRequest(id = null, name = etCategoryDirect.text.toString())
-            } else {
-                PostCreateRequestDto.TagRequest(id = 1L, name = null)
-            }
+            val category = if (etCategoryDirect.text.isNotEmpty()) RecommendCategory.OTHER
+            else RecommendCategory.entries[categoryButtons.indexOf(categoryButtons.find { it.isSelected })]
 
-            val sceneRequest = if (etSceneDirect.text.isNotEmpty()) {
-                PostCreateRequestDto.TagRequest(id = null, name = etSceneDirect.text.toString())
-            } else {
-                PostCreateRequestDto.TagRequest(id = 1L, name = null)
-            }
+            val scene = if (etSceneDirect.text.isNotEmpty()) RecommendScene.OTHER
+            else RecommendScene.entries[sceneButtons.indexOf(sceneButtons.find { it.isSelected })]
 
+            // 가수 이름(singer) 필드를 제외한 DTO 생성
             val requestBody = PostCreateRequestDto(
                 songTitle = songTitle,
                 songUrl = "https://www.youtube.com/watch?v=$videoId",
                 title = subject,
                 content = content,
-                category = categoryRequest,
-                scene = sceneRequest
+                category = category,
+                customCategory = if (category == RecommendCategory.OTHER) etCategoryDirect.text.toString() else null,
+                scene = scene,
+                customScene = if (scene == RecommendScene.OTHER) etSceneDirect.text.toString() else null
             )
-
-            Log.d("API_DEBUG", "RequestBody: $requestBody")
 
             viewLifecycleOwner.lifecycleScope.launch {
                 val result = viewModel.repository.createPost(requestBody)
@@ -121,6 +89,8 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
                         findNavController().navigate(R.id.navigation_home)
                     }
                     is ApiResult.Error -> {
+                        // 백엔드에서 singer 필드 제약을 풀기 전까지는 여기서 400 에러가 뜰 수 있습니다.
+                        Log.e("API_ERROR", "등록 실패: ${result.exception.message}")
                         Toast.makeText(context, "등록 실패: ${result.exception.message}", Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
@@ -129,10 +99,30 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
         }
     }
 
-    private fun checkNextButton(allButtons: List<Button>, et1: EditText, et2: EditText) {
-        val selectedCount = allButtons.count { it.isSelected }
-        val directInputCount = (if (et1.text.isNotEmpty()) 1 else 0) + (if (et2.text.isNotEmpty()) 1 else 0)
-        val isActive = (selectedCount + directInputCount == 2)
+    private fun setupSelectionLogic(catBtns: List<Button>, catEt: EditText, sceBtns: List<Button>, sceEt: EditText) {
+        catBtns.forEach { btn ->
+            btn.setOnClickListener {
+                catBtns.forEach { it.isSelected = false }; catEt.text.clear(); btn.isSelected = true
+                checkNextButtonState(catBtns, catEt, sceBtns, sceEt)
+            }
+        }
+        sceBtns.forEach { btn ->
+            btn.setOnClickListener {
+                sceBtns.forEach { it.isSelected = false }; sceEt.text.clear(); btn.isSelected = true
+                checkNextButtonState(catBtns, catEt, sceBtns, sceEt)
+            }
+        }
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) { checkNextButtonState(catBtns, catEt, sceBtns, sceEt) }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        catEt.addTextChangedListener(watcher); sceEt.addTextChangedListener(watcher)
+    }
+
+    private fun checkNextButtonState(catBtns: List<Button>, catEt: EditText, sceBtns: List<Button>, sceEt: EditText) {
+        val isActive = (catBtns.any { it.isSelected } || catEt.text.isNotEmpty()) &&
+                (sceBtns.any { it.isSelected } || sceEt.text.isNotEmpty())
         nextButton.isEnabled = isActive
         nextButton.setTextColor(if (isActive) Color.WHITE else Color.parseColor("#6581FF"))
     }

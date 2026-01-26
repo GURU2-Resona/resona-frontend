@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button1"
+                android:text="@string/song_category_button1"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button2"
+                android:text="@string/song_category_button2"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -57,7 +57,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button3"
+                android:text="@string/song_category_button3"
                 android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button4"
+                android:text="@string/song_category_button4"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button5"
+                android:text="@string/song_category_button5"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -94,7 +94,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_category_button6"
+                android:text="@string/song_category_button6"
                 android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button1"
+                android:text="@string/song_scene_button1"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -145,7 +145,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button2"
+                android:text="@string/song_scene_button2"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -154,7 +154,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button3"
+                android:text="@string/song_scene_button3"
                 android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
@@ -172,7 +172,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button4"
+                android:text="@string/song_scene_button4"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -182,7 +182,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button5"
+                android:text="@string/song_scene_button5"
                 android:textColor="@color/neutral_900"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -191,7 +191,7 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_recommend_btn_select"
-                android:text="@string/onboarding_scene_button6"
+                android:text="@string/song_scene_button6"
                 android:textColor="@color/neutral_900"/>
         </LinearLayout>
 
