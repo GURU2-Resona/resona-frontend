@@ -1,4 +1,4 @@
-package com.example.resona.ui
+package com.example.resona.ui.post.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,8 @@ import com.example.resona.R
 import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.databinding.FragmentPostListBinding
-import com.example.resona.ui.post.PostViewModel
+import com.example.resona.ui.post.viewmodel.PostViewModel
+import com.example.resona.ui.post.adapter.PostAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -72,7 +73,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
                 binding.tvCategoryLabel.text = selectedLabel
 
                 // 한글 라벨을 기반으로 이넘 객체 찾기
-                selectedCategory = if (selectedLabel == "전체") null else RecommendCategory.fromLabel(selectedLabel)
+                selectedCategory = if (selectedLabel == "전체") null else RecommendCategory.Companion.fromLabel(selectedLabel)
 
                 updateList()
             }
@@ -85,7 +86,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
                 binding.tvSituationLabel.text = selectedLabel
 
                 // 한글 라벨을 기반으로 이넘 객체 찾기
-                selectedScene = if (selectedLabel == "전체") null else RecommendScene.fromLabel(selectedLabel)
+                selectedScene = if (selectedLabel == "전체") null else RecommendScene.Companion.fromLabel(selectedLabel)
 
                 updateList()
             }

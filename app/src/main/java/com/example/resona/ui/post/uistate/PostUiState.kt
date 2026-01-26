@@ -1,4 +1,4 @@
-package com.example.resona.ui.post
+package com.example.resona.ui.post.uistate
 
 import com.example.resona.data.dto.PostResponseDto
 
