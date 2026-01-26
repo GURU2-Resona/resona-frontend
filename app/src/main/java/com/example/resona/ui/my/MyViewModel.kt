@@ -19,6 +19,21 @@ class MyViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MyUiState())
     val uiState: StateFlow<MyUiState> = _uiState.asStateFlow()
 
+    fun loadMyProfile() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            when (val result = repository.getMyProfile()) {
+                is ApiResult.Success -> {
+                    _uiState.value = MyUiState(profile = result.data)
+                }
+                is ApiResult.Error -> {
+                    _uiState.value = MyUiState(error = result.exception.message)
+                }
+                else -> Unit
+            }
+        }
+    }
+
     fun loadMemberProfile(memberId: Long) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
