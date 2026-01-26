@@ -61,10 +61,33 @@
 
     <fragment
         android:id="@+id/navigation_mypage"
-        android:name="com.example.resona.ui.MypageFragment"
+        android:name="com.example.resona.ui.my.MypageFragment"
         android:label="마이페이지">
+        <argument
+            android:name="isMyProfile"
+            app:argType="boolean"
+            android:defaultValue="true" />
+        <argument
+            android:name="nickname"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_to_postList"
+            app:destination="@id/navigation_post_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_other_profile"
+        android:name="com.example.resona.ui.my.OtherProfileFragment"
+        android:label="타인 프로필">
+
+        <argument
+            android:name="memberId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_otherProfile_to_postList"
             app:destination="@id/navigation_post_list" />
     </fragment>
 
@@ -82,11 +105,16 @@
         android:name="com.example.resona.ui.post.fragment.PostDetailFragment"
         android:label="추천글 상세">
         <argument android:name="postId" app:argType="long" />
+
         <action
             android:id="@+id/action_postDetail_to_postDetailShare"
             app:destination="@id/navigation_post_detail_share"
             app:popUpTo="@id/navigation_post_detail"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_postDetail_to_otherProfile"
+            app:destination="@id/navigation_other_profile" />
     </fragment>
 
     <fragment
