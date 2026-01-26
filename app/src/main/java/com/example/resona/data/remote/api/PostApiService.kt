@@ -35,7 +35,7 @@ interface PostApiService {
         @Path("postId") postId: Long
     ): Response<BaseResponse<PostDetailResponseDto>>
 
-    // 스크랩 토글
+    // 스크랩
     @POST("posts/{postId}/scrap")
     suspend fun toggleScrap(
         @Path("postId") postId: Long
