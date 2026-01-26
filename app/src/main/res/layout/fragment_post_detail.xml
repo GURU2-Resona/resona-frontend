@@ -41,16 +41,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
-                <View
-                    android:id="@+id/view_profile_bg"
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/shape_circle_primary" />
+                    android:scaleType="centerCrop"
+                    android:background="@color/neutral_200"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Resona.Circle" />
                 <TextView
                     android:id="@+id/tv_detail_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/view_profile_bg"
+                    android:layout_toEndOf="@id/iv_profile"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="14dp"
                     android:text="닉네임"
