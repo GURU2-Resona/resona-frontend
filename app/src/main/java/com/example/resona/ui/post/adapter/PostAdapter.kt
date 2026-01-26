@@ -13,6 +13,9 @@ class PostAdapter(
     private var items: List<PostResponseDto>
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
+    // 클릭 리스너 콜백 추가
+    var onItemClick: ((PostResponseDto) -> Unit)? = null
+
     class PostViewHolder(val binding: ItemPostCardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -26,7 +29,7 @@ class PostAdapter(
             tvTitle.text = item.title
             tvSubhead.text = item.songTitle
 
-            // 좌측 프로필 이미지 로드
+            // 프로필 이미지 (플레이스홀더 추가)
             Glide.with(ivProfile.context)
                 .load(item.writerProfileImage)
                 .placeholder(R.drawable.ic_placeholder)
@@ -34,19 +37,20 @@ class PostAdapter(
                 .circleCrop()
                 .into(ivProfile)
 
-            // 우측 유튜브 썸네일 추출 및 로드
-            val videoId = extractVideoId(item.albumImage)
-            val imageUrl = if (videoId != null) {
-                "https://img.youtube.com/vi/$videoId/maxresdefault.jpg"
-            } else {
-                item.albumImage
-            }
+            // 유튜브 썸네일
+            val videoId = extractVideoId(item.songUrl)
+            val imageUrl = if (videoId != null) "https://img.youtube.com/vi/$videoId/maxresdefault.jpg" else item.songUrl
 
             Glide.with(ivThumbnail.context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_thumnail_placeholder)
                 .centerCrop()
                 .into(ivThumbnail)
+
+            // 아이템 클릭 시 콜백 호출
+            root.setOnClickListener {
+                onItemClick?.invoke(item)
+            }
         }
     }
 
@@ -60,8 +64,7 @@ class PostAdapter(
     private fun extractVideoId(url: String?): String? {
         if (url.isNullOrEmpty()) return null
         val pattern = "(?<=watch\\?v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%202F|youtu.be%2F|%2Fv%2F)[^#&?\\n]*"
-        val compiledPattern = Pattern.compile(pattern)
-        val matcher = compiledPattern.matcher(url)
+        val matcher = Pattern.compile(pattern).matcher(url)
         return if (matcher.find()) matcher.group() else null
     }
 }

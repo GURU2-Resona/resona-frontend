@@ -77,4 +77,27 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_post_detail"
+        android:name="com.example.resona.ui.post.fragment.PostDetailFragment"
+        android:label="추천글 상세">
+        <argument android:name="postId" app:argType="long" />
+        <action
+            android:id="@+id/action_postDetail_to_postDetailShare"
+            app:destination="@id/navigation_post_detail_share"
+            app:popUpTo="@id/navigation_post_detail"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_detail_share"
+        android:name="com.example.resona.ui.post.fragment.PostDetailShareFragment"
+        android:label="추천글 공유">
+        <argument android:name="postId" app:argType="long" />
+        <argument android:name="finalSubject" app:argType="string" />
+        <argument android:name="finalContent" app:argType="string" />
+        <argument android:name="finalTag" app:argType="string" />
+        <argument android:name="videoId" app:argType="string" />
+    </fragment>
+
 </navigation>

@@ -41,16 +41,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
-                <View
-                    android:id="@+id/view_profile_bg"
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/shape_circle_primary" />
+                    android:scaleType="centerCrop"
+                    android:background="@color/neutral_200"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Resona.Circle" />
                 <TextView
                     android:id="@+id/tv_detail_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/view_profile_bg"
+                    android:layout_toEndOf="@id/iv_profile"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="14dp"
                     android:text="닉네임"
@@ -59,7 +65,7 @@
                     android:fontFamily="@font/font"
                     android:textStyle="bold" />
                 <ImageView
-                    android:id="@+id/iv_detail_bookmark"
+                    android:id="@+id/iv_save"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -68,23 +74,10 @@
                     app:tint="#6581FF" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_detail_song_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
-                android:text="제목: 등교하는 중 들은 노래"
-                android:textColor="#FCFCFC"
-                android:textSize="20sp"
-                android:fontFamily="@font/font"
-                android:textStyle="bold"
-                android:letterSpacing="-0.02" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_album_art"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="200"
+                android:layout_height="220dp"
                 android:layout_marginTop="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp">
@@ -96,14 +89,22 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher_background" />
 
-                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                    android:id="@+id/detail_youtube_player"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    app:enableAutomaticInitialization="true"
-                    app:handleNetworkEvents="true" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_height="100dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/bg_thumbnail_scrim" />
+
+                <TextView
+                    android:id="@+id/tv_detail_song_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"  android:layout_marginStart="16dp"      android:layout_marginBottom="16dp"    android:text="제목: 등교하는 중 들은 노래"
+                    android:textColor="#FCFCFC"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/font"
+                    android:textStyle="bold"
+                    android:elevation="2dp" /> </androidx.cardview.widget.CardView>
 
             <RelativeLayout
                 android:id="@+id/layout_content_box"
