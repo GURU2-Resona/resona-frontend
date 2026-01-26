@@ -2,6 +2,7 @@ package com.example.resona.ui.post.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.resona.data.dto.PostResponseDto
 import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.data.remote.model.ApiResult
@@ -31,6 +32,25 @@ class PostViewModel @Inject constructor(
                 }
                 is ApiResult.Error -> {
                     _uiState.value = PostUiState(error = result.exception.message)
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    fun loadOtherMemberPosts(
+        writerId: Long,
+        category: RecommendCategory? = null,
+        scene: RecommendScene? = null
+    ) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            when (val result = repository.fetchOtherMemberPosts(writerId, category, scene)) {
+                is ApiResult.Success -> {
+                    _uiState.value = PostUiState(posts = result.data)
+                }
+                is ApiResult.Error -> {
+                    _uiState.value = _uiState.value.copy(isLoading = false, error = result.exception.message)
                 }
                 else -> Unit
             }

@@ -35,7 +35,20 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         observeViewModel()
         setupFilterListeners()
 
-        viewModel.loadPosts()
+        // [추가] 전달받은 인자값에 따른 데이터 로드 분기
+        val postType = arguments?.getString("postType")
+        val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
+
+        if (postType == "other" && targetId != -1L) {
+            // 1. 타인 프로필에서 넘어온 경우: 해당 사용자의 게시글만 로드
+            viewModel.loadOtherMemberPosts(targetId)
+
+            // 타인 글 목록일 때는 상단 필터바를 숨기거나 비활성화하고 싶다면 여기에 추가 로직 작성 가능
+            // 예: binding.layoutFilterBar.visibility = View.GONE
+        } else {
+            // 2. 일반적인 경우: 전체 게시글 로드
+            viewModel.loadPosts(selectedCategory, selectedScene)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -53,6 +66,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { state ->
+                // API 결과(state.posts)가 어댑터에 전달됨
                 postAdapter.updateData(state.posts)
             }
         }
@@ -87,7 +101,15 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     }
 
     private fun updateList() {
-        viewModel.loadPosts(selectedCategory, selectedScene)
+        val postType = arguments?.getString("postType")
+        val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
+
+        if (postType == "other" && targetId != -1L) {
+            viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+        } else {
+            // 일반 게시글 목록 조회
+            viewModel.loadPosts(selectedCategory, selectedScene)
+        }
     }
 
     override fun onDestroyView() {
