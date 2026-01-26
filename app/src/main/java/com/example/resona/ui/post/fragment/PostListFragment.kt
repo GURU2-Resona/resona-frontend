@@ -35,16 +35,22 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         observeViewModel()
         setupFilterListeners()
 
-        // [추가] 전달받은 인자값에 따른 데이터 로드 분기
         val postType = arguments?.getString("postType")
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
 
-        if (postType == "other" && targetId != -1L) {
-            // 1. 타인 프로필에서 넘어온 경우: 해당 사용자의 게시글만 로드
-            viewModel.loadOtherMemberPosts(targetId)
-        } else {
-            // 2. 일반적인 경우: 전체 게시글 로드
-            viewModel.loadPosts(selectedCategory, selectedScene)
+        when (postType) {
+            "other" -> {
+                // 타인 프로필에서 넘어온 경우
+                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            }
+            "saved" -> {
+                // 마이페이지 -> 저장한 글 조회인 경우
+                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            }
+            else -> {
+                // 일반적인 전체 게시글 로드
+                viewModel.loadPosts(selectedCategory, selectedScene)
+            }
         }
     }
 
@@ -52,7 +58,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         postAdapter = PostAdapter(emptyList()).apply {
             onItemClick = { post ->
                 val bundle = Bundle().apply {
-                    putLong("postId", post.postId.toLong())
+                    putLong("postId", post.postId)
                 }
                 findNavController().navigate(R.id.navigation_post_detail, bundle)
             }
@@ -63,7 +69,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                // API 결과(state.posts)가 어댑터에 전달됨
                 postAdapter.updateData(state.posts)
             }
         }
@@ -97,15 +102,22 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         popup.show()
     }
 
+    // 필터링 변경 시에도 postType을 체크
     private fun updateList() {
         val postType = arguments?.getString("postType")
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
 
-        if (postType == "other" && targetId != -1L) {
-            viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
-        } else {
-            // 일반 게시글 목록 조회
-            viewModel.loadPosts(selectedCategory, selectedScene)
+        when (postType) {
+            "other" -> {
+                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            }
+            "saved" -> {
+                // 저장한 글 목록에서도 필터링 적용 가능
+                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            }
+            else -> {
+                viewModel.loadPosts(selectedCategory, selectedScene)
+            }
         }
     }
 

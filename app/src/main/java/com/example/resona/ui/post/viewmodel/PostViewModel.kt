@@ -94,4 +94,25 @@ class PostViewModel @Inject constructor(
             }
         }
     }
+
+    /**
+     * 저장한 게시글 목록 조회 (필터링 적용)
+     */
+    fun loadScrappedPosts(
+        category: RecommendCategory? = null,
+        scene: RecommendScene? = null
+    ) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            when (val result = repository.fetchScrappedPosts(category, scene)) {
+                is ApiResult.Success -> {
+                    _uiState.value = _uiState.value.copy(isLoading = false, posts = result.data, error = null)
+                }
+                is ApiResult.Error -> {
+                    _uiState.value = _uiState.value.copy(isLoading = false, error = result.exception.message)
+                }
+                else -> Unit
+            }
+        }
+    }
 }
