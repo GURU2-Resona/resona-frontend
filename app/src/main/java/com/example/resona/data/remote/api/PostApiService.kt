@@ -55,4 +55,11 @@ interface PostApiService {
         @Query("category") category: RecommendCategory?,
         @Query("scene") scene: RecommendScene?
     ): Response<BaseResponse<List<PostResponseDto>>>
+
+    // 내 추천글 조회 추가
+    @GET("posts/me")
+    suspend fun getMyPosts(
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
 }

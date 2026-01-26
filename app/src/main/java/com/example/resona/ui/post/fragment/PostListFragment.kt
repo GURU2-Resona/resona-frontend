@@ -38,17 +38,19 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         val postType = arguments?.getString("postType")
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
 
+        // 분기 처리에 "my" 케이스 추가
         when (postType) {
             "other" -> {
-                // 타인 프로필에서 넘어온 경우
                 if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
             }
             "saved" -> {
-                // 마이페이지 -> 저장한 글 조회인 경우
                 viewModel.loadScrappedPosts(selectedCategory, selectedScene)
             }
+            "my" -> {
+                // 마이페이지 -> 내 추천글 조회인 경우
+                viewModel.loadMyPosts(selectedCategory, selectedScene)
+            }
             else -> {
-                // 일반적인 전체 게시글 로드
                 viewModel.loadPosts(selectedCategory, selectedScene)
             }
         }
@@ -112,8 +114,10 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
                 if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
             }
             "saved" -> {
-                // 저장한 글 목록에서도 필터링 적용 가능
                 viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            }
+            "my" -> {
+                viewModel.loadMyPosts(selectedCategory, selectedScene)
             }
             else -> {
                 viewModel.loadPosts(selectedCategory, selectedScene)
