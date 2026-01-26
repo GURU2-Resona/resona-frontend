@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Q. 어떤 카테고리의 노래인가요?"
+            android:text="@string/post_category_question"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -45,17 +45,17 @@
             android:id="@+id/btn_category_1"
             style="@style/CustomButtonStyle"
             android:layout_weight="1"
-            android:text="사랑" />
+            android:text="@string/song_category_button1" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_category_2"
             style="@style/CustomButtonStyle"
             android:layout_weight="1"
-            android:text="우정" />
+            android:text="@string/song_category_button2" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_category_3"
             style="@style/CustomButtonStyle"
             android:layout_weight="1"
-            android:text="슬픔" />
+            android:text="@string/song_category_button3" />
     </LinearLayout>
 
         <LinearLayout
@@ -66,17 +66,17 @@
             android:id="@+id/btn_category_4"
             style="@style/CustomButtonStyle"
             android:layout_weight="1"
-            android:text="카테고리" />
+            android:text="@string/song_category_button4" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_5"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="카테고리2" />
+                android:text="@string/song_category_button5" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_category_6"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="카테고리3" />
+                android:text="@string/song_category_button6" />
         </LinearLayout>
 
         <EditText
@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Q. 어떤 상황에 들으셨나요?"
+            android:text="@string/post_scene_question"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -110,17 +110,17 @@
                 android:id="@+id/btn_scene_1"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="사랑" />
+                android:text="@string/song_scene_button1" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_2"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="우정" />
+                android:text="@string/song_scene_button2" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_3"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="슬픔" />
+                android:text="@string/song_scene_button3" />
         </LinearLayout>
 
         <LinearLayout
@@ -132,17 +132,17 @@
                 android:id="@+id/btn_scene_4"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="상황1" />
+                android:text="@string/song_scene_button4" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_5"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="상황2" />
+                android:text="@string/song_scene_button5" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_scene_6"
                 style="@style/CustomButtonStyle"
                 android:layout_weight="1"
-                android:text="상황3" />
+                android:text="@string/song_scene_button6" />
         </LinearLayout>
 
         <EditText
