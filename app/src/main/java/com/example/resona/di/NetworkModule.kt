@@ -3,6 +3,7 @@ package com.example.resona.di
 import com.example.resona.BuildConfig
 import com.example.resona.data.local.TokenManager // TokenManager 위치에 맞춰 수정
 import com.example.resona.data.remote.api.AuthApiService
+import com.example.resona.data.remote.api.MyApiService
 import com.example.resona.data.remote.api.PostApiService
 import com.example.resona.data.remote.api.ResonaApiService
 import dagger.Module
@@ -102,4 +103,9 @@ object NetworkModule {
     @Singleton
     fun providePostApiService(retrofit: Retrofit): PostApiService =
         retrofit.create(PostApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyApiService(retrofit: Retrofit): MyApiService =
+        retrofit.create(MyApiService::class.java)
 }
