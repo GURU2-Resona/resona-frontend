@@ -35,11 +35,11 @@ class PostAdapter(
                 .into(ivProfile)
 
             // 우측 유튜브 썸네일 추출 및 로드
-            val videoId = extractVideoId(item.albumImage)
+            val videoId = extractVideoId(item.songUrl)
             val imageUrl = if (videoId != null) {
                 "https://img.youtube.com/vi/$videoId/maxresdefault.jpg"
             } else {
-                item.albumImage
+                item.songUrl
             }
 
             Glide.with(ivThumbnail.context)

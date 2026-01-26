@@ -7,6 +7,6 @@ data class PostResponseDto(
     @SerializedName("title") val title: String,
     @SerializedName("songTitle") val songTitle: String,
     @SerializedName("songUrl") val songUrl: String,
-    @SerializedName("writerProfileImage") val writerProfileImage: String?, // Nullable로 변경
+    @SerializedName("writerProfileImage") val writerProfileImage: String?,
     @SerializedName("writerNickname") val writerNickname: String
 )
