@@ -40,7 +40,6 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 하단바 숨기기
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.GONE
 
         postId = arguments?.getLong("postId") ?: -1L
@@ -52,9 +51,9 @@ class PostDetailFragment : Fragment() {
             val result = viewModel.repository.getPostDetail(postId)
             if (result is ApiResult.Success) {
                 val data = result.data
-                if (data.isMine) { // 내 글인 경우 공유 화면으로 이동
+                if (data.isMine) {
                     navigateToShare(data)
-                } else { // 남의 글인 경우 현재 화면 데이터 바인딩
+                } else {
                     bindDataToUI(data)
                 }
             }
@@ -74,20 +73,17 @@ class PostDetailFragment : Fragment() {
 
     private fun bindDataToUI(data: PostDetailResponseDto) {
         with(binding) {
-            // 1. 텍스트 연동 (XML ID: tv_detail_song_title, tv_detail_main_text 등)
             tvDetailSongTitle.text = data.title
             tvDetailMainText.text = data.content
-            tvDetailNickname.text = data.writerNickname // 닉네임 연동
+            tvDetailNickname.text = data.writerNickname
             tvDetailHash.text = "#${data.categoryName} #${data.sceneName}"
 
-            // 2. 프로필 이미지 로드
             Glide.with(this@PostDetailFragment)
                 .load(data.writerProfileImage)
                 .placeholder(R.drawable.ic_placeholder)
                 .circleCrop()
                 .into(ivProfile)
 
-            // 3. 유튜브 썸네일 이미지 로드 (요청대로 이미지만 표시)
             val videoId = extractVideoId(data.songUrl)
             val thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg"
 
@@ -97,12 +93,10 @@ class PostDetailFragment : Fragment() {
                 .centerCrop()
                 .into(ivDetailAlbumArt)
 
-            // 4. 북마크 상태 초기화 및 클릭 리스너 (ID: iv_save)
             isSaved = data.isSaved
             ivSave.setImageResource(if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
             ivSave.setOnClickListener { toggleBookmark() }
 
-            // 5. 노래 전체 들으러 가기 버튼 연동
             btnListenAll.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl))
                 startActivity(intent)
@@ -132,7 +126,6 @@ class PostDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // 화면을 나갈 때 하단바 다시 표시
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.VISIBLE
         _binding = null
     }
