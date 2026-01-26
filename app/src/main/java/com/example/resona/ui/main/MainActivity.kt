@@ -32,26 +32,37 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, arguments ->
+            val destinationName = resources.getResourceEntryName(destination.id)
+            Log.d("NavDebug", "이동한 화면: $destinationName (ID: ${destination.id})")
+
             when (destination.id) {
                 R.id.navigation_splash,
                 R.id.navigation_login,
                 R.id.navigation_login_loading,
-                R.id.navigation_onboarding_loading -> {
+                R.id.navigation_onboarding_loading,
+                R.id.navigation_post_detail,        // 상세 페이지
+                R.id.navigation_post_detail_share,  // 공유 페이지
+                R.id.navigation_other_profile -> {  // 타인 프로필
                     topBar.visibility = View.GONE
                     bottomNav.visibility = View.GONE
                 }
+
                 R.id.navigation_onboarding_profile,
                 R.id.navigation_onboarding_recommend,
-                R.id.navigation_onboarding_result-> {
+                R.id.navigation_onboarding_result -> {
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.GONE
                 }
-                R.id.navigation_post_list -> {
-                    topBar.visibility = View.GONE
+
+                R.id.navigation_home,
+                R.id.navigation_post_list,
+                R.id.navigation_mypage -> {
+                    topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.VISIBLE
                 }
-                else ->  {
+
+                else -> {
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.VISIBLE
                 }
