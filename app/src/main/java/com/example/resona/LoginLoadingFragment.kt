@@ -28,7 +28,8 @@ class LoginLoadingFragment: Fragment(R.layout.fragment_login_loading) {
                     )
                 } else {
                     findNavController().navigate(
-                        R.id.navigation_home
+                        R.id.navigation_onboarding_profile //테스트용
+//                        R.id.navigation_home
                     )
                 }
             }

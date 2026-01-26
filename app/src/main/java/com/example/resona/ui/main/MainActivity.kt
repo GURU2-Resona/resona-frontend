@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_splash,
-                R.id.navigation_login -> {
+                R.id.navigation_login,
+                R.id.navigation_login_loading -> {
                     topBar.visibility = View.GONE
                     bottomNav.visibility = View.GONE
                 }

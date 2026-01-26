@@ -1,8 +1,8 @@
 package com.example.resona.data.repository
 
+import com.example.resona.data.dto.ProfileImageResponse
 import com.example.resona.data.remote.api.ResonaApiService
 import com.example.resona.data.remote.model.ApiResult
-import com.example.resona.data.remote.model.BaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -35,6 +35,31 @@ class MainRepository @Inject constructor(
             } catch (e: Exception) {
                 ApiResult.Error(e)
             }
+        }
+    }
+
+    suspend fun getProfileImage(): ApiResult<ProfileImageResponse> {
+        return try {
+            val response = apiService.getProfileImage()
+
+            if (response.isSuccessful) {
+                val body = response.body()
+
+                if (body != null && body.isSuccess && body.result != null) {
+                    ApiResult.Success(body.result)
+                } else {
+                    ApiResult.Error(
+                        Exception(body?.message ?: "Empty response body")
+                    )
+                }
+            } else {
+                ApiResult.Error(
+                    Exception("HTTP ${response.code()}: ${response.message()}")
+                )
+            }
+
+        } catch (e: Exception) {
+            ApiResult.Error(e)
         }
     }
 }
