@@ -44,6 +44,7 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
                         _binding?.let { binding ->
                             when (r) {
                                 is ApiResult.Success -> {
+                                    binding.skeletonNickname.visibility = View.INVISIBLE
                                     binding.tvNickname.text = "${r.data} 님을 위한 노래입니다"
                                 }
 
@@ -66,6 +67,8 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
                 when (result) {
                     is ApiResult.Success -> {
                         val data = result.data
+                        binding.skeletonTitle.visibility = View.INVISIBLE
+                        binding.skeletonArtist.visibility = View.INVISIBLE
                         binding.tvSongTitle.text = data.title
                         binding.tvArtist.text = data.artist
 
@@ -80,6 +83,7 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
                         youtubeVideoId = data.youtubeUrl.split("=")[1]
                         Log.d("youtube", youtubeVideoId.toString())
 
+                        binding.skeletonThumbnail.visibility = View.INVISIBLE
                         val thumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
                         Glide.with(this)
                             .load(thumbnailUrl)
