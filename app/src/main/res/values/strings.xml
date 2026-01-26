@@ -13,18 +13,18 @@
     <string name="onboarding_nickname_valid">20글자까지 입력 가능합니다.</string>
     <string name="onboarding_category_question">Q. 어떤 카테고리의 노래를 추천 받고 싶나요?</string>
     <string name="onboarding_scene_question">Q. 어떤 상황에 들을 노래를 추천 받고 싶나요?</string>
-    <string name="onboarding_category_button1">사랑</string>
-    <string name="onboarding_category_button2">우정</string>
-    <string name="onboarding_category_button3">슬픔</string>
-    <string name="onboarding_category_button4">카테고리1</string>
-    <string name="onboarding_category_button5">카테고리2</string>
-    <string name="onboarding_category_button6">카테고리3</string>
-    <string name="onboarding_scene_button1">사랑</string>
-    <string name="onboarding_scene_button2">우정</string>
-    <string name="onboarding_scene_button3">슬픔</string>
-    <string name="onboarding_scene_button4">카테고리1</string>
-    <string name="onboarding_scene_button5">카테고리2</string>
-    <string name="onboarding_scene_button6">카테고리3</string>
+    <string name="onboarding_category_button1">사랑/설렘</string>
+    <string name="onboarding_category_button2">이별/슬픔</string>
+    <string name="onboarding_category_button3">위로/응원</string>
+    <string name="onboarding_category_button4">신남/에너지</string>
+    <string name="onboarding_category_button5">그리움/추억</string>
+    <string name="onboarding_category_button6">일상/여유</string>
+    <string name="onboarding_scene_button1">출퇴근길</string>
+    <string name="onboarding_scene_button2">비오는 날</string>
+    <string name="onboarding_scene_button3">새벽 감성</string>
+    <string name="onboarding_scene_button4">산책/여행</string>
+    <string name="onboarding_scene_button5">집중/작업</string>
+    <string name="onboarding_scene_button6">운동/활동</string>
     <string name="loading_message">로그인 중입니다…</string>
 
     <!-- button -->
