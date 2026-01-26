@@ -115,4 +115,30 @@ class PostRepository @Inject constructor(
             ApiResult.Error(e)
         }
     }
+
+    /**
+     * 회원별 추천글 조회
+     */
+    suspend fun fetchOtherMemberPosts(
+        writerId: Long,
+        category: RecommendCategory?,
+        scene: RecommendScene?
+    ): ApiResult<List<PostResponseDto>> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.getOtherMemberPosts(writerId, category, scene)
+            if (response.isSuccessful) {
+                response.body()?.let { baseResponse ->
+                    if (baseResponse.isSuccess) {
+                        ApiResult.Success(baseResponse.result ?: emptyList())
+                    } else {
+                        ApiResult.Error(Exception(baseResponse.message))
+                    }
+                } ?: ApiResult.Error(Exception("Empty body"))
+            } else {
+                ApiResult.Error(Exception("HTTP ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
 }

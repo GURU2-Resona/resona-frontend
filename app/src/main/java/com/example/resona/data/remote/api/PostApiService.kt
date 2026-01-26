@@ -40,4 +40,12 @@ interface PostApiService {
     suspend fun toggleScrap(
         @Path("postId") postId: Long
     ): Response<BaseResponse<String>>
+
+    // 회원별 추천글 조회
+    @GET("posts/members/{writerId}")
+    suspend fun getOtherMemberPosts(
+        @Path("writerId") writerId: Long,
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
 }
