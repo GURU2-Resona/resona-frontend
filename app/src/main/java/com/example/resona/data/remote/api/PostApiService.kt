@@ -48,4 +48,11 @@ interface PostApiService {
         @Query("category") category: RecommendCategory?,
         @Query("scene") scene: RecommendScene?
     ): Response<BaseResponse<List<PostResponseDto>>>
+
+    // 저장한 게시글 목록 조회
+    @GET("posts/scraps")
+    suspend fun getScrappedPosts(
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
 }

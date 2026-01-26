@@ -141,4 +141,29 @@ class PostRepository @Inject constructor(
             ApiResult.Error(e)
         }
     }
+
+    /**
+     * 저장한 게시글 목록 조회 (필터링 포함)
+     */
+    suspend fun fetchScrappedPosts(
+        category: RecommendCategory?,
+        scene: RecommendScene?
+    ): ApiResult<List<PostResponseDto>> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.getScrappedPosts(category, scene)
+            if (response.isSuccessful) {
+                response.body()?.let { baseResponse ->
+                    if (baseResponse.isSuccess) {
+                        ApiResult.Success(baseResponse.result ?: emptyList())
+                    } else {
+                        ApiResult.Error(Exception(baseResponse.message))
+                    }
+                } ?: ApiResult.Error(Exception("Empty body"))
+            } else {
+                ApiResult.Error(Exception("HTTP ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
 }

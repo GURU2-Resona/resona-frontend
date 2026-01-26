@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
-import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.databinding.FragmentPostDetailBinding
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +28,6 @@ class PostDetailFragment : Fragment() {
 
     private val viewModel: PostViewModel by viewModels()
     private var postId: Long = -1L
-    private var isSaved = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPostDetailBinding.inflate(inflater, container, false)
@@ -39,35 +37,28 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // [삭제됨] 하단바 수동 제어 코드 제거
-
         postId = arguments?.getLong("postId") ?: -1L
-        if (postId != -1L) loadPostDetail()
+        if (postId != -1L) {
+            viewModel.loadPostDetail(postId)
+            observeUiState()
+        }
     }
 
-    private fun loadPostDetail() {
+    private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val result = viewModel.repository.getPostDetail(postId)
-            if (result is ApiResult.Success) {
-                val data = result.data
-                if (data.isMine) {
-                    navigateToShare(data)
-                } else {
-                    bindDataToUI(data)
+            viewModel.uiState.collect { state ->
+                state.postDetail?.let { data ->
+                    if (data.isMine) {
+                        navigateToShare(data)
+                    } else {
+                        bindDataToUI(data)
+                    }
+                }
+                state.error?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 }
             }
         }
-    }
-
-    private fun navigateToShare(data: PostDetailResponseDto) {
-        val bundle = Bundle().apply {
-            putLong("postId", data.postId)
-            putString("finalSubject", data.title)
-            putString("finalContent", data.content)
-            putString("finalTag", "#${data.categoryName} #${data.sceneName}")
-            putString("videoId", extractVideoId(data.songUrl))
-        }
-        findNavController().navigate(R.id.action_postDetail_to_postDetailShare, bundle)
     }
 
     private fun bindDataToUI(data: PostDetailResponseDto) {
@@ -92,9 +83,12 @@ class PostDetailFragment : Fragment() {
                 .centerCrop()
                 .into(ivDetailAlbumArt)
 
-            isSaved = data.isSaved
-            ivSave.setImageResource(if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
-            ivSave.setOnClickListener { toggleBookmark() }
+            // 스크랩 여부 반영 및 클릭 리스너
+            ivSave.setImageResource(if (data.isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
+            ivSave.setOnClickListener {
+                viewModel.toggleScrap(data.postId)
+                // 토스트는 성공 시점에 띄우고 싶다면 ViewModel에서 별도 Event 처리가 필요합니다.
+            }
 
             btnListenAll.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl))
@@ -102,25 +96,21 @@ class PostDetailFragment : Fragment() {
             }
 
             ivProfile.setOnClickListener {
-                val bundle = Bundle().apply {
-                    putLong("memberId", data.writerId)
-                }
+                val bundle = Bundle().apply { putLong("memberId", data.writerId) }
                 findNavController().navigate(R.id.action_postDetail_to_otherProfile, bundle)
             }
         }
     }
 
-    private fun toggleBookmark() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val result = viewModel.repository.toggleScrap(postId)
-            if (result is ApiResult.Success) {
-                isSaved = !isSaved
-                binding.ivSave.setImageResource(
-                    if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark
-                )
-                Toast.makeText(context, if (isSaved) "스크랩되었습니다." else "스크랩이 취소되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+    private fun navigateToShare(data: PostDetailResponseDto) {
+        val bundle = Bundle().apply {
+            putLong("postId", data.postId)
+            putString("finalSubject", data.title)
+            putString("finalContent", data.content)
+            putString("finalTag", "#${data.categoryName} #${data.sceneName}")
+            putString("videoId", extractVideoId(data.songUrl))
         }
+        findNavController().navigate(R.id.action_postDetail_to_postDetailShare, bundle)
     }
 
     private fun extractVideoId(url: String?): String? {
@@ -131,7 +121,6 @@ class PostDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // [삭제됨] 하단바 복구 코드 제거
         _binding = null
     }
 }
