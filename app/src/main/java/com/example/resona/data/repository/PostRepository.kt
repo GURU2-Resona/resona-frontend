@@ -17,6 +17,9 @@ import javax.inject.Singleton
 class PostRepository @Inject constructor(
     private val apiService: PostApiService
 ) {
+    /**
+     * 게시글 목록 조회 (필터링 포함)
+     */
     suspend fun fetchPosts(
         category: RecommendCategory?,
         scene: RecommendScene?
@@ -41,6 +44,9 @@ class PostRepository @Inject constructor(
         }
     }
 
+    /**
+     * 게시글 생성
+     */
     suspend fun createPost(
         request: PostCreateRequestDto
     ): ApiResult<PostCreateResponseDto> = withContext(Dispatchers.IO) {
@@ -62,6 +68,9 @@ class PostRepository @Inject constructor(
         }
     }
 
+    /**
+     * 게시글 상세 조회
+     */
     suspend fun getPostDetail(
         postId: Long
     ): ApiResult<PostDetailResponseDto> = withContext(Dispatchers.IO) {
@@ -83,6 +92,9 @@ class PostRepository @Inject constructor(
         }
     }
 
+    /**
+     * 스크랩 토글
+     */
     suspend fun toggleScrap(
         postId: Long
     ): ApiResult<String> = withContext(Dispatchers.IO) {
@@ -91,27 +103,11 @@ class PostRepository @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let { baseResponse ->
                     if (baseResponse.isSuccess) {
-                        ApiResult.Success(baseResponse.result ?: "성공")
+                        ApiResult.Success(baseResponse.result ?: "스크랩 완료")
                     } else {
                         ApiResult.Error(Exception(baseResponse.message))
                     }
                 } ?: ApiResult.Error(Exception("Empty body"))
-            } else {
-                ApiResult.Error(Exception("HTTP ${response.code()}"))
-            }
-        } catch (e: Exception) {
-            ApiResult.Error(e)
-        }
-    }
-
-    suspend fun getScrappedPosts(): ApiResult<List<PostResponseDto>> = withContext(Dispatchers.IO) {
-        try {
-            val response = apiService.getPosts(null, null)
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    if (it.isSuccess) ApiResult.Success(it.result ?: emptyList())
-                    else ApiResult.Error(Exception(it.message))
-                } ?: ApiResult.Error(Exception("Empty Body"))
             } else {
                 ApiResult.Error(Exception("HTTP ${response.code()}"))
             }

@@ -27,6 +27,7 @@ class PostDetailFragment : Fragment() {
 
     private var _binding: FragmentPostDetailBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: PostViewModel by viewModels()
     private var postId: Long = -1L
     private var isSaved = false
@@ -38,7 +39,11 @@ class PostDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 하단바 숨기기
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.GONE
+
+
         postId = arguments?.getLong("postId") ?: -1L
         if (postId != -1L) loadPostDetail()
     }
@@ -48,8 +53,11 @@ class PostDetailFragment : Fragment() {
             val result = viewModel.repository.getPostDetail(postId)
             if (result is ApiResult.Success) {
                 val data = result.data
-                if (data.isMine) navigateToShare(data)
-                else bindDataToUI(data)
+                if (data.isMine) { // 내 글인 경우 공유 화면으로 이동
+                    navigateToShare(data)
+                } else { // 남의 글인 경우 현재 화면 데이터 바인딩
+                    bindDataToUI(data)
+                }
             }
         }
     }
@@ -67,17 +75,20 @@ class PostDetailFragment : Fragment() {
 
     private fun bindDataToUI(data: PostDetailResponseDto) {
         with(binding) {
+            // 1. 텍스트 연동
             tvDetailSongTitle.text = data.title
             tvDetailMainText.text = data.content
             tvDetailNickname.text = data.writerNickname
             tvDetailHash.text = "#${data.categoryName} #${data.sceneName}"
 
+            // 2. 프로필 이미지 로드
             Glide.with(this@PostDetailFragment)
                 .load(data.writerProfileImage)
                 .placeholder(R.drawable.ic_placeholder)
                 .circleCrop()
                 .into(ivProfile)
 
+            // 3. 유튜브 썸네일 이미지 로드
             val videoId = extractVideoId(data.songUrl)
             val thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg"
 
@@ -87,10 +98,12 @@ class PostDetailFragment : Fragment() {
                 .centerCrop()
                 .into(ivDetailAlbumArt)
 
+            // 4. 북마크 상태 초기화 및 클릭 리스너
             isSaved = data.isSaved
             ivSave.setImageResource(if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
             ivSave.setOnClickListener { toggleBookmark() }
 
+            // 5. 노래 전체 들으러 가기 버튼 연동
             btnListenAll.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl))
                 startActivity(intent)
@@ -102,11 +115,18 @@ class PostDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val result = viewModel.repository.toggleScrap(postId)
             if (result is ApiResult.Success) {
+                // 백엔드 통신 성공 시 클라이언트 상태 반전
                 isSaved = !isSaved
                 binding.ivSave.setImageResource(
                     if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark
                 )
+
+                // 백엔드에서 내려준 성공 메시지("스크랩 성공" 등)를 토스트로 표시
+                // 만약 API 응답 메시지를 그대로 쓰려면 result.data를 사용하세요.
                 Toast.makeText(context, result.data, Toast.LENGTH_SHORT).show()
+            } else if (result is ApiResult.Error) {
+                // 에러 발생 시 토스트 표시
+                Toast.makeText(context, "스크랩 처리 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -119,6 +139,7 @@ class PostDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // 화면을 나갈 때 하단바 다시 표시
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.VISIBLE
         _binding = null
     }
