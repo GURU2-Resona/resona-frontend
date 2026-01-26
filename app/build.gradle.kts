@@ -119,5 +119,7 @@ dependencies {
     implementation("com.kakao.sdk:v2-user:2.19.0")
     implementation("com.kakao.sdk:v2-share:2.20.6")
 
+    // Data Store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
 }

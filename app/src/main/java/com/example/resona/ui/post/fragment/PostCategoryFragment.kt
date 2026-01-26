@@ -104,9 +104,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
 
             val requestBody = PostCreateRequestDto(
                 songTitle = songTitle,
-                singer = singer,
                 songUrl = "https://www.youtube.com/watch?v=$videoId",
-                albumImage = "https://img.youtube.com/vi/$videoId/0.jpg",
                 title = subject,
                 content = content,
                 category = categoryRequest,
@@ -116,7 +114,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             Log.d("API_DEBUG", "RequestBody: $requestBody")
 
             viewLifecycleOwner.lifecycleScope.launch {
-                val result = viewModel.repository.createPost(1L, requestBody)
+                val result = viewModel.repository.createPost(requestBody)
                 when (result) {
                     is ApiResult.Success -> {
                         Toast.makeText(context, "추천글 등록 성공", Toast.LENGTH_SHORT).show()

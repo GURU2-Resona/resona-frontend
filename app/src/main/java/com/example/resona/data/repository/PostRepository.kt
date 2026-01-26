@@ -48,11 +48,10 @@ class PostRepository @Inject constructor(
      * 게시글 생성
      */
     suspend fun createPost(
-        userId: Long,
         request: PostCreateRequestDto
     ): ApiResult<PostCreateResponseDto> = withContext(Dispatchers.IO) {
         try {
-            val response = apiService.createPost(userId, request)
+            val response = apiService.createPost(request)
             if (response.isSuccessful) {
                 response.body()?.let { baseResponse ->
                     if (baseResponse.isSuccess) {
@@ -73,11 +72,10 @@ class PostRepository @Inject constructor(
      * 게시글 상세 조회
      */
     suspend fun getPostDetail(
-        userId: Long,
         postId: Long
     ): ApiResult<PostDetailResponseDto> = withContext(Dispatchers.IO) {
         try {
-            val response = apiService.getPostDetail(userId, postId)
+            val response = apiService.getPostDetail(postId)
             if (response.isSuccessful) {
                 response.body()?.let { baseResponse ->
                     if (baseResponse.isSuccess) {
@@ -98,11 +96,10 @@ class PostRepository @Inject constructor(
      * 스크랩 토글
      */
     suspend fun toggleScrap(
-        userId: Long,
         postId: Long
     ): ApiResult<String> = withContext(Dispatchers.IO) {
         try {
-            val response = apiService.toggleScrap(userId, postId)
+            val response = apiService.toggleScrap(postId)
             if (response.isSuccessful) {
                 response.body()?.let { baseResponse ->
                     if (baseResponse.isSuccess) {

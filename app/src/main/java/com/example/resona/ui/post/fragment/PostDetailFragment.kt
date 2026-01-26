@@ -44,7 +44,7 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
 
         if (postId != -1L) {
             viewLifecycleOwner.lifecycleScope.launch {
-                val result = viewModel.repository.getPostDetail(1L, postId)
+                val result = viewModel.repository.getPostDetail(postId)
                 when (result) {
                     is ApiResult.Success -> {
                         val data = result.data
@@ -86,7 +86,7 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         ivBookmark?.setOnClickListener {
             if (postId != -1L) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val result = viewModel.repository.toggleScrap(1L, postId)
+                    val result = viewModel.repository.toggleScrap(postId)
                     when (result) {
                         is ApiResult.Success -> {
                             val message = result.data
