@@ -1,7 +1,9 @@
 package com.example.resona.data.repository
 
 import android.net.http.HttpException
+import com.example.resona.data.dto.CategoryRequest
 import com.example.resona.data.dto.NicknameRequest
+import com.example.resona.data.dto.OnboardingResponse
 import com.example.resona.data.dto.ProfileImageResponse
 import com.example.resona.data.remote.api.ResonaApiService
 import com.example.resona.data.remote.model.ApiResult
@@ -73,6 +75,31 @@ class MainRepository @Inject constructor(
             )
 
             ApiResult.Success(Unit)
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
+
+    suspend fun getOnboardingRecommend(request: CategoryRequest): ApiResult<OnboardingResponse> {
+        return try {
+            val response = apiService.getOnboardingRecommend(request)
+
+            if (response.isSuccessful) {
+                val body = response.body()
+
+                if (body != null && body.isSuccess && body.result != null) {
+                    ApiResult.Success(body.result)
+                } else {
+                    ApiResult.Error(
+                        Exception(body?.message ?: "Empty response body")
+                    )
+                }
+            } else {
+                ApiResult.Error(
+                    Exception("HTTP ${response.code()}: ${response.message()}")
+                )
+            }
+
         } catch (e: Exception) {
             ApiResult.Error(e)
         }
