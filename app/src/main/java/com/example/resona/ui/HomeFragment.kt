@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.databinding.FragmentHomeBinding
 import com.example.resona.ui.main.MainActivity
-import com.example.resona.ui.post.PostViewModel
+import com.example.resona.ui.post.adapter.PostAdapter
+import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

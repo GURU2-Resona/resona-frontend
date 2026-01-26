@@ -1,4 +1,4 @@
-package com.example.resona.ui.post
+package com.example.resona.ui.post.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.data.repository.PostRepository
+import com.example.resona.ui.post.uistate.PostUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
-    private val repository: PostRepository
+    val repository: PostRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(PostUiState())
     val uiState: StateFlow<PostUiState> = _uiState.asStateFlow()

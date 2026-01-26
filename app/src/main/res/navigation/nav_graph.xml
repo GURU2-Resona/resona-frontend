@@ -10,37 +10,14 @@
         android:label="Splash" />
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.resona.ui.HomeFragment"
-        android:label="홈" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.resona.ui.DashboardFragment"
-        android:label="게시판" />
-
-    <fragment
-        android:id="@+id/navigation_mypage"
-        android:name="com.example.resona.ui.MypageFragment"
-        android:label="마이페이지">
-        <action
-            android:id="@+id/action_to_postList"
-            app:destination="@id/navigation_post_list" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_post_list"
-        android:name="com.example.resona.ui.PostListFragment"
-        android:label="게시글 목록">
-        <argument
-            android:name="postType"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
         android:id="@+id/navigation_login"
         android:name="com.example.resona.LoginFragment"
         android:label="Login" />
+
+    <fragment
+        android:id="@+id/navigation_login_loading"
+        android:name="com.example.resona.LoginLoadingFragment"
+        android:label="Login_Loading"/>
 
     <fragment
         android:id="@+id/navigation_onboarding_profile"
@@ -58,7 +35,46 @@
         android:label="Onboarding_Result" />
 
     <fragment
-        android:id="@+id/navigation_login_loading"
-        android:name="com.example.resona.LoginLoadingFragment"
-        android:label="Login_Loading"/>
+        android:id="@+id/navigation_home"
+        android:name="com.example.resona.ui.HomeFragment"
+        android:label="홈" />
+
+    <fragment
+        android:id="@+id/navigation_post_write"
+        android:name="com.example.resona.ui.post.fragment.PostWriteFragment"
+        android:label="추천글 작성">
+        <action
+            android:id="@+id/action_postWrite_to_postCategory"
+            app:destination="@id/navigation_post_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_category"
+        android:name="com.example.resona.ui.post.fragment.PostCategoryFragment"
+        android:label="카테고리 선택">
+        <argument android:name="userSubject" app:argType="string" />
+        <argument android:name="userContent" app:argType="string" />
+        <argument android:name="videoId" app:argType="string" />
+        <argument android:name="songTitle" app:argType="string" />
+        <argument android:name="singer" app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_mypage"
+        android:name="com.example.resona.ui.MypageFragment"
+        android:label="마이페이지">
+        <action
+            android:id="@+id/action_to_postList"
+            app:destination="@id/navigation_post_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post_list"
+        android:name="com.example.resona.ui.post.fragment.PostListFragment"
+        android:label="게시글 목록">
+        <argument
+            android:name="postType"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

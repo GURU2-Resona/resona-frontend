@@ -1,33 +1,31 @@
-package com.example.resona
+package com.example.resona.ui.post.fragment
 
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.resona.R
+import com.example.resona.YoutubeSearchManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class PostWriteFragment : Fragment() {
+@AndroidEntryPoint
+class PostWriteFragment : Fragment(R.layout.fragment_post_write) {
 
     private var currentVideoId: String? = null
     private var currentSongTitle: String = ""
     private var currentSinger: String = ""
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_post_write, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +59,7 @@ class PostWriteFragment : Fragment() {
                             }
                         })
                     } else {
-                        Toast.makeText(context, "검색 결과를 찾을 수 없습니다. ", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "검색 결과를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

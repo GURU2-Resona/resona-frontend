@@ -1,4 +1,4 @@
-package com.example.resona.ui
+package com.example.resona.ui.post.fragment
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,18 +10,20 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.resona.R
-import com.example.resona.data.remote.model.PostCreateRequest
-import com.example.resona.data.remote.model.PostCreateResponse
-import com.example.resona.data.remote.api.ApiResponse
-import com.example.resona.data.remote.api.PostService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.resona.data.dto.PostCreateRequestDto
+import com.example.resona.data.remote.model.ApiResult
+import com.example.resona.ui.post.viewmodel.PostViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
     private lateinit var nextButton: Button
+    private val viewModel: PostViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,18 +91,18 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
 
         nextButton.setOnClickListener {
             val categoryRequest = if (etCategoryDirect.text.isNotEmpty()) {
-                PostCreateRequest.TagRequest(id = null, name = etCategoryDirect.text.toString())
+                PostCreateRequestDto.TagRequest(id = null, name = etCategoryDirect.text.toString())
             } else {
-                PostCreateRequest.TagRequest(id = 1L, name = null)
+                PostCreateRequestDto.TagRequest(id = 1L, name = null)
             }
 
             val sceneRequest = if (etSceneDirect.text.isNotEmpty()) {
-                PostCreateRequest.TagRequest(id = null, name = etSceneDirect.text.toString())
+                PostCreateRequestDto.TagRequest(id = null, name = etSceneDirect.text.toString())
             } else {
-                PostCreateRequest.TagRequest(id = 1L, name = null)
+                PostCreateRequestDto.TagRequest(id = 1L, name = null)
             }
 
-            val requestBody = PostCreateRequest(
+            val requestBody = PostCreateRequestDto(
                 songTitle = songTitle,
                 singer = singer,
                 songUrl = "https://www.youtube.com/watch?v=$videoId",
@@ -112,8 +114,20 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             )
 
             Log.d("API_DEBUG", "RequestBody: $requestBody")
-            Toast.makeText(context, "추천글 등록 시도", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.navigation_home)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                val result = viewModel.repository.createPost(1L, requestBody)
+                when (result) {
+                    is ApiResult.Success -> {
+                        Toast.makeText(context, "추천글 등록 성공", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.navigation_home)
+                    }
+                    is ApiResult.Error -> {
+                        Toast.makeText(context, "등록 실패: ${result.exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 
