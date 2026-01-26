@@ -6,6 +6,7 @@ data class PostDetailResponseDto(
     @SerializedName("postId") val postId: Long,
     @SerializedName("writerProfileImage") val writerProfileImage: String?,
     @SerializedName("writerNickname") val writerNickname: String,
+    @SerializedName("writerId") val writerId: Long,
     @SerializedName("title") val title: String,
     @SerializedName("content") val content: String,
     @SerializedName("songTitle") val songTitle: String,
