@@ -8,13 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.resona.data.remote.api.KakaoLoginResponse
 import com.example.resona.data.repository.AuthRepository
 import com.example.resona.data.utils.Event
+import com.example.resona.data.utils.TokenManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Event<KakaoLoginResponse>>()
@@ -24,6 +26,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = repository.loginWithKakao(accessToken)
+                tokenManager.saveAccessToken(response.accessToken)
                 _loginResult.value = Event(response)
                 Log.d("LoginViewModel", "서버 로그인 성공: $response")
 

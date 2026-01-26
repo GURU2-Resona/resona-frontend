@@ -3,6 +3,7 @@ package com.example.resona.di
 import com.example.resona.BuildConfig
 import com.example.resona.data.remote.api.AuthApiService
 import com.example.resona.data.remote.api.ResonaApiService
+import com.example.resona.data.utils.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,9 +34,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
