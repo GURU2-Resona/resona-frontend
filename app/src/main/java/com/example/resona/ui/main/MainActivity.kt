@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_splash,
                 R.id.navigation_login,
-                R.id.navigation_login_loading -> {
+                R.id.navigation_login_loading,
+                R.id.navigation_onboarding_loading -> {
                     topBar.visibility = View.GONE
                     bottomNav.visibility = View.GONE
                 }

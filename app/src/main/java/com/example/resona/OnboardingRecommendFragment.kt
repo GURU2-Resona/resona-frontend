@@ -47,7 +47,7 @@ class OnboardingRecommendFragment : Fragment(R.layout.fragment_onboarding_recomm
 
         binding.btnNext.setOnClickListener {
             onboardingViewModel.getOnboardingRecommend(selectedCategory,selectedScene)
-            findNavController().navigate(R.id.navigation_onboarding_result)
+            findNavController().navigate(R.id.navigation_onboarding_loading)
         }
     }
 
