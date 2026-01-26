@@ -33,4 +33,8 @@
         <item name="android:letterSpacing">-0.02</item>
         <item name="lineHeight">16.8sp</item>
     </style>
+
+    <style name="ShapeAppearance.Resona.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> </style>
 </resources>
