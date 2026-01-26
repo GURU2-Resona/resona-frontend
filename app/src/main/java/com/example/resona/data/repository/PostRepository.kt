@@ -166,4 +166,29 @@ class PostRepository @Inject constructor(
             ApiResult.Error(e)
         }
     }
+
+    /**
+     * 내 추천글 목록 조회
+     */
+    suspend fun fetchMyPosts(
+        category: RecommendCategory?,
+        scene: RecommendScene?
+    ): ApiResult<List<PostResponseDto>> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.getMyPosts(category, scene)
+            if (response.isSuccessful) {
+                response.body()?.let { baseResponse ->
+                    if (baseResponse.isSuccess) {
+                        ApiResult.Success(baseResponse.result ?: emptyList())
+                    } else {
+                        ApiResult.Error(Exception(baseResponse.message))
+                    }
+                } ?: ApiResult.Error(Exception("Empty body"))
+            } else {
+                ApiResult.Error(Exception("HTTP ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
 }

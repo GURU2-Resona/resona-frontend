@@ -115,4 +115,25 @@ class PostViewModel @Inject constructor(
             }
         }
     }
+
+    /**
+     * 내 추천글 목록 조회
+     */
+    fun loadMyPosts(
+        category: RecommendCategory? = null,
+        scene: RecommendScene? = null
+    ) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            when (val result = repository.fetchMyPosts(category, scene)) {
+                is ApiResult.Success -> {
+                    _uiState.value = _uiState.value.copy(isLoading = false, posts = result.data, error = null)
+                }
+                is ApiResult.Error -> {
+                    _uiState.value = _uiState.value.copy(isLoading = false, error = result.exception.message)
+                }
+                else -> Unit
+            }
+        }
+    }
 }

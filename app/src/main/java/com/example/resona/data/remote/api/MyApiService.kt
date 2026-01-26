@@ -7,6 +7,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface MyApiService {
+    @GET("members/profile/me")
+    suspend fun getMyProfile(): Response<BaseResponse<MemberProfileResponseDto>>
+
     @GET("members/{memberId}")
     suspend fun getMemberProfile(
         @Path("memberId") memberId: Long

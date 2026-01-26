@@ -31,4 +31,24 @@ class MyRepository @Inject constructor(
                 ApiResult.Error(e)
             }
         }
+
+    suspend fun getMyProfile(): ApiResult<MemberProfileResponseDto> =
+        withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getMyProfile()
+                if (response.isSuccessful) {
+                    response.body()?.let { baseResponse ->
+                        if (baseResponse.isSuccess) {
+                            ApiResult.Success(baseResponse.result ?: throw Exception("데이터가 없습니다."))
+                        } else {
+                            ApiResult.Error(Exception(baseResponse.message))
+                        }
+                    } ?: ApiResult.Error(Exception("Empty Body"))
+                } else {
+                    ApiResult.Error(Exception("HTTP ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                ApiResult.Error(e)
+            }
+        }
 }
