@@ -30,6 +30,11 @@
         android:label="Onboarding_Recommend" />
 
     <fragment
+        android:id="@+id/navigation_onboarding_loading"
+        android:name="com.example.resona.OnboardingLoadingFragment"
+        android:label="Onboarding_Loading" />
+
+    <fragment
         android:id="@+id/navigation_onboarding_result"
         android:name="com.example.resona.OnboardingResultFragment"
         android:label="Onboarding_Result" />

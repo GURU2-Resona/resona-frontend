@@ -6,48 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/neutral_100">
 
-    <!-- 스켈레톤 레이아웃 -->
-    <View
-        android:id="@+id/skeleton_nickname"
-        android:layout_width="200dp"
-        android:layout_height="24dp"
-        android:background="@color/neutral_300"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"/>
-
-    <View
-        android:id="@+id/skeleton_thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/neutral_300"
-        app:layout_constraintTop_toBottomOf="@+id/skeleton_nickname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="16:9"
-        android:layout_marginTop="12dp"/>
-
-    <View
-        android:id="@+id/skeleton_title"
-        android:layout_width="150dp"
-        android:layout_height="20dp"
-        android:background="@color/neutral_300"
-        app:layout_constraintTop_toBottomOf="@id/skeleton_thumbnail"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"/>
-
-    <View
-        android:id="@+id/skeleton_artist"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:background="@color/neutral_300"
-        app:layout_constraintTop_toBottomOf="@id/skeleton_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="16dp"/>
-
     <TextView
         android:id="@+id/tv_nickname"
         android:layout_width="0dp"

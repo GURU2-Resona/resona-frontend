@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_splash,
                 R.id.navigation_login,
                 R.id.navigation_login_loading,
+                R.id.navigation_onboarding_loading,
                 R.id.navigation_post_detail,        // 상세 페이지
                 R.id.navigation_post_detail_share,  // 공유 페이지
                 R.id.navigation_other_profile -> {  // 타인 프로필
