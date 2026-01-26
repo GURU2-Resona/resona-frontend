@@ -1,9 +1,13 @@
 package com.example.resona.data.remote.api
 
+import com.example.resona.data.dto.NicknameRequest
 import com.example.resona.data.dto.ProfileImageResponse
 import com.example.resona.data.remote.model.BaseResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
 
 interface ResonaApiService {
     @GET("api/v1/test")
@@ -11,4 +15,7 @@ interface ResonaApiService {
 
     @GET("/members/profile/image")
     suspend fun getProfileImage():  Response<BaseResponse<ProfileImageResponse>>
+
+    @PATCH("/members/nickname")
+    suspend fun saveNickname(@Body request: NicknameRequest):  Response<BaseResponse<Unit>>
 }

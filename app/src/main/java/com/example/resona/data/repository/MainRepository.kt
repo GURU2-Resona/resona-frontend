@@ -1,5 +1,7 @@
 package com.example.resona.data.repository
 
+import android.net.http.HttpException
+import com.example.resona.data.dto.NicknameRequest
 import com.example.resona.data.dto.ProfileImageResponse
 import com.example.resona.data.remote.api.ResonaApiService
 import com.example.resona.data.remote.model.ApiResult
@@ -30,7 +32,8 @@ class MainRepository @Inject constructor(
                     // HTTP 에러 (4xx, 5xx)
                     response.errorBody()?.string()?.let {
                         ApiResult.Error(Exception("HTTP ${response.code()}: $it"))
-                    } ?: ApiResult.Error(Exception("HTTP ${response.code()}: ${response.message()}"))
+                    }
+                        ?: ApiResult.Error(Exception("HTTP ${response.code()}: ${response.message()}"))
                 }
             } catch (e: Exception) {
                 ApiResult.Error(e)
@@ -58,6 +61,18 @@ class MainRepository @Inject constructor(
                 )
             }
 
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
+
+    suspend fun saveNickname(nickname: String): ApiResult<Unit> {
+        return try {
+            val response = apiService.saveNickname(
+                NicknameRequest(nickname)
+            )
+
+            ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e)
         }
