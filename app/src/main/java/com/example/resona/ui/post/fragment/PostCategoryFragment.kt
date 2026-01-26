@@ -114,7 +114,7 @@ class PostCategoryFragment : Fragment(R.layout.fragment_post_category) {
             Log.d("API_DEBUG", "RequestBody: $requestBody")
 
             viewLifecycleOwner.lifecycleScope.launch {
-                val result = viewModel.repository.createPost(1L, requestBody)
+                val result = viewModel.repository.createPost(requestBody)
                 when (result) {
                     is ApiResult.Success -> {
                         Toast.makeText(context, "추천글 등록 성공", Toast.LENGTH_SHORT).show()
