@@ -53,7 +53,7 @@
                 android:textColor="#121212"
                 android:paddingStart="8dp"
                 android:imeOptions="actionSearch"
-                android:textSize="16sp" />
+                android:inputType="text"  android:textSize="16sp" />
         </LinearLayout>
 
         <FrameLayout
