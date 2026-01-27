@@ -1,6 +1,8 @@
 package com.example.resona.di
 
 import com.example.resona.BuildConfig
+import com.example.resona.data.event.AuthEvent
+import com.example.resona.data.event.AuthEventBus
 import com.example.resona.data.local.TokenManager
 import com.example.resona.data.remote.api.AuthApiService
 import com.example.resona.data.remote.api.MyApiService
@@ -39,7 +41,7 @@ object NetworkModule {
     // NetworkModule.kt
     @Provides
     @Singleton
-    fun provideAuthInterceptor(tokenManager: TokenManager): Interceptor {
+    fun provideAuthInterceptor(tokenManager: TokenManager, authEventBus: AuthEventBus): Interceptor {
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val path = originalRequest.url.encodedPath
@@ -60,7 +62,16 @@ object NetworkModule {
                 }
             }.build()
 
-            chain.proceed(request)
+            val response = chain.proceed(request)
+
+            if (response.code == 401  && !authEventBus.isLoggedOut()) {
+                runBlocking {
+                    tokenManager.clearTokens()
+                }
+                authEventBus.emitLogoutOnce()
+            }
+
+            response
         }
     }
 

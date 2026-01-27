@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.resona.data.local.TokenManager // 1. TokenManager 임포트
 import com.example.resona.data.remote.api.KakaoLoginResponse
 import com.example.resona.data.repository.AuthRepository
-import com.example.resona.data.utils.Event
+import com.example.resona.data.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
