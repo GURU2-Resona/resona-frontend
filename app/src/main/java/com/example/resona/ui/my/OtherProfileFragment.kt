@@ -54,7 +54,7 @@ class OtherProfileFragment : Fragment(R.layout.fragment_mypage) {
                             putString("postType", "other")
                             putLong("targetMemberId", memberId)
                         }
-                        findNavController().navigate(R.id.action_to_postList, bundle)
+                        findNavController().navigate(R.id.action_otherProfile_to_postList, bundle)
                     }
                 }
             }

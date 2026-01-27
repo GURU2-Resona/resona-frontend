@@ -35,14 +35,32 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         observeViewModel()
         setupFilterListeners()
 
-        viewModel.loadPosts()
+        val postType = arguments?.getString("postType")
+        val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
+
+        // 분기 처리에 "my" 케이스 추가
+        when (postType) {
+            "other" -> {
+                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            }
+            "saved" -> {
+                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            }
+            "my" -> {
+                // 마이페이지 -> 내 추천글 조회인 경우
+                viewModel.loadMyPosts(selectedCategory, selectedScene)
+            }
+            else -> {
+                viewModel.loadPosts(selectedCategory, selectedScene)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
         postAdapter = PostAdapter(emptyList()).apply {
             onItemClick = { post ->
                 val bundle = Bundle().apply {
-                    putLong("postId", post.postId.toLong())
+                    putLong("postId", post.postId)
                 }
                 findNavController().navigate(R.id.navigation_post_detail, bundle)
             }
@@ -86,8 +104,25 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         popup.show()
     }
 
+    // 필터링 변경 시에도 postType을 체크
     private fun updateList() {
-        viewModel.loadPosts(selectedCategory, selectedScene)
+        val postType = arguments?.getString("postType")
+        val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
+
+        when (postType) {
+            "other" -> {
+                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            }
+            "saved" -> {
+                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            }
+            "my" -> {
+                viewModel.loadMyPosts(selectedCategory, selectedScene)
+            }
+            else -> {
+                viewModel.loadPosts(selectedCategory, selectedScene)
+            }
+        }
     }
 
     override fun onDestroyView() {

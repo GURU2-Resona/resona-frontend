@@ -40,4 +40,26 @@ interface PostApiService {
     suspend fun toggleScrap(
         @Path("postId") postId: Long
     ): Response<BaseResponse<String>>
+
+    // 회원별 추천글 조회
+    @GET("posts/members/{writerId}")
+    suspend fun getOtherMemberPosts(
+        @Path("writerId") writerId: Long,
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
+
+    // 저장한 게시글 목록 조회
+    @GET("posts/scraps")
+    suspend fun getScrappedPosts(
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
+
+    // 내 추천글 조회 추가
+    @GET("posts/me")
+    suspend fun getMyPosts(
+        @Query("category") category: RecommendCategory?,
+        @Query("scene") scene: RecommendScene?
+    ): Response<BaseResponse<List<PostResponseDto>>>
 }
