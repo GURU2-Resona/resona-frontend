@@ -16,13 +16,17 @@ class OnboardingViewModel @Inject constructor(
     private val memberRepository: MainRepository
 ) : ViewModel() {
 
-    private val _onboardingRecommendResult = MutableLiveData<ApiResult<OnboardingResponse>>()
-    val onboardingRecommendResult: LiveData<ApiResult<OnboardingResponse>> get() = _onboardingRecommendResult
+    private val _onboardingRecommendResult = MutableLiveData<ApiResult<OnboardingResponse>?>()
+    val onboardingRecommendResult: LiveData<ApiResult<OnboardingResponse>?> get() = _onboardingRecommendResult
 
     fun getOnboardingRecommend(category: String, scene: String) {
         viewModelScope.launch {
             val result = memberRepository.getOnboardingRecommend(CategoryRequest(category, scene))
             _onboardingRecommendResult.value = result
         }
+    }
+
+    fun resetRecommendState() {
+        _onboardingRecommendResult.value = null
     }
 }
