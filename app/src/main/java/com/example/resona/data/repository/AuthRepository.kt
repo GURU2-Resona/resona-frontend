@@ -14,4 +14,9 @@ class AuthRepository @Inject constructor(
         val response = api.loginWithKakao(KakaoLoginRequest(accessToken))
         return response.result
     }
+
+    suspend fun loginWithMasterAccount(): KakaoLoginResponse {
+        val response = api.loginWithMasterAccount()
+        return response.result
+    }
 }

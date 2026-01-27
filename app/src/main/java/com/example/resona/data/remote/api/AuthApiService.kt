@@ -22,4 +22,7 @@ data class ApiResponse<T>(
 interface AuthApiService {
     @POST("members/login/kakao")
     suspend fun loginWithKakao(@Body request: KakaoLoginRequest): ApiResponse<KakaoLoginResponse>
+
+    @POST("members/login/master")
+    suspend fun loginWithMasterAccount(): ApiResponse<KakaoLoginResponse>
 }

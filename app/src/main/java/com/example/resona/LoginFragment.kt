@@ -26,6 +26,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.btnLogin.setOnClickListener {
             startKakaoLogin()
         }
+
+        binding.btnMasterLogin.setOnClickListener {
+            startMasterLogin()
+        }
     }
 
     private fun startKakaoLogin() {
@@ -48,5 +52,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             Log.d("KakaoToken", "카카오 액세스 토큰: ${token.accessToken}")
             viewModel.loginWithKakao(token.accessToken)
         }
+    }
+    private fun startMasterLogin() {
+        findNavController().navigate(R.id.navigation_login_loading)
+        viewModel.loginWithMasterAccount()
     }
 }
