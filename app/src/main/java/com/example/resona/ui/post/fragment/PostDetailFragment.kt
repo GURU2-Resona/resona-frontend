@@ -63,17 +63,20 @@ class PostDetailFragment : Fragment() {
 
     private fun bindDataToUI(data: PostDetailResponseDto) {
         with(binding) {
-            tvDetailSongTitle.text = data.title
+            tvDetailTitle.text = data.title
+            tvDetailSongTitle.text = data.songTitle
             tvDetailMainText.text = data.content
             tvDetailNickname.text = data.writerNickname
             tvDetailHash.text = "#${data.categoryName} #${data.sceneName}"
 
+            // 프로필 이미지 로드
             Glide.with(this@PostDetailFragment)
                 .load(data.writerProfileImage)
                 .placeholder(R.drawable.ic_placeholder)
                 .circleCrop()
                 .into(ivProfile)
 
+            // 유튜브 썸네일 로드
             val videoId = extractVideoId(data.songUrl)
             val thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg"
 
@@ -83,18 +86,19 @@ class PostDetailFragment : Fragment() {
                 .centerCrop()
                 .into(ivDetailAlbumArt)
 
-            // 스크랩 여부 반영 및 클릭 리스너
+            // 스크랩 아이콘 설정 및 리스너
             ivSave.setImageResource(if (data.isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
             ivSave.setOnClickListener {
                 viewModel.toggleScrap(data.postId)
-                // 토스트는 성공 시점에 띄우고 싶다면 ViewModel에서 별도 Event 처리가 필요합니다.
             }
 
+            // '노래 전체 들으러 가기' 버튼
             btnListenAll.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl))
                 startActivity(intent)
             }
 
+            // 프로필 클릭 시 이동
             ivProfile.setOnClickListener {
                 val bundle = Bundle().apply { putLong("memberId", data.writerId) }
                 findNavController().navigate(R.id.action_postDetail_to_otherProfile, bundle)
