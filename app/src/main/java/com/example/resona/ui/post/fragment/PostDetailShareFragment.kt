@@ -16,6 +16,7 @@ import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.databinding.FragmentPostDetailShareBinding
+import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.template.model.*
@@ -47,6 +48,7 @@ class PostDetailShareFragment : Fragment() {
 
     private fun loadPostDetail(id: Long) {
         viewLifecycleOwner.lifecycleScope.launch {
+            onResume()
             when (val result = viewModel.repository.getPostDetail(id)) {
                 is ApiResult.Success -> updateUI(result.data)
                 is ApiResult.Error -> Log.e("PostDetailShare", "데이터 로드 실패: ${result.exception.message}")
@@ -117,5 +119,10 @@ class PostDetailShareFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.setTopBarTitle("기록 상세보기")
     }
 }

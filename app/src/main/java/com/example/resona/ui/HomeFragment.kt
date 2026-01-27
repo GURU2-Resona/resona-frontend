@@ -34,8 +34,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
-        (activity as? MainActivity)?.findViewById<View>(R.id.topBar)?.visibility = View.GONE
-
         setupMusicCard()
         setupPreviewList() // 어댑터 초기화
         observeViewModel() // 데이터 관찰 시작

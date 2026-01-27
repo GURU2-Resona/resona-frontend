@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
 import com.example.resona.databinding.FragmentPostDetailBinding
+import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,6 +47,7 @@ class PostDetailFragment : Fragment() {
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
+            onResume()
             viewModel.uiState.collect { state ->
                 state.postDetail?.let { data ->
                     if (data.isMine) {
@@ -122,5 +124,10 @@ class PostDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.setTopBarTitle("기록 상세보기")
     }
 }

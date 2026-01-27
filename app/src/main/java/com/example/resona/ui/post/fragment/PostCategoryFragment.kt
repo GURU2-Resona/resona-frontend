@@ -21,6 +21,7 @@ import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.databinding.FragmentPostCategoryBinding
+import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +39,7 @@ class PostCategoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as? MainActivity)?.setTopBarTitle("기록하기")
         _binding = FragmentPostCategoryBinding.inflate(inflater, container, false)
         return binding.root
     }

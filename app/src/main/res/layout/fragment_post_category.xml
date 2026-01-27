@@ -6,27 +6,12 @@
     android:orientation="vertical"
     android:background="#28292F">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:paddingTop="20dp"
-        android:background="#3A3F46">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:text="기록하기"
-            android:textColor="#FCFCFC"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="70dp">
 
         <TextView
             android:layout_width="wrap_content"
