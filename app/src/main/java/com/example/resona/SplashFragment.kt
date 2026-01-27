@@ -48,20 +48,4 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         }
     }
 
-    fun navigateToHome() {
-        findNavController().navigate(R.id.navigation_home,
-            null,
-            NavOptions.Builder()
-                .setPopUpTo(R.id.navigation_splash, true)
-                .build())
-    }
-
-    fun navigateToLogin() {
-        findNavController().navigate(R.id.navigation_login,
-            null,
-            NavOptions.Builder()
-                .setPopUpTo(R.id.navigation_splash, true)
-                .build())
-    }
-
 }

@@ -44,6 +44,7 @@
     <string name="recommend_post_button">추천글 작성하기</string>
     <string name="go_song_button">노래 전체 들으러 가기</string>
     <string name="go_home_button">홈으로 가기</string>
+    <string name="master_login_button">마스터 계정으로 시작하기</string>
 
     <!-- recommend -->
     <string name="post_list_title_default">추천글 보기</string>
