@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.YoutubeSearchManager
 import com.example.resona.databinding.FragmentPostWriteBinding
+import com.example.resona.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -79,6 +80,7 @@ class PostWriteFragment : Fragment(R.layout.fragment_post_write) {
     private fun performSearch(query: String) {
         if (query.isNotEmpty()) {
             lifecycleScope.launch {
+                onResume()
                 val results = YoutubeSearchManager.searchVideos(query)
                 if (results.isNotEmpty()) {
                     val bottomSheet = YoutubeSearchBottomSheet(results) { selected ->
@@ -121,4 +123,10 @@ class PostWriteFragment : Fragment(R.layout.fragment_post_write) {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         _binding = null
     }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.setTopBarTitle("기록하기")
+    }
+
 }

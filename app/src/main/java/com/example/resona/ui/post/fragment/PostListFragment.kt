@@ -11,6 +11,7 @@ import com.example.resona.R
 import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.databinding.FragmentPostListBinding
+import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import com.example.resona.ui.post.adapter.PostAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onResume()
         _binding = FragmentPostListBinding.bind(view)
 
         setupRecyclerView()
@@ -128,5 +130,18 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val postType = arguments?.getString("postType")
+        val topbarTitle = when (postType) {
+            "other" -> "기록 모아보기"
+            "saved" -> "저장한 기록보기"
+            "my" -> "나의 기록보기"
+            "all" -> "전체 기록보기"
+            else -> "전체 기록보기"
+        }
+        (activity as? MainActivity)?.setTopBarTitle(topbarTitle)
     }
 }
