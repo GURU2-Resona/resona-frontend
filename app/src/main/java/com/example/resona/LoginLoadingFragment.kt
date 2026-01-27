@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.resona.data.event.AuthEventBus
 import com.example.resona.data.remote.model.LoginViewModel
@@ -28,11 +29,19 @@ class LoginLoadingFragment: Fragment(R.layout.fragment_login_loading) {
                 Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                 if (result.isNewUser) {
                     findNavController().navigate(
-                        R.id.navigation_onboarding_profile
+                        R.id.navigation_onboarding_profile,
+                        null,
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_login, true)
+                            .build()
                     )
                 } else {
                     findNavController().navigate(
-                        R.id.navigation_home
+                        R.id.navigation_home,
+                        null,
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_login, true)
+                            .build()
                     )
                 }
             }
