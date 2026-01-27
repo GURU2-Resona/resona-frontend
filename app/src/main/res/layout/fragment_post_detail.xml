@@ -74,6 +74,19 @@
                     app:tint="#6581FF" />
             </RelativeLayout>
 
+
+            <TextView
+                android:id="@+id/tv_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="제목: 등교하는 중 들은 노래"
+                android:textColor="#FCFCFC"
+                android:textSize="20sp"
+                android:fontFamily="@font/font"
+                android:textStyle="bold"
+                android:letterSpacing="-0.02" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_album_art"
                 android:layout_width="match_parent"
@@ -105,6 +118,7 @@
                     android:fontFamily="@font/font"
                     android:textStyle="bold"
                     android:elevation="2dp" /> </androidx.cardview.widget.CardView>
+
 
             <RelativeLayout
                 android:id="@+id/layout_content_box"
