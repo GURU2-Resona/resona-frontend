@@ -1,7 +1,7 @@
 package com.example.resona
 
-import android.util.Log
 import android.text.Html
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -15,7 +15,7 @@ data class YoutubeVideo(
 )
 
 object YoutubeSearchManager {
-    private const val API_KEY = "AIzaSyCAXy7g8n7-iek_2v2mG0TBmmXXj-fu1o0"
+    private const val API_KEY = BuildConfig.YOUTUBE_API_KEY
 
     suspend fun searchVideos(query: String): List<YoutubeVideo> = withContext(Dispatchers.IO) {
         val videoList = mutableListOf<YoutubeVideo>()
