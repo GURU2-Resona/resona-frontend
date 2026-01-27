@@ -147,11 +147,13 @@
 //}
 package com.example.resona.ui.post.fragment
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
-import android.widget.PopupMenu
+import androidx.appcompat.widget.ListPopupWindow
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -161,8 +163,8 @@ import com.example.resona.data.enums.RecommendCategory
 import com.example.resona.data.enums.RecommendScene
 import com.example.resona.databinding.FragmentPostListBinding
 import com.example.resona.ui.main.MainActivity
-import com.example.resona.ui.post.viewmodel.PostViewModel
 import com.example.resona.ui.post.adapter.PostAdapter
+import com.example.resona.ui.post.viewmodel.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -186,23 +188,19 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         observeViewModel()
         setupFilterListeners()
 
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
         val postType = arguments?.getString("postType")
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
-
-        when (postType) {
-            "other" -> if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
-            "saved" -> viewModel.loadScrappedPosts(selectedCategory, selectedScene)
-            "my" -> viewModel.loadMyPosts(selectedCategory, selectedScene)
-            else -> viewModel.loadPosts(selectedCategory, selectedScene)
-        }
+        fetchPosts(postType, targetId)
     }
 
     private fun setupRecyclerView() {
         postAdapter = PostAdapter(emptyList()).apply {
             onItemClick = { post ->
-                val bundle = Bundle().apply {
-                    putLong("postId", post.postId)
-                }
+                val bundle = Bundle().apply { putLong("postId", post.postId) }
                 findNavController().navigate(R.id.navigation_post_detail, bundle)
             }
         }
@@ -217,20 +215,31 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
     }
 
-    // [수정] 리스너 설정 시 화살표 뷰(ImageView)도 함께 넘기도록 변경
     private fun setupFilterListeners() {
+        // 1. 카테고리 필터 데이터 준비 (전체 + Enum 라벨들)
+        val categoryItems = listOf("전체") + RecommendCategory.entries.map { it.label }
+
         binding.btnFilterCategory.setOnClickListener { view ->
-            // 카테고리 화살표 뷰 전달
-            showFilterMenu(view, binding.ivCategoryArrow, R.menu.menu_category) { selectedLabel ->
+            showDropdownMenu(
+                anchor = view,
+                arrowView = binding.ivCategoryArrow,
+                items = categoryItems
+            ) { selectedLabel ->
                 binding.tvCategoryLabel.text = selectedLabel
                 selectedCategory = if (selectedLabel == "전체") null else RecommendCategory.fromLabel(selectedLabel)
                 updateList()
             }
         }
 
+        // 2. 상황 필터 데이터 준비
+        val sceneItems = listOf("전체") + RecommendScene.entries.map { it.label }
+
         binding.btnFilterSituation.setOnClickListener { view ->
-            // 상황 화살표 뷰 전달
-            showFilterMenu(view, binding.ivSituationArrow, R.menu.menu_scene) { selectedLabel ->
+            showDropdownMenu(
+                anchor = view,
+                arrowView = binding.ivSituationArrow,
+                items = sceneItems
+            ) { selectedLabel ->
                 binding.tvSituationLabel.text = selectedLabel
                 selectedScene = if (selectedLabel == "전체") null else RecommendScene.fromLabel(selectedLabel)
                 updateList()
@@ -238,38 +247,58 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
     }
 
-    // [수정] 화살표 회전 로직 추가 (arrowView 파라미터 추가)
-    private fun showFilterMenu(
+    // [핵심 변경] ListPopupWindow를 사용하여 너비와 디자인 제어
+    private fun showDropdownMenu(
         anchor: View,
-        arrowView: ImageView, // 화살표 이미지 뷰 받기
-        menuRes: Int,
+        arrowView: ImageView,
+        items: List<String>,
         onItemSelected: (String) -> Unit
     ) {
-        val contextWrapper = ContextThemeWrapper(requireContext(), R.style.FilterPopupMenuContext)
-        val popup = PopupMenu(contextWrapper, anchor)
+        val listPopupWindow = ListPopupWindow(requireContext())
+        listPopupWindow.anchorView = anchor
 
-        popup.menuInflater.inflate(menuRes, popup.menu)
+        // 1. 너비 맞춤: 앵커(칩 버튼)의 너비와 동일하게 설정
+        listPopupWindow.width = anchor.width
 
-        // 메뉴 열림 -> 화살표 180도 회전
+        // 2. 둥근 배경 적용 (기존에 만드신 drawable 사용)
+        listPopupWindow.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.bg_popup_menu))
+
+        // 3. 어댑터 설정 (커스텀 레이아웃 사용)
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_filter_dropdown, items)
+        listPopupWindow.setAdapter(adapter)
+
+        // 4. 위치 미세 조정 (칩 바로 아래에 붙도록)
+        listPopupWindow.verticalOffset = 0 // 필요하면 8dp 등으로 조정 가능
+        listPopupWindow.isModal = true
+
+        // 화살표 회전 애니메이션
         arrowView.animate().rotation(180f).setDuration(200).start()
 
-        popup.setOnMenuItemClickListener { item ->
-            onItemSelected(item.title.toString())
-            true
+        listPopupWindow.setOnItemClickListener { _, _, position, _ ->
+            onItemSelected(items[position])
+            listPopupWindow.dismiss()
         }
 
-        // 메뉴 닫힘 -> 화살표 원상복구 (0도)
-        popup.setOnDismissListener {
+        listPopupWindow.setOnDismissListener {
             arrowView.animate().rotation(0f).setDuration(200).start()
         }
 
-        popup.show()
+        listPopupWindow.show()
+
+        // [구분선 추가] 팝업이 보여진 후 ListView에 접근하여 구분선 설정
+        listPopupWindow.listView?.let { listView ->
+            listView.divider = ColorDrawable(ContextCompat.getColor(requireContext(), R.color.neutral_400))
+            listView.dividerHeight = 1 // 1px 높이
+        }
     }
 
     private fun updateList() {
         val postType = arguments?.getString("postType")
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
+        fetchPosts(postType, targetId)
+    }
 
+    private fun fetchPosts(postType: String?, targetId: Long) {
         when (postType) {
             "other" -> if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
             "saved" -> viewModel.loadScrappedPosts(selectedCategory, selectedScene)
