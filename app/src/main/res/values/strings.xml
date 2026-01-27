@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RESONA</string>
+    <string name="app_name">공명</string>
 
     <!-- mypage -->
     <string name="mypage_nickname_placeholder">닉네임</string>
