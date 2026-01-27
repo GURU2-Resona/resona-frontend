@@ -2,9 +2,9 @@ package com.example.resona.ui.main
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,36 +12,36 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.resona.LoginFragment
 import com.example.resona.R
-import com.example.resona.data.event.AuthEvent
 import com.example.resona.data.event.AuthEventBus
 import com.example.resona.data.local.TokenManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject lateinit var authEventBus: AuthEventBus
-    @Inject lateinit var tokenManager: TokenManager
-    private var hasNavigatedToLogin = false
+    @Inject
+    lateinit var authEventBus: AuthEventBus
+    @Inject
+    lateinit var tokenManager: TokenManager
+
+    private lateinit var navHostFragment: NavHostFragment
+    private var pendingPostId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 해시키를 확인하기 위해 함수 호출
         getHashKey()
 
-        val navHostFragment = supportFragmentManager
+        navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
@@ -49,15 +49,37 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, arguments ->
-            val destinationName = resources.getResourceEntryName(destination.id)
-            Log.d("NavDebug", "이동한 화면: $destinationName (ID: ${destination.id})")
+        parseDeepLink(intent)
 
+        lifecycleScope.launch {
+            val token = tokenManager.accessToken.firstOrNull()
+            val isExpired = tokenManager.isExpired()
+
+            if (token != null && !isExpired) {
+                if (navController.currentDestination?.id == R.id.navigation_login) {
+                    navController.navigate(
+                        R.id.navigation_home,
+                        null,
+                        NavOptions.Builder().setPopUpTo(R.id.nav_graph, true).build()
+                    )
+                }
+                delay(300)
+                checkAndNavigateToDeepLink()
+            } else {
+                navController.navigate(
+                    R.id.navigation_login,
+                    null,
+                    NavOptions.Builder().setPopUpTo(R.id.nav_graph, true).build()
+                )
+            }
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_splash,
                 R.id.navigation_login,
                 R.id.navigation_login_loading,
-                R.id.navigation_onboarding_loading, -> {
+                R.id.navigation_onboarding_loading -> {
                     topBar.visibility = View.GONE
                     bottomNav.visibility = View.GONE
                 }
@@ -81,9 +103,12 @@ class MainActivity : AppCompatActivity() {
                     bottomNav.visibility = View.VISIBLE
                 }
             }
+
+            if (destination.id == R.id.navigation_home || destination.id == R.id.navigation_post_list) {
+                checkAndNavigateToDeepLink()
+            }
         }
 
-        // 1. 토큰 만료 체크 전용
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true) {
@@ -91,12 +116,11 @@ class MainActivity : AppCompatActivity() {
                         tokenManager.clearTokens()
                         authEventBus.emitLogoutOnce()
                     }
-                    kotlinx.coroutines.delay(1000) // 1초마다 체크
+                    delay(1000)
                 }
             }
         }
 
-        // 2. 이벤트 수집 전용
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 authEventBus.event.collect {
@@ -105,9 +129,7 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(
                             R.id.navigation_login,
                             null,
-                            NavOptions.Builder()
-                                .setPopUpTo(R.id.nav_graph, true)
-                                .build()
+                            NavOptions.Builder().setPopUpTo(R.id.nav_graph, true).build()
                         )
                     }
                 }
@@ -115,18 +137,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 해시키 추출 함수
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        parseDeepLink(intent)
+
+        lifecycleScope.launch {
+            delay(500)
+            if (!tokenManager.isExpired()) {
+                checkAndNavigateToDeepLink()
+            }
+        }
+    }
+
+    private fun parseDeepLink(intent: Intent?) {
+        intent?.data?.let { uri ->
+            if (uri.scheme == "https" && uri.host == "resona-guru.store" && uri.path?.startsWith("/post") == true) {
+                val postId = uri.lastPathSegment?.toLongOrNull()
+
+                if (postId != null) {
+                    pendingPostId = postId
+                } else {
+                    val queryPostId = uri.getQueryParameter("postId")?.toLongOrNull()
+                    if (queryPostId != null) {
+                        pendingPostId = queryPostId
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkAndNavigateToDeepLink() {
+        pendingPostId?.let { postId ->
+            try {
+                val bundle = Bundle().apply { putLong("postId", postId) }
+                navHostFragment.navController.navigate(R.id.navigation_post_detail, bundle)
+                pendingPostId = null
+            } catch (e: Exception) {
+                // 에러 발생 시 처리 (로그 생략)
+            }
+        }
+    }
+
     private fun getHashKey() {
         try {
             val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
             for (signature in info.signatures!!) {
                 val md = MessageDigest.getInstance("SHA")
                 md.update(signature.toByteArray())
-                val keyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT)
-                Log.d("KeyHash", "해시키: $keyHash")
+                Base64.encodeToString(md.digest(), Base64.DEFAULT)
             }
         } catch (e: Exception) {
-            Log.e("KeyHash", "해시키를 찾을 수 없습니다.", e)
+            // 에러 처리
         }
     }
 
