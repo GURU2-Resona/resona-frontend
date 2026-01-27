@@ -16,7 +16,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.resona.LoginFragment
+import com.example.resona.ui.login.fragment.LoginFragment
 import com.example.resona.R
 import com.example.resona.data.event.AuthEvent
 import com.example.resona.data.event.AuthEventBus

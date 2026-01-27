@@ -1,28 +1,24 @@
-package com.example.resona
+package com.example.resona.ui.onboarding.fragment
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.example.resona.data.remote.model.ApiResult
-import com.example.resona.data.remote.model.OnboardingViewModel
-import com.example.resona.databinding.FragmentOnboardingResultBinding
-import com.example.resona.ui.main.MainActivity
-import kotlin.getValue
-import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.resona.data.remote.model.NicknameViewModel
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.resona.R
+import com.example.resona.data.remote.model.ApiResult
+import com.example.resona.ui.onboarding.viewmodel.NicknameViewModel
+import com.example.resona.ui.onboarding.viewmodel.OnboardingViewModel
+import com.example.resona.databinding.FragmentOnboardingResultBinding
+import com.example.resona.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {

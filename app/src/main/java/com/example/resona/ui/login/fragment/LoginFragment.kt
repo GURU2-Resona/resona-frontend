@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui.login.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -6,8 +6,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.resona.data.remote.model.LoginViewModel
+import com.example.resona.R
 import com.example.resona.databinding.FragmentLoginBinding
+import com.example.resona.ui.login.viewmodel.LoginViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,12 +34,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun startKakaoLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
-            UserApiClient.instance.loginWithKakaoTalk(requireActivity()) { token, error ->
+        if (UserApiClient.Companion.instance.isKakaoTalkLoginAvailable(requireContext())) {
+            UserApiClient.Companion.instance.loginWithKakaoTalk(requireActivity()) { token, error ->
                 handleLoginResult(token, error)
             }
         } else {
-            UserApiClient.instance.loginWithKakaoAccount(requireActivity()) { token, error ->
+            UserApiClient.Companion.instance.loginWithKakaoAccount(requireActivity()) { token, error ->
                 handleLoginResult(token, error)
             }
         }

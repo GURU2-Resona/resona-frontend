@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui.onboarding.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -6,10 +6,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.resona.R
 import com.example.resona.data.remote.model.ApiResult
-import com.example.resona.data.remote.model.OnboardingViewModel
+import com.example.resona.ui.onboarding.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class OnboardingLoadingFragment :
