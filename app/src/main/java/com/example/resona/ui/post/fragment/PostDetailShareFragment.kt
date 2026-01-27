@@ -3,7 +3,6 @@ package com.example.resona.ui.post.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
 import com.example.resona.databinding.FragmentPostDetailShareBinding
-import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
-import com.kakao.sdk.share.ShareClient
-import com.kakao.sdk.template.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
@@ -53,7 +48,6 @@ class PostDetailShareFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     state.postDetail?.let { data -> updateUI(data) }
-                    state.error?.let { Log.e("PostDetailShare", "에러 발생: $it") }
                 }
             }
         }
@@ -82,31 +76,37 @@ class PostDetailShareFragment : Fragment() {
                 .centerCrop()
                 .into(ivDetailAlbumArt)
 
-            btnDetailShare.setOnClickListener { sendKakaoShare(data, thumbnailUrl) }
+            btnDetailShare.setOnClickListener { sharePostWithDomain(data) }
+
             btnListenAll.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl)))
             }
         }
     }
 
-    private fun sendKakaoShare(data: PostDetailResponseDto, imageUrl: String) {
-        val defaultFeed = FeedTemplate(
-            content = Content(
-                title = data.title,
-                description = data.content,
-                imageUrl = imageUrl,
-                link = Link(webUrl = data.songUrl, mobileWebUrl = data.songUrl)
-            ),
-            buttons = listOf(Button("앱에서 보기", Link(androidExecutionParams = mapOf("postId" to data.postId.toString()))))
-        )
+    private fun sharePostWithDomain(data: PostDetailResponseDto) {
+        val appDeepLink = "https://resona-guru.store/post/${data.postId}"
 
-        if (ShareClient.instance.isKakaoTalkSharingAvailable(requireContext())) {
-            ShareClient.instance.shareDefault(requireContext(), defaultFeed) { result, error ->
-                if (error == null && result != null) startActivity(result.intent)
-            }
-        } else {
-            Log.d("KakaoShare", "카카오톡 미설치")
+        val shareMessage = """
+            [Gong Myung] '${data.writerNickname}'님이 추천하는 음악입니다!
+            
+            제목: ${data.title}
+            내용: ${data.content}
+            
+            👇 앱에서 자세히 보기 (딥링크)
+            $appDeepLink
+            
+            📺 유튜브에서 듣기
+            ${data.songUrl}
+        """.trimIndent()
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "음악 기록 공유")
+            putExtra(Intent.EXTRA_TEXT, shareMessage)
         }
+
+        startActivity(Intent.createChooser(intent, "공유하기"))
     }
 
     private fun extractVideoId(url: String?): String? {
@@ -118,10 +118,5 @@ class PostDetailShareFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as? MainActivity)?.setTopBarTitle("기록 상세보기")
     }
 }
