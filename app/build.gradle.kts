@@ -32,6 +32,10 @@ android {
         // 3. KAKAO_NATIVE_APP_KEY
         val kakaoKey = localProperties.getProperty("KAKAO_NATIVE_APP_KEY") ?: ""
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"$kakaoKey\"")
+        
+        // YOUTUBE_API_KEY
+        val youtubeApiKey = localProperties.getProperty("YOUTUBE_API_KEY") ?: ""
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"$youtubeApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
