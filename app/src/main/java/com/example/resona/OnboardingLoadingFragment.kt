@@ -35,6 +35,7 @@ class OnboardingLoadingFragment :
                         Toast.LENGTH_SHORT
                     ).show()
 
+                    onboardingViewModel.resetRecommendState()
                     findNavController().navigate(
                         R.id.navigation_onboarding_recommend
                     )
@@ -43,6 +44,9 @@ class OnboardingLoadingFragment :
                 is ApiResult.Loading -> {
                     // 아무것도 안 함
                     // fragment_onboarding_loading.xml이 로딩 UI
+                }
+                null -> {
+                    // 초기 상태: 아무 것도 안 함
                 }
             }
         }

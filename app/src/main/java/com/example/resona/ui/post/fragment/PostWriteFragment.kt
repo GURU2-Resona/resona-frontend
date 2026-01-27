@@ -114,7 +114,6 @@ class PostWriteFragment : Fragment(R.layout.fragment_post_write) {
 
         binding.btnWriteNext.apply {
             isEnabled = isActive
-            setTextColor(if (isActive) Color.WHITE else Color.parseColor("#6581FF"))
         }
     }
 
