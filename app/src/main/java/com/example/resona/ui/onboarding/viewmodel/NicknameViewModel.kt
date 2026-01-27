@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.data.repository.MainRepository
+import com.example.resona.data.repository.OnboardingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NicknameViewModel @Inject constructor(
-    private val memberRepository: MainRepository
+    private val memberRepository: OnboardingRepository
 ) : ViewModel() {
 
     private val _nicknameSaveResult = MutableStateFlow<ApiResult<String>?>(null)

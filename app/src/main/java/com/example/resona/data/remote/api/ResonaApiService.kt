@@ -14,13 +14,4 @@ import retrofit2.http.POST
 interface ResonaApiService {
     @GET("api/v1/test")
     suspend fun getTestData(): Response<BaseResponse<Unit>>
-
-    @GET("/members/profile/image")
-    suspend fun getProfileImage():  Response<BaseResponse<ProfileImageResponse>>
-
-    @PATCH("/members/nickname")
-    suspend fun saveNickname(@Body request: NicknameRequest):  Response<BaseResponse<Unit>>
-
-    @POST("/onboarding/recommend")
-    suspend fun getOnboardingRecommend(@Body request: CategoryRequest): Response<BaseResponse<OnboardingResponse>>
 }

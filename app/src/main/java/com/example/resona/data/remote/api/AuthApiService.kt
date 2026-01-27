@@ -1,28 +1,17 @@
 package com.example.resona.data.remote.api
 
+import com.example.resona.data.remote.model.BaseResponse
+import com.example.resona.data.remote.model.KakaoLoginRequest
+import com.example.resona.data.remote.model.KakaoLoginResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import java.util.Date
 
-data class KakaoLoginRequest(val token: String)
-data class KakaoLoginResponse(val accessToken: String,
-                              val refreshToken: String,
-                              val isNewUser: Boolean,
-                              val expireAt: Date
-)
-data class ApiResponse<T>(
-    val isSuccess: Boolean,
-    val status: String,
-    val code: String,
-    val message: String,
-    val result: T
-)
-
-
 interface AuthApiService {
     @POST("members/login/kakao")
-    suspend fun loginWithKakao(@Body request: KakaoLoginRequest): ApiResponse<KakaoLoginResponse>
+    suspend fun loginWithKakao(@Body request: KakaoLoginRequest): Response<BaseResponse<KakaoLoginResponse>>
 
     @POST("members/login/master")
-    suspend fun loginWithMasterAccount(): ApiResponse<KakaoLoginResponse>
+    suspend fun loginWithMasterAccount(): Response<BaseResponse<KakaoLoginResponse>>
 }

@@ -8,6 +8,7 @@ import com.example.resona.data.event.Event
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.data.remote.model.ProfileImageResponse
 import com.example.resona.data.repository.MainRepository
+import com.example.resona.data.repository.OnboardingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileImageViewModel @Inject constructor(
-    private val repository: MainRepository
+    private val repository: OnboardingRepository
 ) : ViewModel() {
 
     private val _profileImageResult =

@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.data.remote.model.CategoryRequest
 import com.example.resona.data.remote.model.OnboardingResponse
-import com.example.resona.data.repository.MainRepository
+import com.example.resona.data.repository.OnboardingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val memberRepository: MainRepository
+    private val memberRepository: OnboardingRepository
 ) : ViewModel() {
 
     private val _onboardingRecommendResult = MutableLiveData<ApiResult<OnboardingResponse>?>()

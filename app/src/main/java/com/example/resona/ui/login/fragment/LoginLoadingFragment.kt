@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.resona.R
 import com.example.resona.data.event.AuthEventBus
+import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.ui.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,24 +28,47 @@ class LoginLoadingFragment: Fragment(R.layout.fragment_login_loading) {
     private fun observeLoginResult() {
         viewModel.loginResult.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { result ->
-                authEventBus.reset()
-                Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                if (result.isNewUser) {
-                    findNavController().navigate(
-                        R.id.navigation_onboarding_profile,
-                        null,
-                        NavOptions.Builder()
-                            .setPopUpTo(R.id.navigation_login, true)
-                            .build()
-                    )
-                } else {
-                    findNavController().navigate(
-                        R.id.navigation_home,
-                        null,
-                        NavOptions.Builder()
-                            .setPopUpTo(R.id.navigation_login, true)
-                            .build()
-                    )
+                when (result) {
+                    is ApiResult.Loading -> {
+                        // 로딩 UI (원하면)
+                    }
+
+                    is ApiResult.Success -> {
+                        val data = result.data  // KakaoLoginResponse
+
+                        authEventBus.reset()
+                        Toast.makeText(
+                            requireContext(),
+                            "로그인 성공",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        if (data.isNewUser) {
+                            findNavController().navigate(
+                                R.id.navigation_onboarding_profile,
+                                null,
+                                NavOptions.Builder()
+                                    .setPopUpTo(R.id.navigation_login, true)
+                                    .build()
+                            )
+                        } else {
+                            findNavController().navigate(
+                                R.id.navigation_home,
+                                null,
+                                NavOptions.Builder()
+                                    .setPopUpTo(R.id.navigation_login, true)
+                                    .build()
+                            )
+                        }
+                    }
+
+                    is ApiResult.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            result.exception.message ?: "로그인 실패",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
