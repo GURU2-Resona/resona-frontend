@@ -29,7 +29,7 @@ class LoginViewModel @Inject constructor(
                 val response = repository.loginWithKakao(accessToken)
 
                 // 서버에서 받은 Access/Refresh 토큰을 DataStore에 저장
-                tokenManager.saveTokens(response.accessToken, response.refreshToken)
+                tokenManager.saveTokens(response.accessToken, response.refreshToken, response.expireAt)
 
                 _loginResult.value = Event(response)
                 Log.d("LoginViewModel", "서버 로그인 및 토큰 저장 성공: $response")
