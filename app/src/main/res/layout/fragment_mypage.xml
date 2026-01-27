@@ -87,7 +87,7 @@
         android:layout_height="52dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_logout_button"
+        android:background="@drawable/btn_round_selector"
         android:text="@string/mypage_logout"
         android:textColor="@color/primary_300"
         android:textStyle="bold"
