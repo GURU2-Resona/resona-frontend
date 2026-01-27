@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import androidx.navigation.NavOptions
 import com.example.resona.R
 import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.ui.onboarding.viewmodel.NicknameViewModel
@@ -83,7 +84,14 @@ class OnboardingResultFragment : Fragment(R.layout.fragment_onboarding_result) {
 
         val homeButton = view.findViewById<Button>(R.id.btn_home);
         homeButton.setOnClickListener {
-            findNavController().navigate(R.id.navigation_home)
+            // 홈으로 이동 시 Back Stack 삭제
+            findNavController().navigate(
+                R.id.navigation_home,
+                null,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.nav_graph, true) // 전체 기록 삭제
+                    .build()
+            )
         }
 
         val listenButton = view.findViewById<Button>(R.id.btn_listen_full);

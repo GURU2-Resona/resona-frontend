@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavOptions
 import com.example.resona.R
 import com.example.resona.data.dto.PostCreateRequestDto
 import com.example.resona.data.enums.RecommendCategory
@@ -98,7 +99,15 @@ class PostCategoryFragment : Fragment() {
                 when (result) {
                     is ApiResult.Success -> {
                         Toast.makeText(context, "추천글 등록 성공", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.navigation_home)
+
+                        // 홈으로 이동 시 Back Stack 삭제
+                        findNavController().navigate(
+                            R.id.navigation_home,
+                            null,
+                            NavOptions.Builder()
+                                .setPopUpTo(R.id.nav_graph, true) // 전체 기록 삭제
+                                .build()
+                        )
                     }
                     is ApiResult.Error -> {
                         Log.e("API_ERROR", "등록 실패: ${result.exception.message}")
