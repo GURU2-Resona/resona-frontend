@@ -6,6 +6,7 @@ import com.example.resona.data.event.AuthEventBus
 import com.example.resona.data.local.TokenManager
 import com.example.resona.data.remote.api.AuthApiService
 import com.example.resona.data.remote.api.MyApiService
+import com.example.resona.data.remote.api.OnboardingApiService
 import com.example.resona.data.remote.api.PostApiService
 import com.example.resona.data.remote.api.ResonaApiService
 import dagger.Module
@@ -119,4 +120,9 @@ object NetworkModule {
     @Singleton
     fun provideMyApiService(retrofit: Retrofit): MyApiService =
         retrofit.create(MyApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOnboardingApiService(retrofit: Retrofit): OnboardingApiService =
+        retrofit.create(OnboardingApiService::class.java)
 }

@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.resona.data.event.Event
 import com.example.resona.data.local.TokenManager
-import com.example.resona.data.remote.api.KakaoLoginResponse
+import com.example.resona.data.remote.model.ApiResult
+import com.example.resona.data.remote.model.KakaoLoginResponse
 import com.example.resona.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,43 +20,68 @@ class LoginViewModel @Inject constructor(
     private val tokenManager: TokenManager // TokenManager 주입
 ) : ViewModel() {
 
-    private val _loginResult = MutableLiveData<Event<KakaoLoginResponse>>()
-    val loginResult: LiveData<Event<KakaoLoginResponse>> get() = _loginResult
+    private val _loginResult =
+        MutableLiveData<Event<ApiResult<KakaoLoginResponse>>>()
+
+    val loginResult: LiveData<Event<ApiResult<KakaoLoginResponse>>> =
+        _loginResult
 
     fun loginWithKakao(accessToken: String) {
         viewModelScope.launch {
-            try {
-                // 카카오 토큰으로 서버 로그인 요청
-                val response = repository.loginWithKakao(accessToken)
+            _loginResult.value = Event(ApiResult.Loading)
 
-                // 서버에서 받은 Access/Refresh 토큰을 DataStore에 저장
-                tokenManager.saveTokens(response.accessToken, response.refreshToken, response.expireAt)
+            when (val result = repository.loginWithKakao(accessToken)) {
+                is ApiResult.Success -> {
+                    val response = result.data
 
-                _loginResult.value = Event(response)
-                Log.d("LoginViewModel", "서버 로그인 및 토큰 저장 성공: $response")
+                    // 토큰 저장
+                    tokenManager.saveTokens(
+                        response.accessToken,
+                        response.refreshToken,
+                        response.expireAt
+                    )
 
-            } catch (e: Exception) {
-                Log.e("LoginError", "서버 로그인 실패 : ${e.message}", e)
-                e.printStackTrace()
+                    _loginResult.value = Event(result)
+                    Log.d("LoginViewModel", "서버 로그인 및 토큰 저장 성공: $response")
+                }
+
+                is ApiResult.Error -> {
+                    Log.e("LoginError", "서버 로그인 실패", result.exception)
+                    _loginResult.value = Event(result)
+                }
+
+                is ApiResult.Loading -> {
+                    // 보통 Repository에서 Loading 안 내려서 여기 안 옴
+                }
             }
         }
     }
 
+
     fun loginWithMasterAccount() {
         viewModelScope.launch {
-            try {
-                // 마스터 계정으로 서버 로그인 요청
-                val response = repository.loginWithMasterAccount()
+            _loginResult.value = Event(ApiResult.Loading)
 
-                // 서버에서 받은 Access 토큰을 DataStore에 저장
-                tokenManager.saveTokens(response.accessToken, response.refreshToken, response.expireAt)
+            when (val result = repository.loginWithMasterAccount()) {
+                is ApiResult.Success -> {
+                    val response = result.data
 
-                _loginResult.value = Event(response)
-                Log.d("LoginViewModel", "서버 로그인 및 토큰 저장 성공: $response")
+                    tokenManager.saveTokens(
+                        response.accessToken,
+                        response.refreshToken,
+                        response.expireAt
+                    )
 
-            } catch (e: Exception) {
-                Log.e("LoginError", "서버 로그인 실패 : ${e.message}", e)
-                e.printStackTrace()
+                    _loginResult.value = Event(result)
+                    Log.d("LoginViewModel", "마스터 로그인 성공: $response")
+                }
+
+                is ApiResult.Error -> {
+                    Log.e("LoginError", "마스터 로그인 실패", result.exception)
+                    _loginResult.value = Event(result)
+                }
+
+                is ApiResult.Loading -> {}
             }
         }
     }
