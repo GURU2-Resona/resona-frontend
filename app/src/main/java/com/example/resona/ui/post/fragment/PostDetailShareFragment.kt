@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
-import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.databinding.FragmentPostDetailShareBinding
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import com.kakao.sdk.share.ShareClient
@@ -39,18 +40,20 @@ class PostDetailShareFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // [삭제됨] 하단바 수동 제어 코드 제거
-
         postId = arguments?.getLong("postId") ?: -1L
-        if (postId != -1L) loadPostDetail(postId)
+        if (postId != -1L) {
+            viewModel.loadPostDetail(postId)
+            observeUiState()
+        }
     }
 
-    private fun loadPostDetail(id: Long) {
+    private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val result = viewModel.repository.getPostDetail(id)) {
-                is ApiResult.Success -> updateUI(result.data)
-                is ApiResult.Error -> Log.e("PostDetailShare", "데이터 로드 실패: ${result.exception.message}")
-                else -> Unit
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    state.postDetail?.let { data -> updateUI(data) }
+                    state.error?.let { Log.e("PostDetailShare", "에러 발생: $it") }
+                }
             }
         }
     }
@@ -80,13 +83,7 @@ class PostDetailShareFragment : Fragment() {
 
             btnDetailShare.setOnClickListener { sendKakaoShare(data, thumbnailUrl) }
             btnListenAll.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl))
-                startActivity(intent)
-            }
-
-            ivProfile.setOnClickListener {
-                val bundle = Bundle().apply { putBoolean("isMyProfile", true) }
-                findNavController().navigate(R.id.navigation_mypage, bundle)
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data.songUrl)))
             }
         }
     }
@@ -101,10 +98,13 @@ class PostDetailShareFragment : Fragment() {
             ),
             buttons = listOf(Button("앱에서 보기", Link(androidExecutionParams = mapOf("postId" to data.postId.toString()))))
         )
+
         if (ShareClient.instance.isKakaoTalkSharingAvailable(requireContext())) {
             ShareClient.instance.shareDefault(requireContext(), defaultFeed) { result, error ->
                 if (error == null && result != null) startActivity(result.intent)
             }
+        } else {
+            Log.d("KakaoShare", "카카오톡 미설치")
         }
     }
 
