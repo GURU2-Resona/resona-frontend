@@ -1,9 +1,10 @@
-package com.example.resona.data.remote.model
+package com.example.resona.ui.onboarding.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.resona.data.remote.model.ApiResult
 import com.example.resona.data.remote.model.CategoryRequest
 import com.example.resona.data.remote.model.OnboardingResponse
 import com.example.resona.data.repository.MainRepository

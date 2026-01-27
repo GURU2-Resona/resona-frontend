@@ -1,6 +1,5 @@
 package com.example.resona.ui.post.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.R
-import com.example.resona.YoutubeSearchManager
+import com.example.resona.data.local.YoutubeSearchManager
 import com.example.resona.databinding.FragmentPostWriteBinding
 import com.example.resona.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint

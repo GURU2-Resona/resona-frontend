@@ -2,7 +2,6 @@ package com.example.resona.ui.main
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
@@ -109,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // 1. 토큰 만료 체크 전용
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true) {
@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // 2. 이벤트 수집 전용
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 authEventBus.event.collect {

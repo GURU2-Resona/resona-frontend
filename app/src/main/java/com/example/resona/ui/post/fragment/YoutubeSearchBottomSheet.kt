@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.resona.R
-import com.example.resona.YoutubeVideo
+import com.example.resona.data.local.YoutubeVideo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class YoutubeSearchBottomSheet(

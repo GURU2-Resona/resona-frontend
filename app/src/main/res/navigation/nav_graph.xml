@@ -6,37 +6,37 @@
 
     <fragment
         android:id="@+id/navigation_splash"
-        android:name="com.example.resona.SplashFragment"
+        android:name="com.example.resona.ui.SplashFragment"
         android:label="Splash" />
 
     <fragment
         android:id="@+id/navigation_login"
-        android:name="com.example.resona.LoginFragment"
+        android:name="com.example.resona.ui.login.fragment.LoginFragment"
         android:label="Login" />
 
     <fragment
         android:id="@+id/navigation_login_loading"
-        android:name="com.example.resona.LoginLoadingFragment"
+        android:name="com.example.resona.ui.login.fragment.LoginLoadingFragment"
         android:label="Login_Loading"/>
 
     <fragment
         android:id="@+id/navigation_onboarding_profile"
-        android:name="com.example.resona.OnboardingProfileFragment"
+        android:name="com.example.resona.ui.onboarding.fragment.OnboardingProfileFragment"
         android:label="Onboarding_Profile" />
 
     <fragment
         android:id="@+id/navigation_onboarding_recommend"
-        android:name="com.example.resona.OnboardingRecommendFragment"
+        android:name="com.example.resona.ui.onboarding.fragment.OnboardingRecommendFragment"
         android:label="Onboarding_Recommend" />
 
     <fragment
         android:id="@+id/navigation_onboarding_loading"
-        android:name="com.example.resona.OnboardingLoadingFragment"
+        android:name="com.example.resona.ui.onboarding.fragment.OnboardingLoadingFragment"
         android:label="Onboarding_Loading" />
 
     <fragment
         android:id="@+id/navigation_onboarding_result"
-        android:name="com.example.resona.OnboardingResultFragment"
+        android:name="com.example.resona.ui.onboarding.fragment.OnboardingResultFragment"
         android:label="Onboarding_Result" />
 
     <fragment

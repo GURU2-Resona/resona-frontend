@@ -1,7 +1,8 @@
-package com.example.resona
+package com.example.resona.data.local
 
 import android.text.Html
 import android.util.Log
+import com.example.resona.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject

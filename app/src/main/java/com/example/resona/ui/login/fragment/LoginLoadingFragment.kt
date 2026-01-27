@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui.login.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -7,15 +7,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.example.resona.R
 import com.example.resona.data.event.AuthEventBus
-import com.example.resona.data.remote.model.LoginViewModel
+import com.example.resona.ui.login.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginLoadingFragment: Fragment(R.layout.fragment_login_loading) {
     private val viewModel: LoginViewModel by activityViewModels()
-    @Inject lateinit var authEventBus: AuthEventBus
+    @Inject
+    lateinit var authEventBus: AuthEventBus
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

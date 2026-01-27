@@ -1,4 +1,4 @@
-package com.example.resona
+package com.example.resona.ui.onboarding.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.example.resona.data.remote.model.NicknameViewModel
-import com.example.resona.data.remote.model.ProfileImageViewModel
+import com.example.resona.R
+import com.example.resona.ui.onboarding.viewmodel.NicknameViewModel
 import com.example.resona.databinding.FragmentOnboardingProfileBinding
 import com.example.resona.ui.main.MainActivity
-import kotlin.getValue
+import com.example.resona.ui.onboarding.viewmodel.ProfileImageViewModel
 
 class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile) {
     private var _binding: FragmentOnboardingProfileBinding? = null
@@ -30,6 +30,7 @@ class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile)
             event.getContentIfNotHandled()?.let { response ->
                 Glide.with(this)
                     .load(response.profileImage)
+                    .placeholder(R.drawable.ic_placeholder)
                     .circleCrop()
                     .into(binding.ivImage)
             }
