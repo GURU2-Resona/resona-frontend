@@ -150,6 +150,7 @@ package com.example.resona.ui.post.fragment
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -189,18 +190,10 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
 
         when (postType) {
-            "other" -> {
-                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
-            }
-            "saved" -> {
-                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
-            }
-            "my" -> {
-                viewModel.loadMyPosts(selectedCategory, selectedScene)
-            }
-            else -> {
-                viewModel.loadPosts(selectedCategory, selectedScene)
-            }
+            "other" -> if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            "saved" -> viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            "my" -> viewModel.loadMyPosts(selectedCategory, selectedScene)
+            else -> viewModel.loadPosts(selectedCategory, selectedScene)
         }
     }
 
@@ -224,9 +217,11 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
     }
 
+    // [수정] 리스너 설정 시 화살표 뷰(ImageView)도 함께 넘기도록 변경
     private fun setupFilterListeners() {
         binding.btnFilterCategory.setOnClickListener { view ->
-            showFilterMenu(view, R.menu.menu_category) { selectedLabel ->
+            // 카테고리 화살표 뷰 전달
+            showFilterMenu(view, binding.ivCategoryArrow, R.menu.menu_category) { selectedLabel ->
                 binding.tvCategoryLabel.text = selectedLabel
                 selectedCategory = if (selectedLabel == "전체") null else RecommendCategory.fromLabel(selectedLabel)
                 updateList()
@@ -234,7 +229,8 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
 
         binding.btnFilterSituation.setOnClickListener { view ->
-            showFilterMenu(view, R.menu.menu_scene) { selectedLabel ->
+            // 상황 화살표 뷰 전달
+            showFilterMenu(view, binding.ivSituationArrow, R.menu.menu_scene) { selectedLabel ->
                 binding.tvSituationLabel.text = selectedLabel
                 selectedScene = if (selectedLabel == "전체") null else RecommendScene.fromLabel(selectedLabel)
                 updateList()
@@ -242,17 +238,31 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         }
     }
 
-    // [핵심 수정 부분] ContextThemeWrapper를 사용하여 커스텀 스타일 적용
-    private fun showFilterMenu(anchor: View, menuRes: Int, onItemSelected: (String) -> Unit) {
-        // styles.xml에 정의한 FilterPopupMenuContext 스타일 적용
+    // [수정] 화살표 회전 로직 추가 (arrowView 파라미터 추가)
+    private fun showFilterMenu(
+        anchor: View,
+        arrowView: ImageView, // 화살표 이미지 뷰 받기
+        menuRes: Int,
+        onItemSelected: (String) -> Unit
+    ) {
         val contextWrapper = ContextThemeWrapper(requireContext(), R.style.FilterPopupMenuContext)
         val popup = PopupMenu(contextWrapper, anchor)
 
         popup.menuInflater.inflate(menuRes, popup.menu)
+
+        // 메뉴 열림 -> 화살표 180도 회전
+        arrowView.animate().rotation(180f).setDuration(200).start()
+
         popup.setOnMenuItemClickListener { item ->
             onItemSelected(item.title.toString())
             true
         }
+
+        // 메뉴 닫힘 -> 화살표 원상복구 (0도)
+        popup.setOnDismissListener {
+            arrowView.animate().rotation(0f).setDuration(200).start()
+        }
+
         popup.show()
     }
 
@@ -261,18 +271,10 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         val targetId = arguments?.getLong("targetMemberId", -1L) ?: -1L
 
         when (postType) {
-            "other" -> {
-                if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
-            }
-            "saved" -> {
-                viewModel.loadScrappedPosts(selectedCategory, selectedScene)
-            }
-            "my" -> {
-                viewModel.loadMyPosts(selectedCategory, selectedScene)
-            }
-            else -> {
-                viewModel.loadPosts(selectedCategory, selectedScene)
-            }
+            "other" -> if (targetId != -1L) viewModel.loadOtherMemberPosts(targetId, selectedCategory, selectedScene)
+            "saved" -> viewModel.loadScrappedPosts(selectedCategory, selectedScene)
+            "my" -> viewModel.loadMyPosts(selectedCategory, selectedScene)
+            else -> viewModel.loadPosts(selectedCategory, selectedScene)
         }
     }
 
@@ -288,7 +290,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
             "other" -> "기록 모아보기"
             "saved" -> "저장한 기록보기"
             "my" -> "나의 기록보기"
-            "all" -> "전체 기록보기"
             else -> "전체 기록보기"
         }
         (activity as? MainActivity)?.setTopBarTitle(topbarTitle)

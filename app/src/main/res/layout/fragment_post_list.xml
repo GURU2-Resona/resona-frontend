@@ -20,19 +20,18 @@
 
         <LinearLayout
             android:id="@+id/btn_filter_category"
-            android:layout_width="102dp"
+            android:layout_width="wrap_content"
             android:layout_height="32dp"
+            android:minWidth="80dp"
             android:background="@drawable/bg_filter_button"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp">
+            android:paddingHorizontal="12dp">
 
             <TextView
                 android:id="@+id/tv_category_label"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="카테고리"
                 android:textColor="@color/neutral_900"
                 android:textSize="14sp"
@@ -40,28 +39,29 @@
                 android:ellipsize="end" />
 
             <ImageView
+                android:id="@+id/iv_category_arrow"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginStart="4dp"
                 android:src="@drawable/ic_arrow_drop_down"
                 app:tint="@color/neutral_900" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_filter_situation"
-            android:layout_width="76dp"
+            android:layout_width="wrap_content"
             android:layout_height="32dp"
+            android:minWidth="70dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_filter_button"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp">
+            android:paddingHorizontal="12dp">
 
             <TextView
                 android:id="@+id/tv_situation_label"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="상황"
                 android:textColor="@color/neutral_900"
                 android:textSize="14sp"
@@ -69,8 +69,10 @@
                 android:ellipsize="end" />
 
             <ImageView
+                android:id="@+id/iv_situation_arrow"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginStart="4dp"
                 android:src="@drawable/ic_arrow_drop_down"
                 app:tint="@color/neutral_900" />
         </LinearLayout>
