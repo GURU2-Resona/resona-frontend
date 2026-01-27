@@ -37,7 +37,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <TextView
         android:id="@+id/tv_music_title"
         android:layout_width="wrap_content"
@@ -83,7 +82,6 @@
         app:layout_constraintTop_toBottomOf="@id/tv_recommend_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
     <TextView
         android:id="@+id/tv_post_list_title"
         android:layout_width="wrap_content"
