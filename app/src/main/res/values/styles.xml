@@ -20,5 +20,18 @@
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="FilterPopupMenuContext" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:popupMenuStyle">@style/FilterPopupMenuStyle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/neutral_300</item>
+        <item name="android:dropDownListViewStyle">@style/FilterDropDownListView</item>
+    </style>
+
+    <style name="FilterPopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_popup_menu</item>
+    </style>
+
+    <style name="FilterDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/neutral_400</item> <item name="android:dividerHeight">1dp</item>         </style>
 
 </resources>
