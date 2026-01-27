@@ -1,4 +1,4 @@
-package com.example.resona.data.utils
+package com.example.resona.data.event
 
 class Event<out T>(private val content: T) {
     private var hasBeenHandled = false

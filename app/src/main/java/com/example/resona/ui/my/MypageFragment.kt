@@ -8,16 +8,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.resona.R
+import com.example.resona.data.event.AuthEventBus
+import com.example.resona.data.local.TokenManager
 import com.example.resona.databinding.FragmentMypageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MypageFragment : Fragment(R.layout.fragment_mypage) {
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: MyViewModel by viewModels()
+    @Inject lateinit var tokenManager: TokenManager
+    @Inject lateinit var authEventBus: AuthEventBus
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +75,10 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
         // 로그아웃 버튼
         binding.btnLogout.setOnClickListener {
-            // 로그아웃 처리 로직 작성
+            lifecycleScope.launch {
+                tokenManager.clearTokens()
+                authEventBus.emitLogoutOnce()
+            }
         }
     }
 

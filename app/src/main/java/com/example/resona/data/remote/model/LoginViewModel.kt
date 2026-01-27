@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.resona.data.local.TokenManager // 1. TokenManager 임포트
 import com.example.resona.data.remote.api.KakaoLoginResponse
 import com.example.resona.data.repository.AuthRepository
-import com.example.resona.data.utils.Event
+import com.example.resona.data.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class LoginViewModel @Inject constructor(
                 val response = repository.loginWithKakao(accessToken)
 
                 // 서버에서 받은 Access/Refresh 토큰을 DataStore에 저장
-                tokenManager.saveTokens(response.accessToken, response.refreshToken)
+                tokenManager.saveTokens(response.accessToken, response.refreshToken, response.expireAt)
 
                 _loginResult.value = Event(response)
                 Log.d("LoginViewModel", "서버 로그인 및 토큰 저장 성공: $response")

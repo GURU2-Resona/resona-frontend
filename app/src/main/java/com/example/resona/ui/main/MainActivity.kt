@@ -1,5 +1,6 @@
 package com.example.resona.ui.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
@@ -7,16 +8,32 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.resona.LoginFragment
 import com.example.resona.R
+import com.example.resona.data.event.AuthEvent
+import com.example.resona.data.event.AuthEventBus
+import com.example.resona.data.local.TokenManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject lateinit var authEventBus: AuthEventBus
+    @Inject lateinit var tokenManager: TokenManager
+    private var hasNavigatedToLogin = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,6 +82,37 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     topBar.visibility = View.VISIBLE
                     bottomNav.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        // 1. 토큰 만료 체크 전용
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    if (tokenManager.isExpired()) {
+                        tokenManager.clearTokens()
+                        authEventBus.emitLogoutOnce()
+                    }
+                    kotlinx.coroutines.delay(1000) // 1초마다 체크
+                }
+            }
+        }
+
+        // 2. 이벤트 수집 전용
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                authEventBus.event.collect {
+                    val currentDest = navController.currentDestination?.id
+                    if (currentDest != R.id.navigation_login) {
+                        navController.navigate(
+                            R.id.navigation_login,
+                            null,
+                            NavOptions.Builder()
+                                .setPopUpTo(R.id.nav_graph, true)
+                                .build()
+                        )
+                    }
                 }
             }
         }
