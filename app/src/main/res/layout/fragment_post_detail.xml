@@ -6,30 +6,14 @@
     android:orientation="vertical"
     android:background="#28292F">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:paddingTop="20dp"
-        android:background="#3A3F46">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:text="추천글 보기"
-            android:textColor="#FCFCFC"
-            android:textSize="24sp"
-            android:fontFamily="@font/font"
-            android:textStyle="bold"
-            android:letterSpacing="-0.02" />
-    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:layout_marginTop="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,6 +58,19 @@
                     app:tint="#6581FF" />
             </RelativeLayout>
 
+
+            <TextView
+                android:id="@+id/tv_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="제목: 등교하는 중 들은 노래"
+                android:textColor="#FCFCFC"
+                android:textSize="20sp"
+                android:fontFamily="@font/font"
+                android:textStyle="bold"
+                android:letterSpacing="-0.02" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_album_art"
                 android:layout_width="match_parent"
@@ -105,6 +102,7 @@
                     android:fontFamily="@font/font"
                     android:textStyle="bold"
                     android:elevation="2dp" /> </androidx.cardview.widget.CardView>
+
 
             <RelativeLayout
                 android:id="@+id/layout_content_box"

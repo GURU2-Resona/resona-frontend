@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.resona.R
 import com.example.resona.data.dto.PostDetailResponseDto
 import com.example.resona.databinding.FragmentPostDetailShareBinding
+import com.example.resona.ui.main.MainActivity
 import com.example.resona.ui.post.viewmodel.PostViewModel
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.template.model.*
@@ -117,5 +118,10 @@ class PostDetailShareFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.setTopBarTitle("기록 상세보기")
     }
 }
