@@ -30,6 +30,7 @@ class OnboardingProfileFragment : Fragment(R.layout.fragment_onboarding_profile)
             event.getContentIfNotHandled()?.let { response ->
                 Glide.with(this)
                     .load(response.profileImage)
+                    .placeholder(R.drawable.ic_placeholder)
                     .circleCrop()
                     .into(binding.ivImage)
             }
